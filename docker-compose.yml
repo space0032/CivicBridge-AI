@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgis/postgis:15-3.3
+    container_name: civicbridge-postgres
+    environment:
+      POSTGRES_DB: civicbridge
+      POSTGRES_USER: civicbridge
+      POSTGRES_PASSWORD: changeme
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - civicbridge-network
+
+  # MongoDB Database
+  mongodb:
+    image: mongo:7
+    container_name: civicbridge-mongodb
+    environment:
+      MONGO_INITDB_DATABASE: civicbridge
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb-data:/data/db
+    networks:
+      - civicbridge-network
+
+  # Backend Service
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: civicbridge-backend
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/civicbridge
+      - SPRING_DATASOURCE_USERNAME=civicbridge
+      - SPRING_DATASOURCE_PASSWORD=changeme
+      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/civicbridge
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+      - mongodb
+    networks:
+      - civicbridge-network
+
+  # Frontend Web Service
+  frontend-web:
+    build:
+      context: ./frontend-web
+      dockerfile: Dockerfile
+    container_name: civicbridge-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - civicbridge-network
+
+networks:
+  civicbridge-network:
+    driver: bridge
+
+volumes:
+  postgres-data:
+  mongodb-data:
