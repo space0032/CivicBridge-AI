@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { useIntlayer } from 'react-intlayer';
-import { useIntlayerContext } from 'react-intlayer';
+import { useIntlayer, useIntlayerContext } from 'react-intlayer';
 import { voiceService } from '../services/api';
 import { startSpeechRecognition, textToSpeech } from '../utils/speech';
 import { getGeolocation } from '../utils/geolocation';

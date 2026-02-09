@@ -6,7 +6,7 @@ const config: IntlayerConfig = {
     defaultLocale: Locales.ENGLISH,
   },
   content: {
-    // Directory where content declaration files are located
+    // Output directory for generated dictionaries
     dictionaryOutput: ["./src/intlayer-dictionaries"],
     // Watch for changes in development
     watch: true,
