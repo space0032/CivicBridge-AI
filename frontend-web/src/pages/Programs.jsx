@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import { useIntlayer } from 'react-intlayer';
 import { programService } from '../services/api';
 import ProgramCard from '../components/ProgramCard';
 
 const Programs = () => {
-  const { t } = useTranslation();
+  const { programs: programsLabel } = useIntlayer('common');
   const [searchParams] = useSearchParams();
   const [programs, setPrograms] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -40,7 +40,7 @@ const Programs = () => {
 
   return (
     <div className="container" style={styles.container}>
-      <h1 style={styles.title}>{t('programs')}</h1>
+      <h1 style={styles.title}>{programsLabel}</h1>
       
       <div style={styles.filters}>
         <div className="form-group">

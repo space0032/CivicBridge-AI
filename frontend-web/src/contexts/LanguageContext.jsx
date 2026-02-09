@@ -1,5 +1,5 @@
-import React, { createContext, useState, useContext } from 'react';
-import { useTranslation } from 'react-i18next';
+import React, { createContext, useContext } from 'react';
+import { useIntlayerContext } from 'react-intlayer';
 
 const LanguageContext = createContext();
 
@@ -12,16 +12,14 @@ export const useLanguage = () => {
 };
 
 export const LanguageProvider = ({ children }) => {
-  const { i18n } = useTranslation();
-  const [currentLanguage, setCurrentLanguage] = useState('en');
+  const { locale, setLocale } = useIntlayerContext();
 
   const changeLanguage = (lang) => {
-    i18n.changeLanguage(lang);
-    setCurrentLanguage(lang);
+    setLocale(lang);
   };
 
   return (
-    <LanguageContext.Provider value={{ currentLanguage, changeLanguage }}>
+    <LanguageContext.Provider value={{ currentLanguage: locale, changeLanguage }}>
       {children}
     </LanguageContext.Provider>
   );
