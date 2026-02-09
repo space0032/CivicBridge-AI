@@ -2,12 +2,16 @@
 backend/target/
 backend/.mvn/
 backend/mvnw
+backend/apache-maven-3.9.6
 backend/mvnw.cmd
 *.class
 *.jar
 *.war
 *.ear
 *.log
+.gz
+.tar.gz
+
 
 # Node / NPM
 frontend-web/node_modules/

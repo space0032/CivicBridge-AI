@@ -1,6 +1,8 @@
 package com.civicbridge.service;
 
 import com.civicbridge.dto.VoiceQueryRequest;
+import com.civicbridge.model.HealthcareFacility;
+import com.civicbridge.model.Program;
 import com.civicbridge.model.QueryHistory;
 import com.civicbridge.repository.mongo.QueryHistoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -42,7 +44,7 @@ public class AIService {
     }
     
     private String generateProgramResponse(VoiceQueryRequest request) {
-        List<var> programs = programService.getProgramsByFilters("AGRICULTURE", null);
+        List<Program> programs = programService.getProgramsByFilters("AGRICULTURE", null);
         if (programs.isEmpty()) {
             return "I couldn't find any agricultural programs at the moment. Please check back later.";
         }
@@ -52,7 +54,7 @@ public class AIService {
     
     private String generateHealthcareResponse(VoiceQueryRequest request) {
         if (request.getLatitude() != null && request.getLongitude() != null) {
-            List<var> facilities = healthcareService.getNearbyFacilities(
+            List<HealthcareFacility> facilities = healthcareService.getNearbyFacilities(
                 request.getLatitude(), request.getLongitude(), 10.0);
             if (!facilities.isEmpty()) {
                 return String.format("I found %d healthcare facilities near you. The closest is: %s at %s", 
@@ -63,7 +65,7 @@ public class AIService {
     }
     
     private String generateEducationResponse(VoiceQueryRequest request) {
-        List<var> programs = programService.getProgramsByCategory("EDUCATION");
+        List<Program> programs = programService.getProgramsByCategory("EDUCATION");
         if (programs.isEmpty()) {
             return "I couldn't find any education programs at the moment.";
         }
@@ -72,7 +74,7 @@ public class AIService {
     }
     
     private String generateJobResponse(VoiceQueryRequest request) {
-        List<var> programs = programService.getProgramsByCategory("EMPLOYMENT");
+        List<Program> programs = programService.getProgramsByCategory("EMPLOYMENT");
         if (programs.isEmpty()) {
             return "I couldn't find any job training programs at the moment.";
         }
