@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useIntlayer } from 'react-intlayer';
+import { useTranslation } from 'react-i18next';
 import { healthcareService } from '../services/api';
 import { getGeolocation } from '../utils/geolocation';
 import HealthcareCard from '../components/HealthcareCard';
 import { MapPin } from 'lucide-react';
 
 const Healthcare = () => {
-  const { healthcare: healthcareLabel } = useIntlayer('common');
+  const { t } = useTranslation();
   const [facilities, setFacilities] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -65,7 +65,7 @@ const Healthcare = () => {
 
   return (
     <div className="container" style={styles.container}>
-      <h1 style={styles.title}>{healthcareLabel}</h1>
+      <h1 style={styles.title}>{t('healthcare')}</h1>
       
       <div style={styles.filters}>
         <div className="form-group">

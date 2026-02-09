@@ -17,7 +17,6 @@ backend/mvnw.cmd
 frontend-web/node_modules/
 frontend-web/dist/
 frontend-web/.vite/
-frontend-web/.intlayer/
 frontend-web/package-lock.json
 frontend-web/yarn.lock
 *.npm
