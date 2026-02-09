@@ -1,15 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useIntlayer } from 'react-intlayer';
+import { useTranslation } from 'react-i18next';
 import { Search, Heart, GraduationCap, Briefcase, Mic } from 'lucide-react';
 
 const Home = () => {
-  const { welcome, search, healthcare, education, employment, voice_search } = useIntlayer('common');
+  const { t } = useTranslation();
 
   return (
     <div className="container" style={styles.container}>
       <section style={styles.hero}>
-        <h1 style={styles.title}>{welcome}</h1>
+        <h1 style={styles.title}>{t('welcome')}</h1>
         <p style={styles.subtitle}>
           Access government programs, healthcare, education, and job opportunities
         </p>
@@ -17,10 +17,10 @@ const Home = () => {
         <div style={styles.searchBox}>
           <input 
             type="text" 
-            placeholder={search}
+            placeholder={t('search')}
             style={styles.searchInput}
           />
-          <button className="btn btn-primary">{search}</button>
+          <button className="btn btn-primary">{t('search')}</button>
         </div>
       </section>
 
@@ -29,25 +29,25 @@ const Home = () => {
         <div style={styles.grid}>
           <Link to="/programs?category=HEALTHCARE" style={styles.featureCard}>
             <Heart size={48} color="#2563eb" />
-            <h3>{healthcare}</h3>
+            <h3>{t('healthcare')}</h3>
             <p>Find nearby hospitals, clinics, and free vaccination programs</p>
           </Link>
 
           <Link to="/programs?category=EDUCATION" style={styles.featureCard}>
             <GraduationCap size={48} color="#2563eb" />
-            <h3>{education}</h3>
+            <h3>{t('education')}</h3>
             <p>Discover scholarships and educational opportunities</p>
           </Link>
 
           <Link to="/programs?category=EMPLOYMENT" style={styles.featureCard}>
             <Briefcase size={48} color="#2563eb" />
-            <h3>{employment}</h3>
+            <h3>{t('employment')}</h3>
             <p>Find job training programs and employment opportunities</p>
           </Link>
 
           <Link to="/voice-search" style={styles.featureCard}>
             <Mic size={48} color="#2563eb" />
-            <h3>{voice_search}</h3>
+            <h3>{t('voice_search')}</h3>
             <p>Use voice commands to search for resources</p>
           </Link>
         </div>

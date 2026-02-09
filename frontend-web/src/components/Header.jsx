@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useIntlayer } from 'react-intlayer';
+import { useTranslation } from 'react-i18next';
 import { useLanguage } from '../contexts/LanguageContext';
 import { Menu, Globe } from 'lucide-react';
 
 const Header = () => {
-  const { programs, healthcare, voice_search } = useIntlayer('common');
+  const { t } = useTranslation();
   const { currentLanguage, changeLanguage } = useLanguage();
 
   return (
@@ -16,9 +16,9 @@ const Header = () => {
         </Link>
         
         <nav style={styles.nav}>
-          <Link to="/programs" style={styles.navLink}>{programs}</Link>
-          <Link to="/healthcare" style={styles.navLink}>{healthcare}</Link>
-          <Link to="/voice-search" style={styles.navLink}>{voice_search}</Link>
+          <Link to="/programs" style={styles.navLink}>{t('programs')}</Link>
+          <Link to="/healthcare" style={styles.navLink}>{t('healthcare')}</Link>
+          <Link to="/voice-search" style={styles.navLink}>{t('voice_search')}</Link>
           
           <select 
             value={currentLanguage}

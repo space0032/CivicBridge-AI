@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import { useIntlayer, useIntlayerContext } from 'react-intlayer';
+import { useTranslation } from 'react-i18next';
 import { voiceService } from '../services/api';
 import { startSpeechRecognition, textToSpeech } from '../utils/speech';
 import { getGeolocation } from '../utils/geolocation';
 import { Mic, MicOff, Volume2 } from 'lucide-react';
 
 const VoiceSearch = () => {
-  const { voice_search } = useIntlayer('common');
-  const { locale } = useIntlayerContext();
+  const { t, i18n } = useTranslation();
   const [isListening, setIsListening] = useState(false);
   const [query, setQuery] = useState('');
   const [response, setResponse] = useState('');
@@ -51,7 +50,7 @@ const VoiceSearch = () => {
 
       const response = await voiceService.processQuery({
         queryText: queryText || query,
-        language: locale,
+        language: i18n.language,
         latitude: location?.latitude,
         longitude: location?.longitude,
         userId: 1 // In production, get from auth context
@@ -61,7 +60,7 @@ const VoiceSearch = () => {
       setResponse(responseText);
       
       // Speak the response
-      textToSpeech(responseText, locale);
+      textToSpeech(responseText, i18n.language);
     } catch (err) {
       setError('Failed to process your query. Please try again.');
       console.error(err);
@@ -79,13 +78,13 @@ const VoiceSearch = () => {
 
   const speakResponse = () => {
     if (response) {
-      textToSpeech(response, locale);
+      textToSpeech(response, i18n.language);
     }
   };
 
   return (
     <div className="container" style={styles.container}>
-      <h1 style={styles.title}>{voice_search}</h1>
+      <h1 style={styles.title}>{t('voice_search')}</h1>
       <p style={styles.subtitle}>
         Ask questions about programs, healthcare, education, and jobs
       </p>
