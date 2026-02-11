@@ -13,19 +13,20 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 public class AuthService {
-    
+
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    
+    private final EmailNotificationService emailNotificationService;
+
     public User register(RegisterRequest request) {
         if (userRepository.existsByUsername(request.getUsername())) {
             throw new RuntimeException("Username already exists");
         }
-        
+
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new RuntimeException("Email already exists");
         }
-        
+
         User user = new User();
         user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
@@ -34,16 +35,25 @@ public class AuthService {
         user.setLatitude(request.getLatitude());
         user.setLongitude(request.getLongitude());
         user.setRegion(request.getRegion());
-        
+
         Set<String> roles = new HashSet<>();
         roles.add("ROLE_USER");
         user.setRoles(roles);
-        
-        return userRepository.save(user);
+
+        User savedUser = userRepository.save(user);
+
+        // Send welcome email
+        emailNotificationService.sendNotification(
+                savedUser.getEmail(),
+                "Welcome to CivicBridge AI",
+                "Hello " + savedUser.getUsername()
+                        + ",\n\nWelcome to CivicBridge AI! We are glad to have you on board.");
+
+        return savedUser;
     }
-    
+
     public User findByUsername(String username) {
         return userRepository.findByUsername(username)
-            .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new RuntimeException("User not found"));
     }
 }

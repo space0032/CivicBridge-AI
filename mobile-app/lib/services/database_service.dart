@@ -13,13 +13,18 @@ class DatabaseService {
   }
   
   Future<Database> _initDatabase() async {
-    String path = join(await getDatabasesPath(), 'civicbridge.db');
-    
-    return await openDatabase(
-      path,
-      version: 1,
-      onCreate: _onCreate,
-    );
+    try {
+      String path = join(await getDatabasesPath(), 'civicbridge.db');
+      
+      return await openDatabase(
+        path,
+        version: 1,
+        onCreate: _onCreate,
+      );
+    } catch (e) {
+      print('Error initializing database: $e');
+      rethrow;
+    }
   }
   
   Future<void> _onCreate(Database db, int version) async {
@@ -59,43 +64,75 @@ class DatabaseService {
   
   // Programs CRUD
   Future<void> insertProgram(Program program) async {
-    final db = await database;
-    await db.insert('programs', program.toJson(),
-        conflictAlgorithm: ConflictAlgorithm.replace);
+    try {
+      final db = await database;
+      await db.insert('programs', program.toJson(),
+          conflictAlgorithm: ConflictAlgorithm.replace);
+    } catch (e) {
+      print('Error inserting program: $e');
+    }
   }
   
   Future<List<Program>> getPrograms() async {
-    final db = await database;
-    final List<Map<String, dynamic>> maps = await db.query('programs');
-    return List.generate(maps.length, (i) => Program.fromJson(maps[i]));
+    try {
+      final db = await database;
+      final List<Map<String, dynamic>> maps = await db.query('programs');
+      return List.generate(maps.length, (i) => Program.fromJson(maps[i]));
+    } catch (e) {
+      print('Error getting programs: $e');
+      return [];
+    }
   }
   
   Future<void> syncPrograms(List<Program> programs) async {
-    final db = await database;
-    await db.delete('programs');
-    for (var program in programs) {
-      await insertProgram(program);
+    try {
+      final db = await database;
+      await db.transaction((txn) async {
+        await txn.delete('programs');
+        for (var program in programs) {
+          await txn.insert('programs', program.toJson(),
+              conflictAlgorithm: ConflictAlgorithm.replace);
+        }
+      });
+    } catch (e) {
+      print('Error syncing programs: $e');
     }
   }
   
   // Healthcare Facilities CRUD
   Future<void> insertHealthcareFacility(HealthcareFacility facility) async {
-    final db = await database;
-    await db.insert('healthcare_facilities', facility.toJson(),
-        conflictAlgorithm: ConflictAlgorithm.replace);
+    try {
+      final db = await database;
+      await db.insert('healthcare_facilities', facility.toJson(),
+          conflictAlgorithm: ConflictAlgorithm.replace);
+    } catch (e) {
+      print('Error inserting healthcare facility: $e');
+    }
   }
   
   Future<List<HealthcareFacility>> getHealthcareFacilities() async {
-    final db = await database;
-    final List<Map<String, dynamic>> maps = await db.query('healthcare_facilities');
-    return List.generate(maps.length, (i) => HealthcareFacility.fromJson(maps[i]));
+    try {
+      final db = await database;
+      final List<Map<String, dynamic>> maps = await db.query('healthcare_facilities');
+      return List.generate(maps.length, (i) => HealthcareFacility.fromJson(maps[i]));
+    } catch (e) {
+      print('Error getting healthcare facilities: $e');
+      return [];
+    }
   }
   
   Future<void> syncHealthcareFacilities(List<HealthcareFacility> facilities) async {
-    final db = await database;
-    await db.delete('healthcare_facilities');
-    for (var facility in facilities) {
-      await insertHealthcareFacility(facility);
+    try {
+      final db = await database;
+      await db.transaction((txn) async {
+        await txn.delete('healthcare_facilities');
+        for (var facility in facilities) {
+          await txn.insert('healthcare_facilities', facility.toJson(),
+              conflictAlgorithm: ConflictAlgorithm.replace);
+        }
+      });
+    } catch (e) {
+      print('Error syncing healthcare facilities: $e');
     }
   }
 }
