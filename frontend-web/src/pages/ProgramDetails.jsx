@@ -1,33 +1,33 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+
 import { programService } from '../services/api';
 
 const ProgramDetails = () => {
     const { id } = useParams();
-    const { t } = useTranslation();
+    // const { t } = useTranslation(); // t is unused
     const navigate = useNavigate();
     const [program, setProgram] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
+        const fetchProgramDetails = async () => {
+            try {
+                setLoading(true);
+                const response = await programService.getById(id);
+                setProgram(response.data.data);
+                setError(null);
+            } catch (err) {
+                setError('Failed to load program details');
+                console.error(err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
         fetchProgramDetails();
     }, [id]);
-
-    const fetchProgramDetails = async () => {
-        try {
-            setLoading(true);
-            const response = await programService.getById(id);
-            setProgram(response.data.data);
-            setError(null);
-        } catch (err) {
-            setError('Failed to load program details');
-            console.error(err);
-        } finally {
-            setLoading(false);
-        }
-    };
 
     if (loading) return <div className="container" style={styles.container}>Loading...</div>;
     if (error) return <div className="container" style={styles.container}><p style={styles.error}>{error}</p></div>;

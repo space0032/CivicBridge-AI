@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../contexts/AuthContext';
 import { voiceService } from '../services/api';
@@ -149,16 +149,16 @@ const VoiceSearch = () => {
         <h3 className="examplesTitle">Example Questions:</h3>
         <ul className="examplesList">
           <li onClick={() => setQuery('What government subsidies are available for farmers?')}>
-            "What government subsidies are available for farmers?"
+            &quot;What government subsidies are available for farmers?&quot;
           </li>
           <li onClick={() => setQuery('Find scholarship programs near me')}>
-            "Find scholarship programs near me"
+            &quot;Find scholarship programs near me&quot;
           </li>
           <li onClick={() => setQuery('Where can I get free vaccination for my child?')}>
-            "Where can I get free vaccination for my child?"
+            &quot;Where can I get free vaccination for my child?&quot;
           </li>
           <li onClick={() => setQuery('What skill training programs are available?')}>
-            "What skill training programs are available?"
+            &quot;What skill training programs are available?&quot;
           </li>
         </ul>
       </div>

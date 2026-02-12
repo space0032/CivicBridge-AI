@@ -1,11 +1,9 @@
-import React from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { PlusCircle, FileText, Heart, Activity } from 'lucide-react';
 
 const AdminDashboard = () => {
     const { user } = useAuth();
-    const navigate = useNavigate();
 
     // In a real app, we might fetch these stats from the backend
     const stats = [

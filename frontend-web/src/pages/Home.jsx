@@ -1,7 +1,6 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Search, Heart, GraduationCap, Briefcase, Mic } from 'lucide-react';
+import { Heart, GraduationCap, Briefcase, Mic } from 'lucide-react';
 
 const Home = () => {
   const { t } = useTranslation();

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { programService } from '../services/api';
@@ -16,22 +16,22 @@ const Programs = () => {
   });
 
   useEffect(() => {
+    const fetchPrograms = async () => {
+      try {
+        setLoading(true);
+        const response = await programService.getAll(filters);
+        setPrograms(response.data.data || []);
+        setError(null);
+      } catch (err) {
+        setError('Failed to load programs');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchPrograms();
   }, [filters]);
-
-  const fetchPrograms = async () => {
-    try {
-      setLoading(true);
-      const response = await programService.getAll(filters);
-      setPrograms(response.data.data || []);
-      setError(null);
-    } catch (err) {
-      setError('Failed to load programs');
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
@@ -41,11 +41,11 @@ const Programs = () => {
   return (
     <div className="container" style={styles.container}>
       <h1 style={styles.title}>{t('programs')}</h1>
-      
+
       <div style={styles.filters}>
         <div className="form-group">
           <label>Category</label>
-          <select 
+          <select
             name="category"
             value={filters.category}
             onChange={handleFilterChange}
@@ -57,10 +57,10 @@ const Programs = () => {
             <option value="EMPLOYMENT">Employment</option>
           </select>
         </div>
-        
+
         <div className="form-group">
           <label>Region</label>
-          <input 
+          <input
             type="text"
             name="region"
             value={filters.region}
@@ -72,7 +72,7 @@ const Programs = () => {
 
       {loading && <p>Loading programs...</p>}
       {error && <p style={styles.error}>{error}</p>}
-      
+
       <div style={styles.grid}>
         {programs.length > 0 ? (
           programs.map(program => (

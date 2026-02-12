@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { healthcareService } from '../services/api';
 import { getGeolocation } from '../utils/geolocation';
@@ -17,29 +17,29 @@ const Healthcare = () => {
   });
 
   useEffect(() => {
+    const fetchFacilities = async () => {
+      try {
+        setLoading(true);
+        const response = await healthcareService.getAll(filters);
+        setFacilities(response.data.data || []);
+        setError(null);
+      } catch (err) {
+        setError('Failed to load healthcare facilities');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchFacilities();
   }, [filters]);
-
-  const fetchFacilities = async () => {
-    try {
-      setLoading(true);
-      const response = await healthcareService.getAll(filters);
-      setFacilities(response.data.data || []);
-      setError(null);
-    } catch (err) {
-      setError('Failed to load healthcare facilities');
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const findNearby = async () => {
     try {
       setLoading(true);
       const coords = await getGeolocation();
       setLocation(coords);
-      
+
       const response = await healthcareService.getNearby(
         coords.latitude,
         coords.longitude,
@@ -66,11 +66,11 @@ const Healthcare = () => {
   return (
     <div className="container" style={styles.container}>
       <h1 style={styles.title}>{t('healthcare')}</h1>
-      
+
       <div style={styles.filters}>
         <div className="form-group">
           <label>Facility Type</label>
-          <select 
+          <select
             name="type"
             value={filters.type}
             onChange={handleFilterChange}
@@ -81,10 +81,10 @@ const Healthcare = () => {
             <option value="VACCINATION_CENTER">Vaccination Center</option>
           </select>
         </div>
-        
+
         <div className="form-group">
           <label>
-            <input 
+            <input
               type="checkbox"
               name="freeServices"
               checked={filters.freeServices}
@@ -94,8 +94,8 @@ const Healthcare = () => {
             Free Services Only
           </label>
         </div>
-        
-        <button 
+
+        <button
           className="btn btn-primary"
           onClick={findNearby}
           style={styles.nearbyButton}
@@ -112,7 +112,7 @@ const Healthcare = () => {
           Showing facilities near your location
         </p>
       )}
-      
+
       <div style={styles.grid}>
         {facilities.length > 0 ? (
           facilities.map(facility => (

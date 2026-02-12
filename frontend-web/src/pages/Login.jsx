@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { useTranslation } from 'react-i18next';
+
 
 const Login = () => {
-  const { t } = useTranslation();
+  // const { t } = useTranslation(); // t is unused
   const [credentials, setCredentials] = useState({ username: '', password: '' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -63,7 +63,7 @@ const Login = () => {
           </button>
         </form>
         <div style={styles.footer}>
-          Don't have an account? <Link to="/register">Register</Link>
+          Don&apos;t have an account? <Link to="/register">Register</Link>
         </div>
       </div>
     </div>

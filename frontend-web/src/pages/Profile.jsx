@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { voiceService } from '../services/api';
 import { useNavigate } from 'react-router-dom';
@@ -11,6 +11,20 @@ const Profile = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        const fetchHistory = async () => {
+            try {
+                setLoading(true);
+                // Assuming user.id exists. If using demoUser, it has id: 1
+                const response = await voiceService.getHistory(user.id);
+                setHistory(response.data.data || []);
+            } catch (err) {
+                console.error('Failed to load history', err);
+                // Don't show error to user, just show empty history or keep loading false
+            } finally {
+                setLoading(false);
+            }
+        };
+
         if (!user) {
             navigate('/login');
             return;
@@ -18,20 +32,6 @@ const Profile = () => {
 
         fetchHistory();
     }, [user, navigate]);
-
-    const fetchHistory = async () => {
-        try {
-            setLoading(true);
-            // Assuming user.id exists. If using demoUser, it has id: 1
-            const response = await voiceService.getHistory(user.id);
-            setHistory(response.data.data || []);
-        } catch (err) {
-            console.error('Failed to load history', err);
-            // Don't show error to user, just show empty history or keep loading false
-        } finally {
-            setLoading(false);
-        }
-    };
 
     const handleLogout = () => {
         logout();
@@ -76,7 +76,7 @@ const Profile = () => {
                                     <Mic size={18} />
                                 </div>
                                 <div style={styles.historyContent}>
-                                    <p style={styles.query}>"{item.queryText}"</p>
+                                    <p style={styles.query}>&quot;{item.queryText}&quot;</p>
                                     <div style={styles.meta}>
                                         <span style={styles.date}>
                                             <Calendar size={14} style={{ marginRight: '4px' }} />

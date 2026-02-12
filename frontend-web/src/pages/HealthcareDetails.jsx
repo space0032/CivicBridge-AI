@@ -1,34 +1,34 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+
 import { healthcareService } from '../services/api';
 import { MapPin, Phone, Clock } from 'lucide-react';
 
 const HealthcareDetails = () => {
     const { id } = useParams();
-    const { t } = useTranslation();
+    // const { t } = useTranslation(); // t is unused
     const navigate = useNavigate();
     const [facility, setFacility] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
+        const fetchFacilityDetails = async () => {
+            try {
+                setLoading(true);
+                const response = await healthcareService.getById(id);
+                setFacility(response.data.data);
+                setError(null);
+            } catch (err) {
+                setError('Failed to load healthcare facility details');
+                console.error(err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
         fetchFacilityDetails();
     }, [id]);
-
-    const fetchFacilityDetails = async () => {
-        try {
-            setLoading(true);
-            const response = await healthcareService.getById(id);
-            setFacility(response.data.data);
-            setError(null);
-        } catch (err) {
-            setError('Failed to load healthcare facility details');
-            console.error(err);
-        } finally {
-            setLoading(false);
-        }
-    };
 
     const getDirections = () => {
         if (facility && facility.latitude && facility.longitude) {

@@ -1,9 +1,8 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useAuth } from '../contexts/AuthContext';
-import { Menu, Globe, User } from 'lucide-react';
+import { User } from 'lucide-react';
 
 const Header = () => {
   const { t } = useTranslation();
