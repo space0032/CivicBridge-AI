@@ -31,7 +31,7 @@ const Header = () => {
             <>
               <Link to="/profile" style={styles.navLink}>
                 <User size={18} style={{ marginRight: '5px' }} />
-                {user.name || 'Profile'}
+                {user.name || t('profile')}
               </Link>
               <button
                 onClick={handleLogout}

@@ -94,7 +94,7 @@ const VoiceSearch = () => {
     <div className="container">
       <h1 className="title">{t('voice_search')}</h1>
       <p className="subtitle">
-        Ask questions about programs, healthcare, education, and jobs
+        {t('ask_questions')}
       </p>
 
       <div className="voiceBox">
@@ -106,7 +106,7 @@ const VoiceSearch = () => {
           {isListening ? <MicOff size={48} /> : <Mic size={48} />}
         </button>
         <p className="voiceStatus">
-          {isListening ? 'Listening...' : 'Click to speak'}
+          {isListening ? t('listening') : t('click_to_speak')}
         </p>
       </div>
 

@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../contexts/AuthContext';
 
 
+import { useTranslation } from 'react-i18next';
+
 const Login = () => {
-  // const { t } = useTranslation(); // t is unused
+  const { t } = useTranslation();
   const [credentials, setCredentials] = useState({ username: '', password: '' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -59,7 +62,7 @@ const Login = () => {
             />
           </div>
           <button disabled={loading} type="submit" className="btn btn-primary" style={styles.button}>
-            {loading ? 'Logging in...' : 'Login'}
+            {loading ? t('logging_in') : t('login')}
           </button>
         </form>
         <div style={styles.footer}>

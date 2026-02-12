@@ -1,18 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { AlertTriangle } from 'lucide-react';
 
 const NotFound = () => {
+    const { t } = useTranslation();
     return (
         <div className="container" style={styles.container}>
             <AlertTriangle size={64} color="#f59e0b" style={{ marginBottom: '20px' }} />
-            <h1 style={styles.title}>404 - Page Not Found</h1>
+            <h1 style={styles.title}>{t('not_found_title')}</h1>
             <p style={styles.message}>
-                The page you are looking for might have been removed, had its name changed,
-                or is temporarily unavailable.
+                {t('not_found_message')}
             </p>
             <Link to="/" className="btn btn-primary" style={styles.link}>
-                Go to Homepage
+                {t('go_to_homepage')}
             </Link>
         </div>
     );

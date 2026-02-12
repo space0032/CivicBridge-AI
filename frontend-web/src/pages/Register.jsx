@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../contexts/AuthContext';
 import { authService } from '../services/api';
 // Assuming authService is exported from api.js directly, or we can use a register function from context if added.
 // Looking at AuthContext, it only has login. I'll use authService directly for registration then login.
 
 const Register = () => {
+    const { t } = useTranslation();
     const [formData, setFormData] = useState({
         username: '',
         password: '',
@@ -90,7 +92,7 @@ const Register = () => {
                         />
                     </div>
                     <button disabled={loading} type="submit" className="btn btn-primary" style={styles.button}>
-                        {loading ? 'Creating Account...' : 'Register'}
+                        {loading ? t('creating_account') : t('register')}
                     </button>
                 </form>
                 <div style={styles.footer}>

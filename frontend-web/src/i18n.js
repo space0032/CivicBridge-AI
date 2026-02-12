@@ -6,6 +6,7 @@ const resources = {
   en: {
     translation: {
       "welcome": "Welcome to CivicBridge AI",
+      "profile": "Profile",
       "intro": "Access government programs, healthcare, education, and job opportunities",
       "search": "Search for resources",
       "what_we_offer": "What We Offer",
@@ -54,7 +55,15 @@ const resources = {
       "apply_now": "Apply Now",
       "region": "Region",
       "application_deadline": "Application Deadline",
-      "error_loading_program": "Failed to load program details"
+      "error_loading_program": "Failed to load program details",
+      "not_found_title": "404 - Page Not Found",
+      "not_found_message": "The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.",
+      "go_to_homepage": "Go to Homepage",
+      "creating_account": "Creating Account...",
+      "logging_in": "Logging in...",
+      "ask_questions": "Ask questions about programs...",
+      "listening": "Listening...",
+      "click_to_speak": "Click to speak"
     }
   },
   es: {
@@ -108,22 +117,22 @@ const resources = {
       "apply_now": "Aplicar Ahora",
       "region": "Región",
       "application_deadline": "Fecha Límite de Solicitud",
+      "application_deadline": "Fecha Límite de Solicitud",
       "error_loading_program": "Error al cargar los detalles del programa",
-      "back_to_programs": "Volver a Programas",
-      "program_not_found": "Programa no encontrado",
-      "description": "Descripción",
-      "eligibility_criteria": "Criterios de Elegibilidad",
-      "benefits": "Beneficios",
-      "how_to_apply": "Cómo Aplicar",
-      "contact_information": "Información de Contacto",
-      "apply_now": "Aplicar Ahora",
-      "region": "Región",
-      "application_deadline": "Fecha Límite de Solicitud"
+      "not_found_title": "404 - Página no encontrada",
+      "not_found_message": "La página que busca podría haber sido eliminada, cambiado de nombre o no estar disponible temporalmente.",
+      "go_to_homepage": "Ir a la página de inicio",
+      "creating_account": "Creando cuenta...",
+      "logging_in": "Iniciando sesión...",
+      "ask_questions": "Haga preguntas sobre programas...",
+      "listening": "Escuchando...",
+      "click_to_speak": "Haga clic para hablar"
     }
   },
   hi: {
     translation: {
       "welcome": "CivicBridge AI में आपका स्वागत है",
+      "profile": "प्रोफ़ाइल",
       "intro": "सरकारी योजनाओं, स्वास्थ्य सेवा, शिक्षा और रोजगार के अवसरों तक पहुंचें",
       "search": "संसाधन खोजें",
       "what_we_offer": "हम क्या प्रदान करते हैं",
@@ -155,8 +164,7 @@ const resources = {
       "no_results": "कोई परिणाम नहीं मिला",
       "error": "एक त्रुटि हुई",
 
-      "ready_to_start": "शुरू करने के लिए तैयार हैं?",
-      "browse_programs": "कार्यक्रम देखें",
+
       "explore_resources": "अपने क्षेत्र में उपलब्ध संसाधनों का पता लगाएं",
       "find_nearby_hospitals": "आसपास के अस्पताल, क्लीनिक और मुफ्त टीकाकरण कार्यक्रम खोजें",
       "discover_scholarships": "छात्रवृत्ति और शैक्षिक अवसरों की खोज करें",
@@ -173,7 +181,15 @@ const resources = {
       "apply_now": "अब आवेदन करें",
       "region": "क्षेत्र",
       "application_deadline": "आवेदन की समय सीमा",
-      "error_loading_program": "कार्यक्रम विवरण लोड करने में विफल"
+      "error_loading_program": "कार्यक्रम विवरण लोड करने में विफल",
+      "not_found_title": "404 - पृष्ठ नहीं मिला",
+      "not_found_message": "जिस पृष्ठ को आप खोज रहे हैं उसे हटाया जा सकता है, उसका नाम बदला जा सकता है या अस्थायी रूप से अनुपलब्ध है।",
+      "go_to_homepage": "होमपेज पर जाएं",
+      "creating_account": "खाता बना रहा है...",
+      "logging_in": "लॉगिन कर रहा है...",
+      "ask_questions": "कार्यक्रमों के बारे में प्रश्न पूछें...",
+      "listening": "सुन रहा है...",
+      "click_to_speak": "बोलने के लिए क्लिक करें"
     }
   }
 };
