@@ -1,5 +1,5 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+
 
 class ErrorBoundary extends React.Component {
     constructor(props) {
@@ -7,7 +7,7 @@ class ErrorBoundary extends React.Component {
         this.state = { hasError: false };
     }
 
-    static getDerivedStateFromError(error) {
+    static getDerivedStateFromError(_) {
         return { hasError: true };
     }
 
@@ -25,7 +25,7 @@ class ErrorBoundary extends React.Component {
                     fontFamily: 'sans-serif'
                 }}>
                     <h1>Something went wrong.</h1>
-                    <p>We're sorry, but an unexpected error has occurred.</p>
+                    <p>We&apos;re sorry, but an unexpected error has occurred.</p>
                     <button
                         onClick={() => window.location.reload()}
                         style={{

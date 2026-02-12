@@ -117,7 +117,6 @@ const resources = {
       "apply_now": "Aplicar Ahora",
       "region": "Región",
       "application_deadline": "Fecha Límite de Solicitud",
-      "application_deadline": "Fecha Límite de Solicitud",
       "error_loading_program": "Error al cargar los detalles del programa",
       "not_found_title": "404 - Página no encontrada",
       "not_found_message": "La página que busca podría haber sido eliminada, cambiado de nombre o no estar disponible temporalmente.",

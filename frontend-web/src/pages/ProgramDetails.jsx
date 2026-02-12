@@ -30,7 +30,7 @@ const ProgramDetails = () => {
         };
 
         fetchProgramDetails();
-    }, [id]);
+    }, [id, t]);
 
     const handleApply = () => {
         if (!user) {

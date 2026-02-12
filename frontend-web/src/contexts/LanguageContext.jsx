@@ -18,9 +18,8 @@ export const LanguageProvider = ({ children }) => {
   // Sync state with i18n on mount/change
   useEffect(() => {
     if (i18n.language && i18n.language !== currentLanguage) {
-      setCurrentLanguage(i18n.language);
     }
-  }, [i18n.language]);
+  }, [i18n.language, currentLanguage]);
 
   const changeLanguage = (lang) => {
     i18n.changeLanguage(lang);
