@@ -24,8 +24,25 @@ const AddProgram = () => {
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
+    const validateForm = () => {
+        if (!formData.name.trim()) return "Program name is required";
+        if (!formData.description.trim()) return "Description is required";
+        if (formData.description.length < 20) return "Description should be at least 20 characters";
+        if (formData.applicationDeadline) {
+            const today = new Date().toISOString().split('T')[0];
+            if (formData.applicationDeadline < today) return "Deadline cannot be in the past";
+        }
+        return null;
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const validationError = validateForm();
+        if (validationError) {
+            setError(validationError);
+            return;
+        }
+
         try {
             setLoading(true);
             setError(null);

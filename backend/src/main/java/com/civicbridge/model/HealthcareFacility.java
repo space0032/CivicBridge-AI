@@ -1,6 +1,8 @@
 package com.civicbridge.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,46 +14,49 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class HealthcareFacility {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
+    @NotBlank(message = "Facility name is required")
+    @Size(max = 255)
     @Column(nullable = false)
     private String name;
-    
+
+    @NotBlank(message = "Facility type is required")
     private String type; // HOSPITAL, CLINIC, VACCINATION_CENTER
-    
+
     @Column(length = 1000)
     private String services;
-    
+
     private String address;
-    
+
     private Double latitude;
-    
+
     private Double longitude;
-    
+
     private String contactNumber;
-    
+
     private String operatingHours;
-    
+
     private Boolean freeServices;
-    
+
     @Column(name = "is_active")
     private Boolean isActive = true;
-    
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
-    
+
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-    
+
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
     }
-    
+
     @PreUpdate
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();

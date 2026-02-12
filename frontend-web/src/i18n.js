@@ -63,7 +63,12 @@ const resources = {
       "logging_in": "Logging in...",
       "ask_questions": "Ask questions about programs...",
       "listening": "Listening...",
-      "click_to_speak": "Click to speak"
+      "click_to_speak": "Click to speak",
+      "something_went_wrong": "Something went wrong.",
+      "unexpected_error": "We're sorry, but an unexpected error has occurred.",
+      "refresh_page": "Refresh Page",
+      "menu": "Menu",
+      "close": "Close"
     }
   },
   es: {
@@ -125,7 +130,12 @@ const resources = {
       "logging_in": "Iniciando sesión...",
       "ask_questions": "Haga preguntas sobre programas...",
       "listening": "Escuchando...",
-      "click_to_speak": "Haga clic para hablar"
+      "click_to_speak": "Haga clic para hablar",
+      "something_went_wrong": "Algo salió mal.",
+      "unexpected_error": "Lo sentimos, pero ha ocurrido un error inesperado.",
+      "refresh_page": "Actualizar página",
+      "menu": "Menú",
+      "close": "Cerrar"
     }
   },
   hi: {
@@ -188,7 +198,12 @@ const resources = {
       "logging_in": "लॉगिन कर रहा है...",
       "ask_questions": "कार्यक्रमों के बारे में प्रश्न पूछें...",
       "listening": "सुन रहा है...",
-      "click_to_speak": "बोलने के लिए क्लिक करें"
+      "click_to_speak": "बोलने के लिए क्लिक करें",
+      "something_went_wrong": "कुछ गलत हो गया।",
+      "unexpected_error": "हमें खेद है, लेकिन एक अप्रत्याशित त्रुटि हुई है।",
+      "refresh_page": "पेज रिफ्रेश करें",
+      "menu": "मेनू",
+      "close": "बंद करें"
     }
   }
 };

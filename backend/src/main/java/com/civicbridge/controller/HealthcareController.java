@@ -4,6 +4,7 @@ import com.civicbridge.dto.ApiResponse;
 import com.civicbridge.model.HealthcareFacility;
 import com.civicbridge.service.HealthcareService;
 import lombok.RequiredArgsConstructor;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -64,7 +65,7 @@ public class HealthcareController {
 
     @PostMapping
     public ResponseEntity<ApiResponse<HealthcareFacility>> createFacility(
-            @RequestBody HealthcareFacility facility) {
+            @Valid @RequestBody HealthcareFacility facility) {
         try {
             HealthcareFacility created = healthcareService.createFacility(facility);
             return ResponseEntity.ok(ApiResponse.success("Facility created successfully", created));

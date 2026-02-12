@@ -24,7 +24,6 @@ const ProgramDetails = () => {
                 setError(null);
             } catch (err) {
                 setError(t('error_loading_program'));
-                console.error(err);
                 toast.error(t('error_loading_program'));
             } finally {
                 setLoading(false);

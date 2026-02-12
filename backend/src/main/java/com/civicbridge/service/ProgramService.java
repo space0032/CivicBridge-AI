@@ -9,31 +9,44 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ProgramService {
-    
+
     private final ProgramRepository programRepository;
-    
+
     public List<Program> getAllPrograms() {
         return programRepository.findByIsActiveTrue();
     }
-    
+
     public List<Program> getProgramsByCategory(String category) {
         return programRepository.findByCategory(category);
     }
-    
+
     public List<Program> getProgramsByRegion(String region) {
         return programRepository.findByRegion(region);
     }
-    
+
     public List<Program> getProgramsByFilters(String category, String region) {
         return programRepository.findByFilters(category, region);
     }
-    
+
     public Program getProgramById(Long id) {
         return programRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Program not found"));
+                .orElseThrow(() -> new RuntimeException("Program not found"));
     }
-    
+
     public Program createProgram(Program program) {
+        sanitizeProgram(program);
         return programRepository.save(program);
+    }
+
+    private void sanitizeProgram(Program program) {
+        if (program.getName() != null)
+            program.setName(program.getName().trim());
+        if (program.getDescription() != null)
+            program.setDescription(program.getDescription().trim());
+        if (program.getCategory() != null)
+            program.setCategory(program.getCategory().trim().toUpperCase());
+        if (program.getRegion() != null)
+            program.setRegion(program.getRegion().trim());
+        // Add more sanitization as needed (e.g. tag stripping for HTML if allowed)
     }
 }

@@ -4,6 +4,7 @@ import com.civicbridge.dto.ApiResponse;
 import com.civicbridge.model.Program;
 import com.civicbridge.service.ProgramService;
 import lombok.RequiredArgsConstructor;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -13,9 +14,9 @@ import java.util.List;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 public class ProgramController {
-    
+
     private final ProgramService programService;
-    
+
     @GetMapping
     public ResponseEntity<ApiResponse<List<Program>>> getAllPrograms(
             @RequestParam(required = false) String category,
@@ -30,10 +31,10 @@ public class ProgramController {
             return ResponseEntity.ok(ApiResponse.success(programs));
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                .body(ApiResponse.error(e.getMessage()));
+                    .body(ApiResponse.error(e.getMessage()));
         }
     }
-    
+
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<Program>> getProgramById(@PathVariable Long id) {
         try {
@@ -41,18 +42,18 @@ public class ProgramController {
             return ResponseEntity.ok(ApiResponse.success(program));
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                .body(ApiResponse.error(e.getMessage()));
+                    .body(ApiResponse.error(e.getMessage()));
         }
     }
-    
+
     @PostMapping
-    public ResponseEntity<ApiResponse<Program>> createProgram(@RequestBody Program program) {
+    public ResponseEntity<ApiResponse<Program>> createProgram(@Valid @RequestBody Program program) {
         try {
             Program created = programService.createProgram(program);
             return ResponseEntity.ok(ApiResponse.success("Program created successfully", created));
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                .body(ApiResponse.error(e.getMessage()));
+                    .body(ApiResponse.error(e.getMessage()));
         }
     }
 }

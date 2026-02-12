@@ -35,6 +35,20 @@ public class HealthcareService {
     }
 
     public HealthcareFacility createFacility(HealthcareFacility facility) {
+        sanitizeFacility(facility);
         return healthcareFacilityRepository.save(facility);
+    }
+
+    private void sanitizeFacility(HealthcareFacility facility) {
+        if (facility.getName() != null)
+            facility.setName(facility.getName().trim());
+        if (facility.getType() != null)
+            facility.setType(facility.getType().trim().toUpperCase());
+        if (facility.getServices() != null)
+            facility.setServices(facility.getServices().trim());
+        if (facility.getAddress() != null)
+            facility.setAddress(facility.getAddress().trim());
+        if (facility.getContactNumber() != null)
+            facility.setContactNumber(facility.getContactNumber().trim());
     }
 }

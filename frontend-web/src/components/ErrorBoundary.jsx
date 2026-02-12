@@ -1,52 +1,50 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
+const ErrorBoundary = ({ children }) => {
+    const [hasError, setHasError] = useState(false);
+    const { t } = useTranslation();
 
-class ErrorBoundary extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { hasError: false };
+    useEffect(() => {
+        const errorHandler = (error, errorInfo) => {
+            console.error("Uncaught error:", error, errorInfo);
+            setHasError(true);
+        };
+
+        window.addEventListener('error', errorHandler);
+        return () => window.removeEventListener('error', errorHandler);
+    }, []);
+
+    if (hasError) {
+        return (
+            <div style={{
+                padding: '40px',
+                textAlign: 'center',
+                marginTop: '50px',
+                fontFamily: 'sans-serif'
+            }}>
+                <h1>{t('something_went_wrong')}</h1>
+                <p>{t('unexpected_error')}</p>
+                <button
+                    onClick={() => window.location.reload()}
+                    style={{
+                        padding: '10px 20px',
+                        fontSize: '16px',
+                        backgroundColor: '#2563eb',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '5px',
+                        cursor: 'pointer',
+                        marginTop: '20px'
+                    }}
+                >
+                    {t('refresh_page')}
+                </button>
+            </div>
+        );
     }
 
-    static getDerivedStateFromError() {
-        return { hasError: true };
-    }
-
-    componentDidCatch(error, errorInfo) {
-        console.error("Uncaught error:", error, errorInfo);
-    }
-
-    render() {
-        if (this.state.hasError) {
-            return (
-                <div style={{
-                    padding: '40px',
-                    textAlign: 'center',
-                    marginTop: '50px',
-                    fontFamily: 'sans-serif'
-                }}>
-                    <h1>Something went wrong.</h1>
-                    <p>We&apos;re sorry, but an unexpected error has occurred.</p>
-                    <button
-                        onClick={() => window.location.reload()}
-                        style={{
-                            padding: '10px 20px',
-                            fontSize: '16px',
-                            backgroundColor: '#2563eb',
-                            color: 'white',
-                            border: 'none',
-                            borderRadius: '5px',
-                            cursor: 'pointer',
-                            marginTop: '20px'
-                        }}
-                    >
-                        Refresh Page
-                    </button>
-                </div>
-            );
-        }
-
-        return this.props.children;
-    }
-}
+    return children;
+};
 
 export default ErrorBoundary;

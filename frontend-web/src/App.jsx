@@ -27,10 +27,10 @@ function App() {
       <AuthProvider>
         <Router>
           <ErrorBoundary>
-            <div className="app">
+            <div className="app" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
               <Toaster position="top-center" />
               <Header />
-              <main style={{ minHeight: 'calc(100vh - 140px)' }}>
+              <main style={{ flex: 1 }}>
                 <Routes>
                   <Route path="/" element={<Home />} />
                   <Route path="/programs" element={<Programs />} />
