@@ -6,9 +6,9 @@ services:
     image: postgis/postgis:15-3.3
     container_name: civicbridge-postgres
     environment:
-      POSTGRES_DB: civicbridge
-      POSTGRES_USER: civicbridge
-      POSTGRES_PASSWORD: changeme
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - "5432:5432"
     volumes:
@@ -35,11 +35,19 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     container_name: civicbridge-backend
+    env_file:
+      - .env
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/civicbridge
-      - SPRING_DATASOURCE_USERNAME=civicbridge
-      - SPRING_DATASOURCE_PASSWORD=changeme
+      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER}
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
       - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/civicbridge
+      - AI_PROVIDER=${AI_PROVIDER}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - JWT_SECRET=${JWT_SECRET}
+      - MAIL_USERNAME=${MAIL_USERNAME}
+      - MAIL_PASSWORD=${MAIL_PASSWORD}
     ports:
       - "8080:8080"
     depends_on:

@@ -6,7 +6,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/civicbridge
     username: ${DB_USERNAME:civicbridge}
-    password: ${DB_PASSWORD:changeme} # Default for local dev only
+    password: ${DB_PASSWORD:space112} # Default for local dev only
     driver-class-name: org.postgresql.Driver
   
   jpa:
@@ -34,6 +34,19 @@ spring:
             client-secret: ${GOOGLE_CLIENT_SECRET}
             scope: profile,email
 
+  # Mail Configuration
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
 # Server Configuration
 server:
   port: 8080
@@ -60,19 +73,7 @@ geolocation:
   api-key: ${GEO_API_KEY}
 
 # Notification Service
-spring:
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: ${MAIL_USERNAME}
-    password: ${MAIL_PASSWORD}
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
-
+# Notification Service
 notification:
   firebase:
     credentials: ${FIREBASE_CREDENTIALS}
@@ -81,6 +82,8 @@ notification:
       access-key: ${AWS_ACCESS_KEY}
       secret-key: ${AWS_SECRET_KEY}
       region: ${AWS_REGION:us-east-1}
+
+# Mail Configuration (Moved to main spring block)
 
 # CORS Configuration
 cors:
