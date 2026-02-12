@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useAuth } from '../contexts/AuthContext';
@@ -8,6 +8,12 @@ const Header = () => {
   const { t } = useTranslation();
   const { currentLanguage, changeLanguage } = useLanguage();
   const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
 
   return (
     <header style={styles.header}>
@@ -28,7 +34,7 @@ const Header = () => {
                 {user.name || 'Profile'}
               </Link>
               <button
-                onClick={logout}
+                onClick={handleLogout}
                 style={{ ...styles.navLink, background: 'none', border: 'none', cursor: 'pointer' }}
               >
                 Logout

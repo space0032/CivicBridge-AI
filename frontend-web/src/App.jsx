@@ -17,6 +17,7 @@ import AddProgram from './pages/admin/AddProgram';
 import AddHealthcare from './pages/admin/AddHealthcare';
 import NotFound from './pages/NotFound';
 import ErrorBoundary from './components/ErrorBoundary';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   return (
@@ -36,10 +37,26 @@ function App() {
                   <Route path="/register" element={<Register />} />
                   <Route path="/programs/:id" element={<ProgramDetails />} />
                   <Route path="/healthcare/:id" element={<HealthcareDetails />} />
-                  <Route path="/profile" element={<Profile />} />
-                  <Route path="/admin" element={<AdminDashboard />} />
-                  <Route path="/admin/add-program" element={<AddProgram />} />
-                  <Route path="/admin/add-healthcare" element={<AddHealthcare />} />
+                  <Route path="/profile" element={
+                    <ProtectedRoute>
+                      <Profile />
+                    </ProtectedRoute>
+                  } />
+                  <Route path="/admin" element={
+                    <ProtectedRoute>
+                      <AdminDashboard />
+                    </ProtectedRoute>
+                  } />
+                  <Route path="/admin/add-program" element={
+                    <ProtectedRoute>
+                      <AddProgram />
+                    </ProtectedRoute>
+                  } />
+                  <Route path="/admin/add-healthcare" element={
+                    <ProtectedRoute>
+                      <AddHealthcare />
+                    </ProtectedRoute>
+                  } />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </main>

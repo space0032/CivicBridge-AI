@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '../contexts/AuthContext';
 
 import { programService } from '../services/api';
 
 const ProgramDetails = () => {
     const { id } = useParams();
     const { t } = useTranslation();
+    const { user } = useAuth();
     const navigate = useNavigate();
     const [program, setProgram] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -29,6 +31,15 @@ const ProgramDetails = () => {
 
         fetchProgramDetails();
     }, [id]);
+
+    const handleApply = () => {
+        if (!user) {
+            navigate('/login');
+            return;
+        }
+        // Proceed with application logic or show a message
+        alert(t('application_started') || "Application started!");
+    };
 
     if (loading) return <div className="container" style={styles.container}>{t('loading')}</div>;
     if (error) return <div className="container" style={styles.container}><p style={styles.error}>{error}</p></div>;
@@ -93,7 +104,7 @@ const ProgramDetails = () => {
                 )}
 
                 <div style={styles.actions}>
-                    <button className="btn btn-primary" style={styles.applyButton}>
+                    <button className="btn btn-primary" style={styles.applyButton} onClick={handleApply}>
                         {t('apply_now')}
                     </button>
                 </div>

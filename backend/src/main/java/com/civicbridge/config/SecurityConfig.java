@@ -29,10 +29,10 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/api/programs/**").permitAll()
-                        .requestMatchers("/api/healthcare/**").permitAll()
-                        .requestMatchers("/api/voice-query/**").permitAll()
+                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/programs/**").permitAll()
+                        .requestMatchers("/healthcare/**").permitAll()
+                        .requestMatchers("/voice-query/**").permitAll()
                         .anyRequest().authenticated());
 
         return http.build();
