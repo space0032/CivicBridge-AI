@@ -12,8 +12,16 @@ const AdminDashboard = () => {
         { label: 'Active Users', value: 154, icon: <Activity size={24} color="#059669" /> },
     ];
 
-    if (!user) { // Add role check here in production
-        return <div className="container" style={styles.container}>Access Denied</div>;
+    if (!user || !user.roles || !user.roles.includes('ROLE_ADMIN')) {
+        return (
+            <div className="container" style={styles.container}>
+                <div style={styles.accessDenied}>
+                    <h2 style={{ color: '#dc2626' }}>Access Denied</h2>
+                    <p>You do not have permission to view this page.</p>
+                    <Link to="/" className="btn" style={{ marginTop: '20px', display: 'inline-block', color: '#2563eb' }}>Return Home</Link>
+                </div>
+            </div>
+        );
     }
 
     return (

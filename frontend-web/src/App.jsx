@@ -19,6 +19,8 @@ import NotFound from './pages/NotFound';
 import ErrorBoundary from './components/ErrorBoundary';
 import ProtectedRoute from './components/ProtectedRoute';
 
+import { Toaster } from 'react-hot-toast';
+
 function App() {
   return (
     <LanguageProvider>
@@ -26,6 +28,7 @@ function App() {
         <Router>
           <ErrorBoundary>
             <div className="app">
+              <Toaster position="top-center" />
               <Header />
               <main style={{ minHeight: 'calc(100vh - 140px)' }}>
                 <Routes>

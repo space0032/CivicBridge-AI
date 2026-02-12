@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../contexts/AuthContext';
+import toast from 'react-hot-toast';
 
 import { programService } from '../services/api';
 
@@ -24,6 +25,7 @@ const ProgramDetails = () => {
             } catch (err) {
                 setError(t('error_loading_program'));
                 console.error(err);
+                toast.error(t('error_loading_program'));
             } finally {
                 setLoading(false);
             }
@@ -34,11 +36,12 @@ const ProgramDetails = () => {
 
     const handleApply = () => {
         if (!user) {
+            toast.error(t('login_required') || "Please login to apply");
             navigate('/login');
             return;
         }
         // Proceed with application logic or show a message
-        alert(t('application_started') || "Application started!");
+        toast.success(t('application_started') || "Application started!");
     };
 
     if (loading) return <div className="container" style={styles.container}>{t('loading')}</div>;

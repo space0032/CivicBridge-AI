@@ -9,6 +9,31 @@ const api = axios.create({
   }
 });
 
+// Add a request interceptor to inject the token
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+// Add a response interceptor to handle 401 errors
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      window.location.href = '/login';
+    }
+    return Promise.reject(error);
+  }
+);
+
 export const programService = {
   getAll: (params) => api.get('/programs', { params }),
   getById: (id) => api.get(`/programs/${id}`),
@@ -17,7 +42,7 @@ export const programService = {
 
 export const healthcareService = {
   getAll: (params) => api.get('/healthcare', { params }),
-  getNearby: (latitude, longitude, radiusKm = 10) => 
+  getNearby: (latitude, longitude, radiusKm = 10) =>
     api.get('/healthcare/nearby', { params: { latitude, longitude, radiusKm } }),
   create: (data) => api.post('/healthcare', data)
 };

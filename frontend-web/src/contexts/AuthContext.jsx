@@ -10,14 +10,16 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     // Check if user is logged in (e.g. from localStorage)
     const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    } else {
-      // For development/demo purposes, we'll set a default user if none exists
-      // In a real app, we'd wait for login
-      const demoUser = { id: 1, name: 'Demo User', role: 'USER' };
-      setUser(demoUser);
-      localStorage.setItem('user', JSON.stringify(demoUser));
+    const token = localStorage.getItem('token');
+
+    if (storedUser && token) {
+      try {
+        setUser(JSON.parse(storedUser));
+      } catch (e) {
+        console.error("Failed to parse user data", e);
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+      }
     }
     setLoading(false);
   }, []);
@@ -25,9 +27,13 @@ export const AuthProvider = ({ children }) => {
   const login = async (credentials) => {
     try {
       const response = await authService.login(credentials);
-      const userData = response.data.data;
+      // Backend now returns { success, message, data: { token, user } }
+      const { token, user: userData } = response.data.data;
+
       setUser(userData);
       localStorage.setItem('user', JSON.stringify(userData));
+      localStorage.setItem('token', token);
+
       return userData;
     } catch (error) {
       console.error('Login failed:', error);
@@ -38,6 +44,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setUser(null);
     localStorage.removeItem('user');
+    localStorage.removeItem('token');
   };
 
   const value = {
