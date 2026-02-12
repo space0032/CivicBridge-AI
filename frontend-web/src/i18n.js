@@ -90,9 +90,7 @@ const resources = {
       "loading": "Cargando...",
       "no_results": "No se encontraron resultados",
       "error": "Ocurrió un error",
-      "profile": "Perfil",
-      "intro": "Acceda a programas gubernamentales, salud, educación y oportunidades de empleo",
-      "what_we_offer": "Lo que ofrecemos",
+
 
       "explore_resources": "Explore los recursos disponibles en su área",
       "find_nearby_hospitals": "Encuentre hospitales, clínicas y programas de vacunación gratuitos cercanos",
@@ -110,7 +108,17 @@ const resources = {
       "apply_now": "Aplicar Ahora",
       "region": "Región",
       "application_deadline": "Fecha Límite de Solicitud",
-      "error_loading_program": "Error al cargar los detalles del programa"
+      "error_loading_program": "Error al cargar los detalles del programa",
+      "back_to_programs": "Volver a Programas",
+      "program_not_found": "Programa no encontrado",
+      "description": "Descripción",
+      "eligibility_criteria": "Criterios de Elegibilidad",
+      "benefits": "Beneficios",
+      "how_to_apply": "Cómo Aplicar",
+      "contact_information": "Información de Contacto",
+      "apply_now": "Aplicar Ahora",
+      "region": "Región",
+      "application_deadline": "Fecha Límite de Solicitud"
     }
   },
   hi: {
@@ -146,9 +154,7 @@ const resources = {
       "loading": "लोड हो रहा है...",
       "no_results": "कोई परिणाम नहीं मिला",
       "error": "एक त्रुटि हुई",
-      "profile": "प्रोफ़ाइल",
-      "intro": "सरकारी योजनाओं, स्वास्थ्य सेवा, शिक्षा और रोजगार के अवसरों तक पहुंचें",
-      "what_we_offer": "हम क्या प्रदान करते हैं",
+
       "ready_to_start": "शुरू करने के लिए तैयार हैं?",
       "browse_programs": "कार्यक्रम देखें",
       "explore_resources": "अपने क्षेत्र में उपलब्ध संसाधनों का पता लगाएं",
@@ -156,7 +162,18 @@ const resources = {
       "discover_scholarships": "छात्रवृत्ति और शैक्षिक अवसरों की खोज करें",
       "job_training": "नौकरी प्रशिक्षण कार्यक्रम और रोजगार के अवसर खोजें",
       "voice_commands": "आवाज कमांड",
-      "voice_commands_desc": "संसाधनों की खोज के लिए वॉयस कमांड का उपयोग करें"
+      "voice_commands_desc": "संसाधनों की खोज के लिए वॉयस कमांड का उपयोग करें",
+      "back_to_programs": "कार्यक्रमों पर वापस जाएं",
+      "program_not_found": "कार्यक्रम नहीं मिला",
+      "description": "विवरण",
+      "eligibility_criteria": "पात्रता मानदंड",
+      "benefits": "लाभ",
+      "how_to_apply": "आवेदन कैसे करें",
+      "contact_information": "संपर्क जानकारी",
+      "apply_now": "अब आवेदन करें",
+      "region": "क्षेत्र",
+      "application_deadline": "आवेदन की समय सीमा",
+      "error_loading_program": "कार्यक्रम विवरण लोड करने में विफल"
     }
   }
 };
