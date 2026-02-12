@@ -13,11 +13,11 @@ export const AuthProvider = ({ children }) => {
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     } else {
-        // For development/demo purposes, we'll set a default user if none exists
-        // In a real app, we'd wait for login
-        const demoUser = { id: 1, name: 'Demo User', role: 'USER' };
-        setUser(demoUser);
-        localStorage.setItem('user', JSON.stringify(demoUser));
+      // For development/demo purposes, we'll set a default user if none exists
+      // In a real app, we'd wait for login
+      const demoUser = { id: 1, name: 'Demo User', role: 'USER' };
+      setUser(demoUser);
+      localStorage.setItem('user', JSON.stringify(demoUser));
     }
     setLoading(false);
   }, []);
@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
   const login = async (credentials) => {
     try {
       const response = await authService.login(credentials);
-      const userData = response.data;
+      const userData = response.data.data;
       setUser(userData);
       localStorage.setItem('user', JSON.stringify(userData));
       return userData;

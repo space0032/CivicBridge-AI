@@ -13,9 +13,9 @@ import java.util.List;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 public class HealthcareController {
-    
+
     private final HealthcareService healthcareService;
-    
+
     @GetMapping
     public ResponseEntity<ApiResponse<List<HealthcareFacility>>> getAllFacilities(
             @RequestParam(required = false) String type,
@@ -32,10 +32,10 @@ public class HealthcareController {
             return ResponseEntity.ok(ApiResponse.success(facilities));
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                .body(ApiResponse.error(e.getMessage()));
+                    .body(ApiResponse.error(e.getMessage()));
         }
     }
-    
+
     @GetMapping("/nearby")
     public ResponseEntity<ApiResponse<List<HealthcareFacility>>> getNearbyFacilities(
             @RequestParam Double latitude,
@@ -43,14 +43,25 @@ public class HealthcareController {
             @RequestParam(defaultValue = "10.0") Double radiusKm) {
         try {
             List<HealthcareFacility> facilities = healthcareService.getNearbyFacilities(
-                latitude, longitude, radiusKm);
+                    latitude, longitude, radiusKm);
             return ResponseEntity.ok(ApiResponse.success(facilities));
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                .body(ApiResponse.error(e.getMessage()));
+                    .body(ApiResponse.error(e.getMessage()));
         }
     }
-    
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<HealthcareFacility>> getFacilityById(@PathVariable Long id) {
+        try {
+            HealthcareFacility facility = healthcareService.getFacilityById(id);
+            return ResponseEntity.ok(ApiResponse.success(facility));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .body(ApiResponse.error(e.getMessage()));
+        }
+    }
+
     @PostMapping
     public ResponseEntity<ApiResponse<HealthcareFacility>> createFacility(
             @RequestBody HealthcareFacility facility) {
@@ -59,7 +70,7 @@ public class HealthcareController {
             return ResponseEntity.ok(ApiResponse.success("Facility created successfully", created));
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                .body(ApiResponse.error(e.getMessage()));
+                    .body(ApiResponse.error(e.getMessage()));
         }
     }
 }

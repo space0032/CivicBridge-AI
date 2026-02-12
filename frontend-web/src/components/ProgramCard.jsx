@@ -1,6 +1,9 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const ProgramCard = ({ program }) => {
+  const navigate = useNavigate();
+
   return (
     <div className="card" style={styles.card}>
       <h3 style={styles.title}>{program.name}</h3>
@@ -8,32 +11,36 @@ const ProgramCard = ({ program }) => {
         <span style={styles.badge}>{program.category}</span>
       </p>
       <p style={styles.description}>{program.description}</p>
-      
+
       {program.region && (
         <p style={styles.info}>
           <strong>Region:</strong> {program.region}
         </p>
       )}
-      
+
       {program.eligibilityCriteria && (
         <p style={styles.info}>
           <strong>Eligibility:</strong> {program.eligibilityCriteria}
         </p>
       )}
-      
+
       {program.applicationDeadline && (
         <p style={styles.deadline}>
           <strong>Deadline:</strong> {program.applicationDeadline}
         </p>
       )}
-      
+
       {program.contactInfo && (
         <p style={styles.info}>
           <strong>Contact:</strong> {program.contactInfo}
         </p>
       )}
-      
-      <button className="btn btn-primary" style={styles.button}>
+
+      <button
+        className="btn btn-primary"
+        style={styles.button}
+        onClick={() => navigate(`/programs/${program.id}`)}
+      >
         Learn More
       </button>
     </div>

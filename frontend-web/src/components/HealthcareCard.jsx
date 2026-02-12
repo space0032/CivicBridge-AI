@@ -1,7 +1,10 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { MapPin, Phone, Clock } from 'lucide-react';
 
 const HealthcareCard = ({ facility }) => {
+  const navigate = useNavigate();
+
   return (
     <div className="card" style={styles.card}>
       <h3 style={styles.title}>{facility.name}</h3>
@@ -11,34 +14,38 @@ const HealthcareCard = ({ facility }) => {
           <span style={styles.freeBadge}>Free Services</span>
         )}
       </p>
-      
+
       {facility.services && (
         <p style={styles.services}>{facility.services}</p>
       )}
-      
+
       {facility.address && (
         <p style={styles.info}>
           <MapPin size={16} style={styles.icon} />
           {facility.address}
         </p>
       )}
-      
+
       {facility.contactNumber && (
         <p style={styles.info}>
           <Phone size={16} style={styles.icon} />
           {facility.contactNumber}
         </p>
       )}
-      
+
       {facility.operatingHours && (
         <p style={styles.info}>
           <Clock size={16} style={styles.icon} />
           {facility.operatingHours}
         </p>
       )}
-      
-      <button className="btn btn-primary" style={styles.button}>
-        Get Directions
+
+      <button
+        className="btn btn-primary"
+        style={styles.button}
+        onClick={() => navigate(`/healthcare/${facility.id}`)}
+      >
+        View Details
       </button>
     </div>
   );

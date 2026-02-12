@@ -9,26 +9,31 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class HealthcareService {
-    
+
     private final HealthcareFacilityRepository healthcareFacilityRepository;
-    
+
     public List<HealthcareFacility> getAllFacilities() {
         return healthcareFacilityRepository.findByIsActiveTrue();
     }
-    
+
     public List<HealthcareFacility> getFacilitiesByType(String type) {
         return healthcareFacilityRepository.findByType(type);
     }
-    
+
     public List<HealthcareFacility> getFreeFacilities() {
         return healthcareFacilityRepository.findByFreeServicesTrue();
     }
-    
+
     public List<HealthcareFacility> getNearbyFacilities(Double latitude, Double longitude, Double radiusKm) {
         Double radiusMeters = radiusKm * 1000;
         return healthcareFacilityRepository.findNearbyFacilities(latitude, longitude, radiusMeters);
     }
-    
+
+    public HealthcareFacility getFacilityById(Long id) {
+        return healthcareFacilityRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Healthcare facility not found with id: " + id));
+    }
+
     public HealthcareFacility createFacility(HealthcareFacility facility) {
         return healthcareFacilityRepository.save(facility);
     }

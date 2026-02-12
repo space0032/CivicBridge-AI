@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 public class AuthController {
-    
+
     private final AuthService authService;
-    
+
     @PostMapping("/register")
     public ResponseEntity<ApiResponse<User>> register(@RequestBody RegisterRequest request) {
         try {
@@ -24,19 +24,19 @@ public class AuthController {
             return ResponseEntity.ok(ApiResponse.success("User registered successfully", user));
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                .body(ApiResponse.error(e.getMessage()));
+                    .body(ApiResponse.error(e.getMessage()));
         }
     }
-    
+
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse<String>> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<ApiResponse<User>> login(@RequestBody LoginRequest request) {
         try {
             User user = authService.findByUsername(request.getUsername());
             // In production, verify password and generate JWT token
-            return ResponseEntity.ok(ApiResponse.success("Login successful", "mock-jwt-token"));
+            return ResponseEntity.ok(ApiResponse.success("Login successful", user));
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                .body(ApiResponse.error("Invalid credentials"));
+                    .body(ApiResponse.error("Invalid credentials"));
         }
     }
 }
