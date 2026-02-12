@@ -161,22 +161,34 @@ A job seeker searches for skill-building programs in their language.
 
 ## 🔧 Configuration
 
-### Backend Environment Variables
+### Security Setup (CRITICAL)
 
-```bash
-DB_USERNAME=civicbridge
-DB_PASSWORD=changeme
-JWT_SECRET=your-secret-key
-OPENAI_API_KEY=your-openai-key
-HUGGINGFACE_API_KEY=your-huggingface-key
-FIREBASE_CREDENTIALS=path-to-firebase-credentials
-```
+To ensure the application starts correctly and securely, you must configure a strong JWT secret and default admin credentials.
 
-### Frontend Environment Variables
+1.  **JWT Secret**: Generate a 512-bit (64-byte) Base64 encoded string.
+    *   On Windows (PowerShell): `[Convert]::ToBase64String((1..64 | % { [byte](Read-Host) }))` or similar.
+    *   On Linux/macOS: `openssl rand -base64 64`
+    *   Set this as `JWT_SECRET` in your `.env` file.
 
-```bash
-VITE_API_URL=http://localhost:8080/api
-```
+2.  **Default Admin**: Set `ADMIN_USERNAME` and `ADMIN_PASSWORD` in your `.env` file. The application will automatically seed this user on first startup.
+
+### Backend Environment Variables (.env)
+
+| Variable | Description | Example |
+| :--- | :--- | :--- |
+| `DB_USERNAME` | PostgreSQL username | `civicbridge` |
+| `DB_PASSWORD` | PostgreSQL password | `changeme` |
+| `JWT_SECRET` | 512-bit HS512 Secret | (Base64 String) |
+| `ADMIN_USERNAME` | Initial admin username | `admin` |
+| `ADMIN_PASSWORD` | Initial admin password | `admin123` |
+| `OPENAI_API_KEY` | OpenAI key for NLP | `sk-...` |
+| `HUGGINGFACE_API_KEY` | HuggingFace key for TTS/STT | `hf_...` |
+
+### Frontend Environment Variables (.env)
+
+| Variable | Description | Example |
+| :--- | :--- | :--- |
+| `VITE_API_URL` | Backend API Base URL | `http://localhost:8080/api` |
 
 ## 📚 Documentation
 

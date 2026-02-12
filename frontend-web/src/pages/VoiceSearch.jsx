@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../contexts/AuthContext';
 import { voiceService } from '../services/api';
@@ -15,9 +15,19 @@ const VoiceSearch = () => {
   const [response, setResponse] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const recognitionRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      if (recognitionRef.current) {
+        recognitionRef.current.stop();
+      }
+    };
+  }, []);
 
   const handleVoiceInput = () => {
     if (isListening) {
+      if (recognitionRef.current) recognitionRef.current.stop();
       setIsListening(false);
       return;
     }
@@ -25,7 +35,7 @@ const VoiceSearch = () => {
     setIsListening(true);
     setError(null);
 
-    startSpeechRecognition(
+    recognitionRef.current = startSpeechRecognition(
       (transcript) => {
         setQuery(transcript);
         setIsListening(false);
@@ -34,7 +44,6 @@ const VoiceSearch = () => {
       (error) => {
         setError('Failed to recognize speech. Please try again.');
         setIsListening(false);
-        console.error(error);
       }
     );
   };
@@ -53,7 +62,7 @@ const VoiceSearch = () => {
       try {
         location = await getGeolocation();
       } catch (err) {
-        console.log('Location not available');
+        // Location not available
       }
 
       const response = await voiceService.processQuery({
@@ -71,7 +80,6 @@ const VoiceSearch = () => {
       textToSpeech(responseText, i18n.language);
     } catch (err) {
       setError('Failed to process your query. Please try again.');
-      console.error(err);
     } finally {
       setLoading(false);
     }

@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { programService } from '../services/api';
 import ProgramCard from '../components/ProgramCard';
 
+const programsCache = new Map();
+
 const Programs = () => {
   const { t } = useTranslation();
   const [searchParams] = useSearchParams();
@@ -17,14 +19,22 @@ const Programs = () => {
 
   useEffect(() => {
     const fetchPrograms = async () => {
+      const cacheKey = JSON.stringify(filters);
+      if (programsCache.has(cacheKey)) {
+        setPrograms(programsCache.get(cacheKey));
+        setLoading(false);
+        return;
+      }
+
       try {
         setLoading(true);
         const response = await programService.getAll(filters);
-        setPrograms(response.data.data || []);
+        const data = response.data.data || [];
+        setPrograms(data);
+        programsCache.set(cacheKey, data);
         setError(null);
       } catch (err) {
         setError('Failed to load programs');
-        console.error(err);
       } finally {
         setLoading(false);
       }

@@ -6,7 +6,7 @@ export const startSpeechRecognition = (onResult, onError) => {
 
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   const recognition = new SpeechRecognition();
-  
+
   recognition.continuous = false;
   recognition.interimResults = false;
   recognition.lang = 'en-US';
@@ -26,7 +26,6 @@ export const startSpeechRecognition = (onResult, onError) => {
 
 export const textToSpeech = (text, lang = 'en-US') => {
   if (!('speechSynthesis' in window)) {
-    console.error('Text-to-speech not supported');
     return;
   }
 

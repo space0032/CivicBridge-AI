@@ -34,7 +34,6 @@ public class DataInitializer implements CommandLineRunner {
             admin.setRoles(new HashSet<>(Collections.singletonList("ROLE_ADMIN")));
 
             userRepository.save(admin);
-            System.out.println("Default admin user created: admin / admin123");
         }
     }
 }
