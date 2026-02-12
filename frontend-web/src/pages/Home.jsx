@@ -13,11 +13,11 @@ const Home = () => {
         <p style={styles.subtitle}>
           Access government programs, healthcare, education, and job opportunities
         </p>
-        
+
         <div style={styles.searchBox}>
-          <input 
-            type="text" 
-            placeholder={t('search')}
+          <input
+            type="text"
+            placeholder={typeof t('search') === 'string' ? t('search') : 'Search for resources'}
             style={styles.searchInput}
           />
           <button className="btn btn-primary">{t('search')}</button>
