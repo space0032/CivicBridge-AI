@@ -29,9 +29,6 @@ public class GlobalExceptionHandler {
             String errorMessage = error.getDefaultMessage();
             errors.put(fieldName, errorMessage);
         });
-        // ApiResponse.error() expects a single string message, not a map of errors.
-        // We need to adjust ApiResponse to handle validation errors or stringify the
-        // map.
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(ApiResponse.<Object>error("Validation failed: " + errors.toString()));
     }
@@ -40,5 +37,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponse<Object>> handleRuntimeException(RuntimeException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(ApiResponse.<Object>error(ex.getMessage()));
+    }
+
+    @ExceptionHandler(org.springframework.http.converter.HttpMessageNotReadableException.class)
+    public ResponseEntity<ApiResponse<Object>> handleInputException(
+            org.springframework.http.converter.HttpMessageNotReadableException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ApiResponse.<Object>error("Invalid request body: " + ex.getMessage()));
     }
 }
