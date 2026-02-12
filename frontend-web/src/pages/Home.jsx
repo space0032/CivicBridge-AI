@@ -10,7 +10,7 @@ const Home = () => {
       <section style={styles.hero}>
         <h1 style={styles.title}>{t('welcome')}</h1>
         <p style={styles.subtitle}>
-          Access government programs, healthcare, education, and job opportunities
+          {t('intro')}
         </p>
 
         <div style={styles.searchBox}>
@@ -24,40 +24,40 @@ const Home = () => {
       </section>
 
       <section style={styles.features}>
-        <h2 style={styles.sectionTitle}>What We Offer</h2>
+        <h2 style={styles.sectionTitle}>{t('what_we_offer')}</h2>
         <div style={styles.grid}>
           <Link to="/programs?category=HEALTHCARE" style={styles.featureCard}>
             <Heart size={48} color="#2563eb" />
             <h3>{t('healthcare')}</h3>
-            <p>Find nearby hospitals, clinics, and free vaccination programs</p>
+            <p>{t('find_nearby_hospitals')}</p>
           </Link>
 
           <Link to="/programs?category=EDUCATION" style={styles.featureCard}>
             <GraduationCap size={48} color="#2563eb" />
             <h3>{t('education')}</h3>
-            <p>Discover scholarships and educational opportunities</p>
+            <p>{t('discover_scholarships')}</p>
           </Link>
 
           <Link to="/programs?category=EMPLOYMENT" style={styles.featureCard}>
             <Briefcase size={48} color="#2563eb" />
             <h3>{t('employment')}</h3>
-            <p>Find job training programs and employment opportunities</p>
+            <p>{t('job_training')}</p>
           </Link>
 
           <Link to="/voice-search" style={styles.featureCard}>
             <Mic size={48} color="#2563eb" />
             <h3>{t('voice_search')}</h3>
-            <p>Use voice commands to search for resources</p>
+            <p>{t('voice_commands_desc')}</p>
           </Link>
         </div>
       </section>
 
       <section style={styles.cta}>
-        <h2>Ready to get started?</h2>
-        <p>Explore resources available in your area</p>
+        <h2>{t('ready_to_start')}</h2>
+        <p>{t('explore_resources')}</p>
         <Link to="/programs">
           <button className="btn btn-primary" style={styles.ctaButton}>
-            Browse Programs
+            {t('browse_programs')}
           </button>
         </Link>
       </section>

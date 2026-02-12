@@ -13,7 +13,7 @@ export const useLanguage = () => {
 
 export const LanguageProvider = ({ children }) => {
   const { i18n } = useTranslation();
-  const [currentLanguage, setCurrentLanguage] = useState('en');
+  const [currentLanguage, setCurrentLanguage] = useState(i18n.language || 'en');
 
   const changeLanguage = (lang) => {
     i18n.changeLanguage(lang);

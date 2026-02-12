@@ -35,7 +35,17 @@ const resources = {
       "loading": "Loading...",
       "no_results": "No results found",
       "error": "An error occurred",
-      "profile": "Profile"
+      "profile": "Profile",
+      "intro": "Access government programs, healthcare, education, and job opportunities",
+      "what_we_offer": "What We Offer",
+      "ready_to_start": "Ready to get started?",
+      "browse_programs": "Browse Programs",
+      "explore_resources": "Explore resources available in your area",
+      "find_nearby_hospitals": "Find nearby hospitals, clinics, and free vaccination programs",
+      "discover_scholarships": "Discover scholarships and educational opportunities",
+      "job_training": "Find job training programs and employment opportunities",
+      "voice_commands": "Voice Commands",
+      "voice_commands_desc": "Use voice commands to search for resources"
     }
   },
   es: {
@@ -71,7 +81,17 @@ const resources = {
       "loading": "Cargando...",
       "no_results": "No se encontraron resultados",
       "error": "Ocurrió un error",
-      "profile": "Perfil"
+      "profile": "Perfil",
+      "intro": "Acceda a programas gubernamentales, salud, educación y oportunidades de empleo",
+      "what_we_offer": "Lo que ofrecemos",
+      "ready_to_start": "¿Listo para comenzar?",
+      "browse_programs": "Explorar programas",
+      "explore_resources": "Explore los recursos disponibles en su área",
+      "find_nearby_hospitals": "Encuentre hospitales, clínicas y programas de vacunación gratuitos cercanos",
+      "discover_scholarships": "Descubra becas y oportunidades educativas",
+      "job_training": "Encuentre programas de capacitación laboral y oportunidades de empleo",
+      "voice_commands": "Comandos de voz",
+      "voice_commands_desc": "Use comandos de voz para buscar recursos"
     }
   },
   hi: {
@@ -107,7 +127,17 @@ const resources = {
       "loading": "लोड हो रहा है...",
       "no_results": "कोई परिणाम नहीं मिला",
       "error": "एक त्रुटि हुई",
-      "profile": "प्रोफ़ाइल"
+      "profile": "प्रोफ़ाइल",
+      "intro": "सरकारी योजनाओं, स्वास्थ्य सेवा, शिक्षा और रोजगार के अवसरों तक पहुंचें",
+      "what_we_offer": "हम क्या प्रदान करते हैं",
+      "ready_to_start": "शुरू करने के लिए तैयार हैं?",
+      "browse_programs": "कार्यक्रम देखें",
+      "explore_resources": "अपने क्षेत्र में उपलब्ध संसाधनों का पता लगाएं",
+      "find_nearby_hospitals": "आसपास के अस्पताल, क्लीनिक और मुफ्त टीकाकरण कार्यक्रम खोजें",
+      "discover_scholarships": "छात्रवृत्ति और शैक्षिक अवसरों की खोज करें",
+      "job_training": "नौकरी प्रशिक्षण कार्यक्रम और रोजगार के अवसर खोजें",
+      "voice_commands": "आवाज कमांड",
+      "voice_commands_desc": "संसाधनों की खोज के लिए वॉयस कमांड का उपयोग करें"
     }
   }
 };
