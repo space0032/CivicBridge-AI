@@ -17,8 +17,6 @@ backend/mvnw.cmd
 frontend-web/node_modules/
 frontend-web/dist/
 frontend-web/.vite/
-frontend-web/package-lock.json
-frontend-web/yarn.lock
 *.npm
 
 # Flutter / Dart
@@ -31,7 +29,7 @@ mobile-app/ios/Pods/
 mobile-app/ios/.symlinks/
 mobile-app/.pub-cache/
 mobile-app/.pub/
-*.lock
+
 
 # IDE
 .idea/
