@@ -1,5 +1,6 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
+import LanguageDetector from 'i18next-browser-languagedetector';
 
 const resources = {
   en: {
@@ -35,17 +36,25 @@ const resources = {
       "loading": "Loading...",
       "no_results": "No results found",
       "error": "An error occurred",
-      "profile": "Profile",
-      "intro": "Access government programs, healthcare, education, and job opportunities",
-      "what_we_offer": "What We Offer",
-      "ready_to_start": "Ready to get started?",
-      "browse_programs": "Browse Programs",
+
+
       "explore_resources": "Explore resources available in your area",
       "find_nearby_hospitals": "Find nearby hospitals, clinics, and free vaccination programs",
       "discover_scholarships": "Discover scholarships and educational opportunities",
       "job_training": "Find job training programs and employment opportunities",
       "voice_commands": "Voice Commands",
-      "voice_commands_desc": "Use voice commands to search for resources"
+      "voice_commands_desc": "Use voice commands to search for resources",
+      "back_to_programs": "Back to Programs",
+      "program_not_found": "Program not found",
+      "description": "Description",
+      "eligibility_criteria": "Eligibility Criteria",
+      "benefits": "Benefits",
+      "how_to_apply": "How to Apply",
+      "contact_information": "Contact Information",
+      "apply_now": "Apply Now",
+      "region": "Region",
+      "application_deadline": "Application Deadline",
+      "error_loading_program": "Failed to load program details"
     }
   },
   es: {
@@ -84,14 +93,24 @@ const resources = {
       "profile": "Perfil",
       "intro": "Acceda a programas gubernamentales, salud, educación y oportunidades de empleo",
       "what_we_offer": "Lo que ofrecemos",
-      "ready_to_start": "¿Listo para comenzar?",
-      "browse_programs": "Explorar programas",
+
       "explore_resources": "Explore los recursos disponibles en su área",
       "find_nearby_hospitals": "Encuentre hospitales, clínicas y programas de vacunación gratuitos cercanos",
       "discover_scholarships": "Descubra becas y oportunidades educativas",
       "job_training": "Encuentre programas de capacitación laboral y oportunidades de empleo",
       "voice_commands": "Comandos de voz",
-      "voice_commands_desc": "Use comandos de voz para buscar recursos"
+      "voice_commands_desc": "Use comandos de voz para buscar recursos",
+      "back_to_programs": "Volver a Programas",
+      "program_not_found": "Programa no encontrado",
+      "description": "Descripción",
+      "eligibility_criteria": "Criterios de Elegibilidad",
+      "benefits": "Beneficios",
+      "how_to_apply": "Cómo Aplicar",
+      "contact_information": "Información de Contacto",
+      "apply_now": "Aplicar Ahora",
+      "region": "Región",
+      "application_deadline": "Fecha Límite de Solicitud",
+      "error_loading_program": "Error al cargar los detalles del programa"
     }
   },
   hi: {
@@ -143,13 +162,18 @@ const resources = {
 };
 
 i18n
+  .use(LanguageDetector)
   .use(initReactI18next)
   .init({
     resources,
-    lng: 'en',
     fallbackLng: 'en',
+    debug: true,
     interpolation: {
       escapeValue: false
+    },
+    detection: {
+      order: ['localStorage', 'navigator'],
+      caches: ['localStorage']
     }
   });
 

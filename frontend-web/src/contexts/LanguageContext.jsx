@@ -1,4 +1,4 @@
-import { createContext, useState, useContext } from 'react';
+import { createContext, useState, useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 const LanguageContext = createContext();
@@ -14,6 +14,13 @@ export const useLanguage = () => {
 export const LanguageProvider = ({ children }) => {
   const { i18n } = useTranslation();
   const [currentLanguage, setCurrentLanguage] = useState(i18n.language || 'en');
+
+  // Sync state with i18n on mount/change
+  useEffect(() => {
+    if (i18n.language && i18n.language !== currentLanguage) {
+      setCurrentLanguage(i18n.language);
+    }
+  }, [i18n.language]);
 
   const changeLanguage = (lang) => {
     i18n.changeLanguage(lang);

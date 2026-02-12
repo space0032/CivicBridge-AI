@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import { programService } from '../services/api';
 
 const ProgramDetails = () => {
     const { id } = useParams();
-    // const { t } = useTranslation(); // t is unused
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const [program, setProgram] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -19,7 +20,7 @@ const ProgramDetails = () => {
                 setProgram(response.data.data);
                 setError(null);
             } catch (err) {
-                setError('Failed to load program details');
+                setError(t('error_loading_program'));
                 console.error(err);
             } finally {
                 setLoading(false);
@@ -29,14 +30,14 @@ const ProgramDetails = () => {
         fetchProgramDetails();
     }, [id]);
 
-    if (loading) return <div className="container" style={styles.container}>Loading...</div>;
+    if (loading) return <div className="container" style={styles.container}>{t('loading')}</div>;
     if (error) return <div className="container" style={styles.container}><p style={styles.error}>{error}</p></div>;
-    if (!program) return <div className="container" style={styles.container}>Program not found</div>;
+    if (!program) return <div className="container" style={styles.container}>{t('program_not_found')}</div>;
 
     return (
         <div className="container" style={styles.container}>
             <button onClick={() => navigate(-1)} style={styles.backButton}>
-                &larr; Back to Programs
+                &larr; {t('back_to_programs')}
             </button>
 
             <div style={styles.card}>
@@ -46,54 +47,54 @@ const ProgramDetails = () => {
                 </div>
 
                 <div style={styles.section}>
-                    <h3 style={styles.sectionTitle}>Description</h3>
+                    <h3 style={styles.sectionTitle}>{t('description')}</h3>
                     <p style={styles.text}>{program.description}</p>
                 </div>
 
                 <div style={styles.grid}>
                     {program.region && (
                         <div style={styles.infoItem}>
-                            <h4 style={styles.label}>Region</h4>
+                            <h4 style={styles.label}>{t('region')}</h4>
                             <p>{program.region}</p>
                         </div>
                     )}
                     {program.applicationDeadline && (
                         <div style={styles.infoItem}>
-                            <h4 style={styles.label}>Application Deadline</h4>
+                            <h4 style={styles.label}>{t('application_deadline')}</h4>
                             <p style={styles.deadline}>{program.applicationDeadline}</p>
                         </div>
                     )}
                 </div>
 
                 <div style={styles.section}>
-                    <h3 style={styles.sectionTitle}>Eligibility Criteria</h3>
+                    <h3 style={styles.sectionTitle}>{t('eligibility_criteria')}</h3>
                     <p style={styles.text}>{program.eligibilityCriteria}</p>
                 </div>
 
                 {program.benefits && (
                     <div style={styles.section}>
-                        <h3 style={styles.sectionTitle}>Benefits</h3>
+                        <h3 style={styles.sectionTitle}>{t('benefits')}</h3>
                         <p style={styles.text}>{program.benefits}</p>
                     </div>
                 )}
 
                 {program.applicationProcess && (
                     <div style={styles.section}>
-                        <h3 style={styles.sectionTitle}>How to Apply</h3>
+                        <h3 style={styles.sectionTitle}>{t('how_to_apply')}</h3>
                         <p style={styles.text}>{program.applicationProcess}</p>
                     </div>
                 )}
 
                 {program.contactInfo && (
                     <div style={styles.section}>
-                        <h3 style={styles.sectionTitle}>Contact Information</h3>
+                        <h3 style={styles.sectionTitle}>{t('contact_information')}</h3>
                         <p style={styles.text}>{program.contactInfo}</p>
                     </div>
                 )}
 
                 <div style={styles.actions}>
                     <button className="btn btn-primary" style={styles.applyButton}>
-                        Apply Now
+                        {t('apply_now')}
                     </button>
                 </div>
             </div>
