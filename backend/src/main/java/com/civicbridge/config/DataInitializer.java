@@ -3,6 +3,7 @@ package com.civicbridge.config;
 import com.civicbridge.model.User;
 import com.civicbridge.repository.jpa.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -17,12 +18,18 @@ public class DataInitializer implements CommandLineRunner {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    @Value("${spring.application.admin.username}")
+    private String adminUsername;
+
+    @Value("${spring.application.admin.password}")
+    private String adminPassword;
+
     @Override
     public void run(String... args) throws Exception {
-        if (!userRepository.existsByUsername("admin")) {
+        if (!userRepository.existsByUsername(adminUsername)) {
             User admin = new User();
-            admin.setUsername("admin");
-            admin.setPassword(passwordEncoder.encode("admin123"));
+            admin.setUsername(adminUsername);
+            admin.setPassword(passwordEncoder.encode(adminPassword));
             admin.setEmail("admin@civicbridge.com");
             admin.setRoles(new HashSet<>(Collections.singletonList("ROLE_ADMIN")));
 

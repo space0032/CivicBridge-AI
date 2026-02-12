@@ -1,12 +1,17 @@
 spring:
+  dotenv:
+    directory: ../
   application:
-    name: civicbridge-backend
+     name: civicbridge-backend
+     admin:
+       username: ${ADMIN_USERNAME}
+       password: ${ADMIN_PASSWORD}
   
   # PostgreSQL Configuration
   datasource:
     url: jdbc:postgresql://localhost:5432/civicbridge
-    username: ${DB_USERNAME:civicbridge}
-    password: ${DB_PASSWORD:space112} # Default for local dev only
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD} # Default for local dev only
     driver-class-name: org.postgresql.Driver
   
   jpa:
@@ -21,7 +26,7 @@ spring:
   # MongoDB Configuration
   data:
     mongodb:
-      uri: ${MONGODB_URI:mongodb://localhost:27017/civicbridge}
+      uri: ${MONGODB_URI}
       database: civicbridge
   
   # Security
