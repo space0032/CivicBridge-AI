@@ -11,6 +11,7 @@ import java.util.List;
 public class ProgramService {
 
     private final ProgramRepository programRepository;
+    private final StatsService statsService;
 
     public List<Program> getAllPrograms() {
         return programRepository.findByIsActiveTrue();
@@ -35,7 +36,9 @@ public class ProgramService {
 
     public Program createProgram(Program program) {
         sanitizeProgram(program);
-        return programRepository.save(program);
+        Program savedProgram = programRepository.save(program);
+        statsService.broadcastStats();
+        return savedProgram;
     }
 
     private void sanitizeProgram(Program program) {

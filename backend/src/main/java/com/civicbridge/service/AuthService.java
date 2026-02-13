@@ -16,6 +16,7 @@ public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final EmailNotificationService emailNotificationService;
+    private final StatsService statsService;
 
     public User register(RegisterRequest request) {
         if (userRepository.existsByUsername(request.getUsername())) {
@@ -41,6 +42,9 @@ public class AuthService {
         user.setRoles(roles);
 
         User savedUser = userRepository.save(user);
+
+        // Broadcast stats update
+        statsService.broadcastStats();
 
         // Send welcome email
         emailNotificationService.sendNotification(

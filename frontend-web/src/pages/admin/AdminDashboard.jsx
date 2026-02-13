@@ -1,15 +1,58 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { PlusCircle, FileText, Heart, Activity } from 'lucide-react';
+import SockJS from 'sockjs-client';
+import Stomp from 'stompjs';
+import { adminService } from '../../services/api';
 
 const AdminDashboard = () => {
     const { user } = useAuth();
+    const [dashboardStats, setDashboardStats] = useState({
+        totalPrograms: 0,
+        totalHealthcareFacilities: 0,
+        totalUsers: 0
+    });
 
-    // In a real app, we might fetch these stats from the backend
+    useEffect(() => {
+        const fetchInitialStats = async () => {
+            try {
+                const response = await adminService.getStats();
+                setDashboardStats(response.data);
+            } catch (error) {
+                console.error("Failed to fetch initial stats", error);
+            }
+        };
+
+        if (user && user.roles && user.roles.includes('ROLE_ADMIN')) {
+            fetchInitialStats();
+
+            const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080/api';
+            const wsUrl = baseUrl.replace('/api', '/ws');
+            const socket = new SockJS(wsUrl);
+            const stompClient = Stomp.over(socket);
+
+            stompClient.connect({}, () => {
+                stompClient.subscribe('/topic/stats', (message) => {
+                    const updatedStats = JSON.parse(message.body);
+                    setDashboardStats(updatedStats);
+                });
+            }, (err) => {
+                console.error("STOMP error", err);
+            });
+
+            return () => {
+                if (stompClient && stompClient.connected) {
+                    stompClient.disconnect();
+                }
+            };
+        }
+    }, [user]);
+
     const stats = [
-        { label: 'Total Programs', value: 12, icon: <FileText size={24} color="#2563eb" /> },
-        { label: 'Healthcare Facilities', value: 8, icon: <Heart size={24} color="#dc2626" /> },
-        { label: 'Active Users', value: 154, icon: <Activity size={24} color="#059669" /> },
+        { label: 'Total Programs', value: dashboardStats.totalPrograms, icon: <FileText size={24} color="#2563eb" /> },
+        { label: 'Healthcare Facilities', value: dashboardStats.totalHealthcareFacilities, icon: <Heart size={24} color="#dc2626" /> },
+        { label: 'Active Users', value: dashboardStats.totalUsers, icon: <Activity size={24} color="#059669" /> },
     ];
 
     if (!user || !user.roles || !user.roles.includes('ROLE_ADMIN')) {

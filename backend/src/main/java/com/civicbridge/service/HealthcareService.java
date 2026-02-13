@@ -11,6 +11,7 @@ import java.util.List;
 public class HealthcareService {
 
     private final HealthcareFacilityRepository healthcareFacilityRepository;
+    private final StatsService statsService;
 
     public List<HealthcareFacility> getAllFacilities() {
         return healthcareFacilityRepository.findByIsActiveTrue();
@@ -36,7 +37,9 @@ public class HealthcareService {
 
     public HealthcareFacility createFacility(HealthcareFacility facility) {
         sanitizeFacility(facility);
-        return healthcareFacilityRepository.save(facility);
+        HealthcareFacility savedFacility = healthcareFacilityRepository.save(facility);
+        statsService.broadcastStats();
+        return savedFacility;
     }
 
     private void sanitizeFacility(HealthcareFacility facility) {

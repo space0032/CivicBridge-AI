@@ -57,4 +57,8 @@ export const authService = {
   login: (data) => api.post('/auth/login', data)
 };
 
+export const adminService = {
+  getStats: () => api.get('/stats')
+};
+
 export default api;
