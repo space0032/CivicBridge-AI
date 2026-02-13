@@ -6,7 +6,7 @@ import org.springframework.data.jpa.domain.Specification;
 public class HealthcareFacilitySpecifications {
 
     public static Specification<HealthcareFacility> hasType(String type) {
-        return (root, query, criteriaBuilder) -> type == null ? criteriaBuilder.conjunction()
+        return (root, query, criteriaBuilder) -> (type == null || type.isEmpty()) ? criteriaBuilder.conjunction()
                 : criteriaBuilder.equal(root.get("type"), type);
     }
 

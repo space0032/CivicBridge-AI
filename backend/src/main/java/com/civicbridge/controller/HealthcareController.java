@@ -21,7 +21,10 @@ public class HealthcareController {
             @RequestParam(required = false) String type,
             @RequestParam(required = false) Boolean freeServices) {
         try {
-            List<HealthcareFacility> facilities = healthcareService.getFacilitiesWithCriteria(type, freeServices);
+            // Normalize empty strings to null
+            String normalizedType = (type != null && !type.isEmpty()) ? type : null;
+            List<HealthcareFacility> facilities = healthcareService.getFacilitiesWithCriteria(normalizedType,
+                    freeServices);
             return ResponseEntity.ok(ApiResponse.success(facilities));
         } catch (Exception e) {
             return ResponseEntity.badRequest()

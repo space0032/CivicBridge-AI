@@ -21,9 +21,13 @@ public class ProgramController {
             @RequestParam(required = false) String category,
             @RequestParam(required = false) String region) {
         try {
+            // Normalize empty strings to null
+            String normalizedCategory = (category != null && !category.isEmpty()) ? category : null;
+            String normalizedRegion = (region != null && !region.isEmpty()) ? region : null;
+
             List<Program> programs;
-            if (category != null || region != null) {
-                programs = programService.getProgramsByFilters(category, region);
+            if (normalizedCategory != null || normalizedRegion != null) {
+                programs = programService.getProgramsByFilters(normalizedCategory, normalizedRegion);
             } else {
                 programs = programService.getAllPrograms();
             }
