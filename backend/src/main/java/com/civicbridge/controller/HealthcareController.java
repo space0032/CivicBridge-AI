@@ -23,8 +23,11 @@ public class HealthcareController {
         try {
             // Normalize empty strings to null
             String normalizedType = (type != null && !type.isEmpty()) ? type : null;
+            // Normalize false to null (UI treats unchecked as "show all")
+            Boolean normalizedFreeServices = (freeServices != null && freeServices) ? true : null;
+
             List<HealthcareFacility> facilities = healthcareService.getFacilitiesWithCriteria(normalizedType,
-                    freeServices);
+                    normalizedFreeServices);
             return ResponseEntity.ok(ApiResponse.success(facilities));
         } catch (Exception e) {
             return ResponseEntity.badRequest()

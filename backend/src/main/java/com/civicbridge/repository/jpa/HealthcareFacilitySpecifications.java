@@ -11,8 +11,8 @@ public class HealthcareFacilitySpecifications {
     }
 
     public static Specification<HealthcareFacility> hasFreeServices(Boolean freeServices) {
-        return (root, query, criteriaBuilder) -> freeServices == null ? criteriaBuilder.conjunction()
-                : criteriaBuilder.equal(root.get("freeServices"), freeServices);
+        return (root, query, criteriaBuilder) -> (freeServices == null || !freeServices) ? criteriaBuilder.conjunction()
+                : criteriaBuilder.equal(root.get("freeServices"), true);
     }
 
     public static Specification<HealthcareFacility> isActive() {
