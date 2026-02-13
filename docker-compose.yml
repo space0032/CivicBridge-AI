@@ -29,6 +29,25 @@ services:
     networks:
       - civicbridge-network
 
+  # Mongo Express - Web UI for MongoDB
+  mongo-express:
+    image: mongo-express:latest
+    container_name: civicbridge-mongo-express
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongodb
+      - ME_CONFIG_MONGODB_PORT=27017
+      - ME_CONFIG_MONGODB_ENABLE_ADMIN=false
+      - ME_CONFIG_MONGODB_AUTH_DATABASE=civicbridge
+      - ME_CONFIG_BASICAUTH_USERNAME=admin
+      - ME_CONFIG_BASICAUTH_PASSWORD=pass
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mongodb
+    networks:
+      - civicbridge-network
+
+
   # Backend Service
   backend:
     build:
