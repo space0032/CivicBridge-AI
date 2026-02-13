@@ -28,7 +28,7 @@ const AdminDashboard = () => {
             fetchInitialStats();
 
             const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080/api';
-            const wsUrl = baseUrl.replace('/api', '/ws');
+            const wsUrl = `${baseUrl}/ws`;
             const socket = new SockJS(wsUrl);
             const stompClient = Stomp.over(socket);
 

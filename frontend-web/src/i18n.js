@@ -6,6 +6,12 @@ const resources = {
   en: {
     translation: {
       "welcome": "Welcome to CivicBridge AI",
+      "admin": "Admin",
+      "dashboard": "Dashboard",
+      "admin_dashboard": "Admin Dashboard",
+      "total_programs": "Total Programs",
+      "healthcare_facilities": "Healthcare Facilities",
+      "active_users": "Active Users",
       "profile": "Profile",
       "intro": "Access government programs, healthcare, education, and job opportunities",
       "search": "Search for resources",
