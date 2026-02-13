@@ -47,6 +47,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/ws/**").permitAll()
+                        .requestMatchers("/stats/**").authenticated()
                         .requestMatchers(org.springframework.http.HttpMethod.GET, "/programs/**").permitAll()
                         .requestMatchers(org.springframework.http.HttpMethod.GET, "/healthcare/**").permitAll()
                         .requestMatchers("/programs/**").hasRole("ADMIN")
