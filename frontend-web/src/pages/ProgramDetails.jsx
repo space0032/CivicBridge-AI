@@ -20,7 +20,11 @@ const ProgramDetails = () => {
             try {
                 setLoading(true);
                 const response = await programService.getById(id);
-                setProgram(response.data.data);
+                if (response && response.data && response.data.data) {
+                    setProgram(response.data.data);
+                } else {
+                    throw new Error('Invalid API response structure');
+                }
                 setError(null);
             } catch (err) {
                 setError(t('error_loading_program'));

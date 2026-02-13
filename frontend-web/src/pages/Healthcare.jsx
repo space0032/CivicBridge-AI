@@ -4,6 +4,7 @@ import { healthcareService } from '../services/api';
 import { getGeolocation } from '../utils/geolocation';
 import HealthcareCard from '../components/HealthcareCard';
 import { MapPin } from 'lucide-react';
+import logger from '../utils/logger';
 
 const Healthcare = () => {
   const { t } = useTranslation();
@@ -24,8 +25,8 @@ const Healthcare = () => {
         setFacilities(response.data.data || []);
         setError(null);
       } catch (err) {
-        setError('Failed to load healthcare facilities');
-        console.error(err);
+        setError(t('error_loading_facility'));
+        logger.error('Failed to load healthcare facilities', err);
       } finally {
         setLoading(false);
       }
@@ -48,8 +49,8 @@ const Healthcare = () => {
       setFacilities(response.data.data || []);
       setError(null);
     } catch (err) {
-      setError('Failed to get your location or find nearby facilities');
-      console.error(err);
+      setError(t('error_loading_facility'));
+      logger.error('Failed to get your location or find nearby facilities', err);
     } finally {
       setLoading(false);
     }

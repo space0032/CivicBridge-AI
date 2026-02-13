@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import logger from '../utils/logger';
 
 const ErrorBoundary = ({ children }) => {
     const [hasError, setHasError] = useState(false);
@@ -7,7 +8,7 @@ const ErrorBoundary = ({ children }) => {
 
     useEffect(() => {
         const errorHandler = (error, errorInfo) => {
-            console.error("Uncaught error:", error, errorInfo);
+            logger.error("Uncaught error:", error, errorInfo);
             setHasError(true);
         };
 

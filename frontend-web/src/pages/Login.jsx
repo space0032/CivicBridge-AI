@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../contexts/AuthContext';
+import { sanitize } from '../utils/sanitize';
 
 const Login = () => {
   const { t } = useTranslation();
@@ -13,7 +14,7 @@ const Login = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setCredentials(prev => ({ ...prev, [name]: value }));
+    setCredentials(prev => ({ ...prev, [name]: sanitize(value) }));
   };
 
   const handleSubmit = async (e) => {
@@ -33,11 +34,11 @@ const Login = () => {
   return (
     <div className="container" style={styles.container}>
       <div style={styles.card}>
-        <h2 style={styles.title}>Login</h2>
+        <h2 style={styles.title}>{t('login')}</h2>
         {error && <div style={styles.error}>{error}</div>}
         <form onSubmit={handleSubmit}>
           <div className="form-group" style={styles.formGroup}>
-            <label style={styles.label}>Username</label>
+            <label style={styles.label}>{t('username')}</label>
             <input
               type="text"
               name="username"
@@ -48,7 +49,7 @@ const Login = () => {
             />
           </div>
           <div className="form-group" style={styles.formGroup}>
-            <label style={styles.label}>Password</label>
+            <label style={styles.label}>{t('password')}</label>
             <input
               type="password"
               name="password"
@@ -63,7 +64,7 @@ const Login = () => {
           </button>
         </form>
         <div style={styles.footer}>
-          Don&apos;t have an account? <Link to="/register">Register</Link>
+          {t('no_account')} <Link to="/register">{t('register')}</Link>
         </div>
       </div>
     </div>

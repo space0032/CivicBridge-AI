@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-
+import { useTranslation } from 'react-i18next';
 import { healthcareService } from '../services/api';
 import { MapPin, Phone, Clock } from 'lucide-react';
+import logger from '../utils/logger';
 
 const HealthcareDetails = () => {
     const { id } = useParams();
-    // const { t } = useTranslation(); // t is unused
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const [facility, setFacility] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -17,18 +18,22 @@ const HealthcareDetails = () => {
             try {
                 setLoading(true);
                 const response = await healthcareService.getById(id);
-                setFacility(response.data.data);
+                if (response && response.data && response.data.data) {
+                    setFacility(response.data.data);
+                } else {
+                    throw new Error('Invalid API response structure');
+                }
                 setError(null);
             } catch (err) {
-                setError('Failed to load healthcare facility details');
-                console.error(err);
+                setError(t('error_loading_facility'));
+                logger.error('Failed to load healthcare facility details', err);
             } finally {
                 setLoading(false);
             }
         };
 
         fetchFacilityDetails();
-    }, [id]);
+    }, [id, t]);
 
     const getDirections = () => {
         if (facility && facility.latitude && facility.longitude) {
@@ -38,14 +43,14 @@ const HealthcareDetails = () => {
         }
     };
 
-    if (loading) return <div className="container" style={styles.container}>Loading...</div>;
+    if (loading) return <div className="container" style={styles.container}>{t('loading')}</div>;
     if (error) return <div className="container" style={styles.container}><p style={styles.error}>{error}</p></div>;
-    if (!facility) return <div className="container" style={styles.container}>Facility not found</div>;
+    if (!facility) return <div className="container" style={styles.container}>{t('facility_not_found')}</div>;
 
     return (
         <div className="container" style={styles.container}>
             <button onClick={() => navigate(-1)} style={styles.backButton}>
-                &larr; Back to Healthcare
+                &larr; {t('back_to_healthcare')}
             </button>
 
             <div style={styles.card}>
@@ -54,7 +59,7 @@ const HealthcareDetails = () => {
                     <div style={styles.badges}>
                         <span style={styles.badge}>{facility.type}</span>
                         {facility.freeServices && (
-                            <span style={styles.freeBadge}>Free Services</span>
+                            <span style={styles.freeBadge}>{t('free_services_only')}</span>
                         )}
                     </div>
                 </div>
@@ -82,7 +87,7 @@ const HealthcareDetails = () => {
 
                 {facility.services && (
                     <div style={styles.section}>
-                        <h3 style={styles.sectionTitle}>Services Offered</h3>
+                        <h3 style={styles.sectionTitle}>{t('services_offered')}</h3>
                         <p style={styles.text}>{facility.services}</p>
                     </div>
                 )}
@@ -93,7 +98,7 @@ const HealthcareDetails = () => {
                         style={styles.directionsButton}
                         onClick={getDirections}
                     >
-                        Get Directions
+                        {t('get_directions')}
                     </button>
                 </div>
             </div>

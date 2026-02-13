@@ -13,7 +13,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/voice-query")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*")
 public class AIController {
 
     private final AIService aiService;

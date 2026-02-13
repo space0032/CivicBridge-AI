@@ -3,6 +3,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { voiceService } from '../services/api';
 import { useNavigate } from 'react-router-dom';
 import { User, Mic, Calendar } from 'lucide-react';
+import logger from '../utils/logger';
 
 const Profile = () => {
     const { user, logout } = useAuth();
@@ -16,9 +17,9 @@ const Profile = () => {
                 setLoading(true);
                 // Assuming user.id exists. If using demoUser, it has id: 1
                 const response = await voiceService.getHistory(user.id);
-                setHistory(response.data.data || []);
+                setHistory(response.data?.data || []);
             } catch (err) {
-                console.error('Failed to load history', err);
+                logger.error('Failed to load history', err);
                 // Don't show error to user, just show empty history or keep loading false
             } finally {
                 setLoading(false);
