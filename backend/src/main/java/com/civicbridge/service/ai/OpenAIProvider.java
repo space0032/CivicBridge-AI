@@ -53,14 +53,17 @@ public class OpenAIProvider implements AIProvider {
 
             HttpEntity<Map<String, Object>> entity = new HttpEntity<>(body, headers);
 
-            ResponseEntity<Map> response = restTemplate.postForEntity(OPENAI_URL, entity, Map.class);
+            ResponseEntity<Map<String, Object>> response = restTemplate.postForEntity(OPENAI_URL, entity,
+                    (Class<Map<String, Object>>) (Class<?>) Map.class);
 
             // Simplified parsing - in real app use proper DTOs
             if (response.getBody() != null && response.getBody().containsKey("choices")) {
-                List choices = (List) response.getBody().get("choices");
-                if (!choices.isEmpty()) {
-                    Map firstChoice = (Map) choices.get(0);
-                    Map message = (Map) firstChoice.get("message");
+                @SuppressWarnings("unchecked")
+                List<Map<String, Object>> choices = (List<Map<String, Object>>) response.getBody().get("choices");
+                if (choices != null && !choices.isEmpty()) {
+                    Map<String, Object> firstChoice = choices.get(0);
+                    @SuppressWarnings("unchecked")
+                    Map<String, Object> message = (Map<String, Object>) firstChoice.get("message");
                     return (String) message.get("content");
                 }
             }

@@ -35,6 +35,11 @@ const Header = () => {
 
           {user ? (
             <>
+              {user.roles?.includes('ROLE_ADMIN') && (
+                <Link to="/admin" style={styles.navLink}>
+                  {t('admin')}
+                </Link>
+              )}
               <Link to="/profile" style={styles.navLink}>
                 <User size={18} style={{ marginRight: '5px' }} />
                 {user.name || t('profile')}
@@ -75,6 +80,9 @@ const Header = () => {
             <Link to="/voice-search" style={styles.mobileNavLink} onClick={toggleMenu}>{t('voice_search')}</Link>
             {user ? (
               <>
+                {user.roles?.includes('ROLE_ADMIN') && (
+                  <Link to="/admin" style={styles.mobileNavLink} onClick={toggleMenu}>{t('admin')}</Link>
+                )}
                 <Link to="/profile" style={styles.mobileNavLink} onClick={toggleMenu}>{t('profile')}</Link>
                 <button onClick={handleLogout} style={styles.mobileNavLink}>{t('logout')}</button>
               </>

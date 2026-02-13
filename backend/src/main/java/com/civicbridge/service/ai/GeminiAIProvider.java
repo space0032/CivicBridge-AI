@@ -69,21 +69,22 @@ public class GeminiAIProvider implements AIProvider {
 
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(requestBody, headers);
 
-        ResponseEntity<Map> response = restTemplate.postForEntity(url, entity, Map.class);
+        ResponseEntity<Map<String, Object>> response = restTemplate.postForEntity(url, entity,
+                (Class<Map<String, Object>>) (Class<?>) Map.class);
 
         if (response.getBody() != null && response.getBody().containsKey("candidates")) {
+            @SuppressWarnings("unchecked")
             List<Map<String, Object>> candidates = (List<Map<String, Object>>) response.getBody().get("candidates");
-            if (!candidates.isEmpty()) {
+            if (candidates != null && !candidates.isEmpty()) {
                 Map<String, Object> candidate = candidates.get(0);
+                @SuppressWarnings("unchecked")
                 Map<String, Object> contentMap = (Map<String, Object>) candidate.get("content");
-                List<Map<String, Object>> parts = (List<Map<String, Object>>) contentMap.get("content"); // Fixed:
-                                                                                                         // Gemini API
-                                                                                                         // structure is
-                                                                                                         // candidates[0].content.parts
-                // Actually structure is: candidates[].content.parts[].text
+
+                // Gemini API structure is: candidates[].content.parts[].text
                 if (contentMap != null && contentMap.containsKey("parts")) {
+                    @SuppressWarnings("unchecked")
                     List<Map<String, Object>> partsList = (List<Map<String, Object>>) contentMap.get("parts");
-                    if (!partsList.isEmpty()) {
+                    if (partsList != null && !partsList.isEmpty()) {
                         return (String) partsList.get(0).get("text");
                     }
                 }

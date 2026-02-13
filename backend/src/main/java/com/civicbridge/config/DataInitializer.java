@@ -26,14 +26,20 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        if (!userRepository.existsByUsername(adminUsername)) {
-            User admin = new User();
-            admin.setUsername(adminUsername);
-            admin.setPassword(passwordEncoder.encode(adminPassword));
-            admin.setEmail("admin@civicbridge.com");
-            admin.setRoles(new HashSet<>(Collections.singletonList("ROLE_ADMIN")));
-
-            userRepository.save(admin);
-        }
+        userRepository.findByUsername(adminUsername).ifPresentOrElse(
+                user -> {
+                    if (!user.getRoles().contains("ROLE_ADMIN")) {
+                        user.getRoles().add("ROLE_ADMIN");
+                        userRepository.save(user);
+                    }
+                },
+                () -> {
+                    User admin = new User();
+                    admin.setUsername(adminUsername);
+                    admin.setPassword(passwordEncoder.encode(adminPassword));
+                    admin.setEmail("admin@civicbridge.com");
+                    admin.setRoles(new HashSet<>(Collections.singletonList("ROLE_ADMIN")));
+                    userRepository.save(admin);
+                });
     }
 }

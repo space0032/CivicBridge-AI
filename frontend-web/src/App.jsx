@@ -46,17 +46,17 @@ function App() {
                     </ProtectedRoute>
                   } />
                   <Route path="/admin" element={
-                    <ProtectedRoute>
+                    <ProtectedRoute adminOnly={true}>
                       <AdminDashboard />
                     </ProtectedRoute>
                   } />
                   <Route path="/admin/add-program" element={
-                    <ProtectedRoute>
+                    <ProtectedRoute adminOnly={true}>
                       <AddProgram />
                     </ProtectedRoute>
                   } />
                   <Route path="/admin/add-healthcare" element={
-                    <ProtectedRoute>
+                    <ProtectedRoute adminOnly={true}>
                       <AddHealthcare />
                     </ProtectedRoute>
                   } />

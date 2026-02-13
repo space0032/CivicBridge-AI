@@ -44,8 +44,10 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/programs/**").permitAll()
-                        .requestMatchers("/healthcare/**").permitAll()
+                        .requestMatchers(org.springframework.http.HttpMethod.GET, "/programs/**").permitAll()
+                        .requestMatchers(org.springframework.http.HttpMethod.GET, "/healthcare/**").permitAll()
+                        .requestMatchers("/programs/**").hasRole("ADMIN")
+                        .requestMatchers("/healthcare/**").hasRole("ADMIN")
                         .requestMatchers("/voice-query/**").permitAll()
                         .anyRequest().authenticated());
 

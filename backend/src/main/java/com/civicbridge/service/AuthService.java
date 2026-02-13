@@ -1,6 +1,5 @@
 package com.civicbridge.service;
 
-import com.civicbridge.dto.LoginRequest;
 import com.civicbridge.dto.RegisterRequest;
 import com.civicbridge.model.User;
 import com.civicbridge.repository.jpa.UserRepository;

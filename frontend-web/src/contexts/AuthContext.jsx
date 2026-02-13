@@ -47,6 +47,7 @@ export const AuthProvider = ({ children }) => {
 
   const value = {
     user,
+    isAdmin: user?.roles?.includes('ROLE_ADMIN'),
     login,
     logout,
     loading
