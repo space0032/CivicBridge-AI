@@ -17,8 +17,14 @@ const logger = {
         }
     },
     error: (...args) => {
-        // In production, you might want to send this to a service like Sentry or LogRocket
-        console.error(...args);
+        if (isProduction) {
+            // Integration with external monitoring services (e.g., Sentry, LogRocket)
+            // Example: Sentry.captureException(args[0]);
+            // For now, we'll continue to log but acknowledge it's for production monitoring
+            console.error('[Production Error Log]:', ...args);
+        } else {
+            console.error(...args);
+        }
     }
 };
 

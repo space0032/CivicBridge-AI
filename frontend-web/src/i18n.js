@@ -44,6 +44,9 @@ const resources = {
       "loading": "Loading...",
       "no_results": "No results found",
       "error": "An error occurred",
+      "api_error_404": "Healthcare facility not found.",
+      "api_error_500": "Server error. Please try again later.",
+      "api_error_network": "Network error. Please check your internet connection.",
 
 
       "explore_resources": "Explore resources available in your area",
@@ -123,6 +126,9 @@ const resources = {
       "loading": "Cargando...",
       "no_results": "No se encontraron resultados",
       "error": "Ocurrió un error",
+      "api_error_404": "Instalación de salud no encontrada.",
+      "api_error_500": "Error del servidor. Por favor, inténtelo de nuevo más tarde.",
+      "api_error_network": "Error de red. Por favor, compruebe su conexión a Internet.",
 
 
       "explore_resources": "Explore los recursos disponibles en su área",
@@ -205,6 +211,9 @@ const resources = {
       "loading": "लोड हो रहा है...",
       "no_results": "कोई परिणाम नहीं मिला",
       "error": "एक त्रुटि हुई",
+      "api_error_404": "स्वास्थ्य सेवा सुविधा नहीं मिली।",
+      "api_error_500": "सर्वर त्रुटि। कृपया बाद में पुनः प्रयास करें।",
+      "api_error_network": "नेटवर्क त्रुटि। कृपया अपना इंटरनेट कनेक्शन जांचें।",
 
 
       "explore_resources": "अपने क्षेत्र में उपलब्ध संसाधनों का पता लगाएं",

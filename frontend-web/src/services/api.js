@@ -42,6 +42,7 @@ export const programService = {
 
 export const healthcareService = {
   getAll: (params) => api.get('/healthcare', { params }),
+  getById: (id) => api.get(`/healthcare/${id}`),
   getNearby: (latitude, longitude, radiusKm = 10) =>
     api.get('/healthcare/nearby', { params: { latitude, longitude, radiusKm } }),
   create: (data) => api.post('/healthcare', data)

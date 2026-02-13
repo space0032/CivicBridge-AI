@@ -6,6 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
+import org.springframework.data.jpa.domain.Specification;
+import static com.civicbridge.repository.jpa.HealthcareFacilitySpecifications.*;
+
 @Service
 @RequiredArgsConstructor
 public class HealthcareService {
@@ -15,6 +18,13 @@ public class HealthcareService {
 
     public List<HealthcareFacility> getAllFacilities() {
         return healthcareFacilityRepository.findByIsActiveTrue();
+    }
+
+    public List<HealthcareFacility> getFacilitiesWithCriteria(String type, Boolean freeServices) {
+        Specification<HealthcareFacility> spec = Specification.where(isActive())
+                .and(hasType(type))
+                .and(hasFreeServices(freeServices));
+        return healthcareFacilityRepository.findAll(spec);
     }
 
     public List<HealthcareFacility> getFacilitiesByType(String type) {

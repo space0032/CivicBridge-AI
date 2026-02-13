@@ -25,8 +25,25 @@ const HealthcareDetails = () => {
                 }
                 setError(null);
             } catch (err) {
-                setError(t('error_loading_facility'));
-                logger.error('Failed to load healthcare facility details', err);
+                let errorMessage = t('error_loading_facility');
+
+                if (err.response) {
+                    // Specific API error responses
+                    if (err.response.status === 404) {
+                        errorMessage = t('api_error_404');
+                    } else if (err.response.status === 500) {
+                        errorMessage = t('api_error_500');
+                    }
+                    logger.error(`API Error (${err.response.status}):`, err.response.data);
+                } else if (err.request) {
+                    // Network errors
+                    errorMessage = t('api_error_network');
+                    logger.error('Network error while loading facility details');
+                } else {
+                    logger.error('Unexpected error while loading facility details', err.message);
+                }
+
+                setError(errorMessage);
             } finally {
                 setLoading(false);
             }

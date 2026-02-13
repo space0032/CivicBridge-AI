@@ -20,10 +20,16 @@ export const getGeolocation = () => {
 };
 
 export const calculateDistance = (lat1, lon1, lat2, lon2) => {
+  // Validation for invalid latitude/longitude inputs
+  if (lat1 < -90 || lat1 > 90 || lon1 < -180 || lon1 > 180 ||
+    lat2 < -90 || lat2 > 90 || lon2 < -180 || lon2 > 180) {
+    throw new Error("Invalid latitude or longitude values");
+  }
+
   const R = 6371; // Earth's radius in km
   const dLat = (lat2 - lat1) * Math.PI / 180;
   const dLon = (lon2 - lon1) * Math.PI / 180;
-  const a = 
+  const a =
     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
     Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
     Math.sin(dLon / 2) * Math.sin(dLon / 2);
