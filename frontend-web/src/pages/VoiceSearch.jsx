@@ -41,7 +41,7 @@ const VoiceSearch = () => {
         setIsListening(false);
         processQuery(transcript);
       },
-      (error) => {
+      () => {
         setError('Failed to recognize speech. Please try again.');
         setIsListening(false);
       }
