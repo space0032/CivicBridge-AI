@@ -8,6 +8,7 @@ import com.civicbridge.model.User;
 import com.civicbridge.security.JwtTokenProvider;
 import com.civicbridge.service.AuthService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
+@Slf4j
 public class AuthController {
 
     private final AuthService authService;
@@ -30,6 +32,7 @@ public class AuthController {
             User user = authService.register(request);
             return ResponseEntity.ok(ApiResponse.success("User registered successfully", user));
         } catch (Exception e) {
+            log.error("Registration error: {}", e.getMessage());
             return ResponseEntity.badRequest()
                     .body(ApiResponse.error(e.getMessage()));
         }
@@ -43,10 +46,11 @@ public class AuthController {
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String token = jwtTokenProvider.generateToken(authentication);
-            User user = authService.findByUsername(request.getUsername());
+            User user = authService.findByUsernameOrEmail(request.getUsername());
 
             return ResponseEntity.ok(ApiResponse.success("Login successful", new AuthResponse(token, user)));
         } catch (Exception e) {
+            log.error("Login error for user {}: {}", request.getUsername(), e.getMessage());
             return ResponseEntity.badRequest()
                     .body(ApiResponse.error("Invalid credentials"));
         }

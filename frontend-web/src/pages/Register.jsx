@@ -3,11 +3,10 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../contexts/AuthContext';
 import { authService } from '../services/api';
-// Assuming authService is exported from api.js directly, or we can use a register function from context if added.
-// Looking at AuthContext, it only has login. I'll use authService directly for registration then login.
+import { sanitize, sanitizeObject } from '../utils/sanitize';
 
 const Register = () => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const [formData, setFormData] = useState({
         username: '',
         password: '',
@@ -21,7 +20,7 @@ const Register = () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
+        setFormData(prev => ({ ...prev, [name]: sanitize(value) }));
     };
 
     const handleSubmit = async (e) => {
@@ -29,13 +28,24 @@ const Register = () => {
         try {
             setError('');
             setLoading(true);
+
+            const sanitizedData = sanitizeObject(formData);
+            const payload = {
+                ...sanitizedData,
+                preferredLanguage: i18n.language || 'en',
+                region: 'Universal' // Default for new users
+            };
+
             // Register
-            await authService.register(formData);
+            await authService.register(payload);
             // Automatically login after successful registration
-            await login({ username: formData.username, password: formData.password });
+            await login({
+                username: sanitizedData.username,
+                password: sanitizedData.password
+            });
             navigate('/');
         } catch (err) {
-            setError('Failed to create an account. ' + (err.response?.data?.message || err.message));
+            setError(t('error') + ': ' + (err.response?.data?.message || err.message));
         } finally {
             setLoading(false);
         }
