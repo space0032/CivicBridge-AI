@@ -33,7 +33,7 @@ const Healthcare = () => {
     };
 
     fetchFacilities();
-  }, [filters]);
+  }, [filters, t]);
 
   const findNearby = async () => {
     try {

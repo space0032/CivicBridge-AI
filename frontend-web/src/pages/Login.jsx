@@ -25,7 +25,7 @@ const Login = () => {
       await login(credentials);
       navigate('/');
     } catch (err) {
-      setError('Failed to log in. Please check your credentials.');
+      setError(t('login_error'));
     } finally {
       setLoading(false);
     }

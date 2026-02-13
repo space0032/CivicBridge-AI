@@ -44,11 +44,11 @@ const Register = () => {
     return (
         <div className="container" style={styles.container}>
             <div style={styles.card}>
-                <h2 style={styles.title}>Create Account</h2>
+                <h2 style={styles.title}>{t('create_account')}</h2>
                 {error && <div style={styles.error}>{error}</div>}
                 <form onSubmit={handleSubmit}>
                     <div className="form-group" style={styles.formGroup}>
-                        <label style={styles.label}>Full Name</label>
+                        <label style={styles.label}>{t('full_name')}</label>
                         <input
                             type="text"
                             name="fullName"
@@ -59,7 +59,7 @@ const Register = () => {
                         />
                     </div>
                     <div className="form-group" style={styles.formGroup}>
-                        <label style={styles.label}>Email</label>
+                        <label style={styles.label}>{t('email')}</label>
                         <input
                             type="email"
                             name="email"
@@ -70,7 +70,7 @@ const Register = () => {
                         />
                     </div>
                     <div className="form-group" style={styles.formGroup}>
-                        <label style={styles.label}>Username</label>
+                        <label style={styles.label}>{t('username')}</label>
                         <input
                             type="text"
                             name="username"
@@ -81,7 +81,7 @@ const Register = () => {
                         />
                     </div>
                     <div className="form-group" style={styles.formGroup}>
-                        <label style={styles.label}>Password</label>
+                        <label style={styles.label}>{t('password')}</label>
                         <input
                             type="password"
                             name="password"
@@ -96,7 +96,7 @@ const Register = () => {
                     </button>
                 </form>
                 <div style={styles.footer}>
-                    Already have an account? <Link to="/login">Login</Link>
+                    {t('already_have_account')} <Link to="/login">{t('login_link')}</Link>
                 </div>
             </div>
         </div>
