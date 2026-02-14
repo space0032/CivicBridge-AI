@@ -59,4 +59,16 @@ public class ProgramController {
                     .body(ApiResponse.error(e.getMessage()));
         }
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse<Program>> updateProgram(@PathVariable Long id,
+            @Valid @RequestBody Program program) {
+        try {
+            Program updated = programService.updateProgram(id, program);
+            return ResponseEntity.ok(ApiResponse.success("Program updated successfully", updated));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .body(ApiResponse.error(e.getMessage()));
+        }
+    }
 }

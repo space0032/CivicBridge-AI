@@ -4,7 +4,8 @@ import { useAuth } from '../../contexts/AuthContext';
 import { PlusCircle, FileText, Heart, Activity } from 'lucide-react';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
-import { adminService } from '../../services/api';
+import { adminService, programService, healthcareService } from '../../services/api';
+import { Edit2 } from 'lucide-react';
 
 const AdminDashboard = () => {
     const { user } = useAuth();
@@ -13,19 +14,31 @@ const AdminDashboard = () => {
         totalHealthcareFacilities: 0,
         totalUsers: 0
     });
+    const [programs, setPrograms] = useState([]);
+    const [facilities, setFacilities] = useState([]);
+    const [loadingLists, setLoadingLists] = useState(false);
 
     useEffect(() => {
-        const fetchInitialStats = async () => {
+        const fetchInitialData = async () => {
             try {
-                const response = await adminService.getStats();
-                setDashboardStats(response.data);
+                setLoadingLists(true);
+                const [statsRes, programsRes, facilitiesRes] = await Promise.all([
+                    adminService.getStats(),
+                    programService.getAll(),
+                    healthcareService.getAll()
+                ]);
+                setDashboardStats(statsRes.data);
+                setPrograms(programsRes.data.data || []);
+                setFacilities(facilitiesRes.data.data || []);
             } catch (error) {
-                console.error("Failed to fetch initial stats", error);
+                console.error("Failed to fetch initial data", error);
+            } finally {
+                setLoadingLists(false);
             }
         };
 
         if (user && user.roles && user.roles.includes('ROLE_ADMIN')) {
-            fetchInitialStats();
+            fetchInitialData();
 
             const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080/api';
             const wsUrl = `${baseUrl}/ws`;
@@ -101,6 +114,82 @@ const AdminDashboard = () => {
                         <p>Register a new hospital, clinic, or vaccination center.</p>
                     </Link>
                 </div>
+            </div>
+
+            <div style={styles.managementSection}>
+                <h2 style={styles.sectionTitle}>Manage Programs</h2>
+                {loadingLists ? <p>Loading programs...</p> : (
+                    <div style={styles.tableWrapper}>
+                        <table style={styles.table}>
+                            <thead>
+                                <tr>
+                                    <th style={styles.th}>Name</th>
+                                    <th style={styles.th}>Category</th>
+                                    <th style={styles.th}>Region</th>
+                                    <th style={styles.th}>Status</th>
+                                    <th style={styles.th}>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {programs.map(program => (
+                                    <tr key={program.id} style={styles.tr}>
+                                        <td style={styles.td}>{program.name}</td>
+                                        <td style={styles.td}>{program.category}</td>
+                                        <td style={styles.td}>{program.region}</td>
+                                        <td style={styles.td}>
+                                            <span style={program.isActive ? styles.statusActive : styles.statusInactive}>
+                                                {program.isActive ? 'Active' : 'Inactive'}
+                                            </span>
+                                        </td>
+                                        <td style={styles.td}>
+                                            <Link to={`/admin/edit-program/${program.id}`} style={styles.editLink}>
+                                                <Edit2 size={18} /> Edit
+                                            </Link>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
+            </div>
+
+            <div style={styles.managementSection}>
+                <h2 style={styles.sectionTitle}>Manage Healthcare Facilities</h2>
+                {loadingLists ? <p>Loading facilities...</p> : (
+                    <div style={styles.tableWrapper}>
+                        <table style={styles.table}>
+                            <thead>
+                                <tr>
+                                    <th style={styles.th}>Name</th>
+                                    <th style={styles.th}>Type</th>
+                                    <th style={styles.th}>Address</th>
+                                    <th style={styles.th}>Status</th>
+                                    <th style={styles.th}>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {facilities.map(facility => (
+                                    <tr key={facility.id} style={styles.tr}>
+                                        <td style={styles.td}>{facility.name}</td>
+                                        <td style={styles.td}>{facility.type}</td>
+                                        <td style={styles.td}>{facility.address}</td>
+                                        <td style={styles.td}>
+                                            <span style={facility.isActive ? styles.statusActive : styles.statusInactive}>
+                                                {facility.isActive ? 'Active' : 'Inactive'}
+                                            </span>
+                                        </td>
+                                        <td style={styles.td}>
+                                            <Link to={`/admin/edit-healthcare/${facility.id}`} style={styles.editLink}>
+                                                <Edit2 size={18} /> Edit
+                                            </Link>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
             </div>
         </div>
     );
@@ -193,6 +282,59 @@ const styles = {
         padding: '40px',
         backgroundColor: '#fff1f2',
         borderRadius: '8px'
+    },
+    managementSection: {
+        marginTop: '50px'
+    },
+    tableWrapper: {
+        backgroundColor: 'white',
+        borderRadius: '8px',
+        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+        overflow: 'hidden'
+    },
+    table: {
+        width: '100%',
+        borderCollapse: 'collapse',
+        textAlign: 'left'
+    },
+    th: {
+        backgroundColor: '#f9fafb',
+        padding: '12px 15px',
+        borderBottom: '1px solid #e5e7eb',
+        color: '#374151',
+        fontWeight: '600'
+    },
+    tr: {
+        borderBottom: '1px solid #f3f4f6'
+    },
+    td: {
+        padding: '12px 15px',
+        color: '#4b5563'
+    },
+    statusActive: {
+        backgroundColor: '#d1fae5',
+        color: '#059669',
+        padding: '4px 8px',
+        borderRadius: '12px',
+        fontSize: '12px',
+        fontWeight: '600'
+    },
+    statusInactive: {
+        backgroundColor: '#f3f4f6',
+        color: '#6b7280',
+        padding: '4px 8px',
+        borderRadius: '12px',
+        fontSize: '12px',
+        fontWeight: '600'
+    },
+    editLink: {
+        display: 'flex',
+        alignItems: 'center',
+        gap: '5px',
+        color: '#2563eb',
+        textDecoration: 'none',
+        fontWeight: '500',
+        fontSize: '14px'
     }
 };
 

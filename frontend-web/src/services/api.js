@@ -39,7 +39,8 @@ api.interceptors.response.use(
 export const programService = {
   getAll: (params) => api.get('/programs', { params }),
   getById: (id) => api.get(`/programs/${id}`),
-  create: (data) => api.post('/programs', data)
+  create: (data) => api.post('/programs', data),
+  update: (id, data) => api.put(`/programs/${id}`, data)
 };
 
 export const healthcareService = {
@@ -47,7 +48,8 @@ export const healthcareService = {
   getById: (id) => api.get(`/healthcare/${id}`),
   getNearby: (latitude, longitude, radiusKm = 10) =>
     api.get('/healthcare/nearby', { params: { latitude, longitude, radiusKm } }),
-  create: (data) => api.post('/healthcare', data)
+  create: (data) => api.post('/healthcare', data),
+  update: (id, data) => api.put(`/healthcare/${id}`, data)
 };
 
 export const voiceService = {

@@ -52,6 +52,25 @@ public class HealthcareService {
         return savedFacility;
     }
 
+    public HealthcareFacility updateFacility(Long id, HealthcareFacility facilityDetails) {
+        HealthcareFacility facility = getFacilityById(id);
+        facility.setName(facilityDetails.getName());
+        facility.setType(facilityDetails.getType());
+        facility.setServices(facilityDetails.getServices());
+        facility.setAddress(facilityDetails.getAddress());
+        facility.setLatitude(facilityDetails.getLatitude());
+        facility.setLongitude(facilityDetails.getLongitude());
+        facility.setContactNumber(facilityDetails.getContactNumber());
+        facility.setOperatingHours(facilityDetails.getOperatingHours());
+        facility.setFreeServices(facilityDetails.getFreeServices());
+        facility.setIsActive(facilityDetails.getIsActive());
+
+        sanitizeFacility(facility);
+        HealthcareFacility updatedFacility = healthcareFacilityRepository.save(facility);
+        statsService.broadcastStats();
+        return updatedFacility;
+    }
+
     private void sanitizeFacility(HealthcareFacility facility) {
         if (facility.getName() != null)
             facility.setName(facility.getName().trim());

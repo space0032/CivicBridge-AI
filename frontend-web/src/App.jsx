@@ -14,7 +14,9 @@ import HealthcareDetails from './pages/HealthcareDetails';
 import Profile from './pages/Profile';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AddProgram from './pages/admin/AddProgram';
+import EditProgram from './pages/admin/EditProgram';
 import AddHealthcare from './pages/admin/AddHealthcare';
+import EditHealthcare from './pages/admin/EditHealthcare';
 import NotFound from './pages/NotFound';
 import ErrorBoundary from './components/ErrorBoundary';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -30,8 +32,8 @@ function App() {
         <Router>
           <ErrorBoundary>
             <div className="app-wrapper" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-              <Toaster 
-                position="top-center" 
+              <Toaster
+                position="top-center"
                 toastOptions={{
                   duration: 5000,
                   style: {
@@ -79,6 +81,16 @@ function App() {
                   <Route path="/admin/add-healthcare" element={
                     <ProtectedRoute adminOnly={true}>
                       <AddHealthcare />
+                    </ProtectedRoute>
+                  } />
+                  <Route path="/admin/edit-program/:id" element={
+                    <ProtectedRoute adminOnly={true}>
+                      <EditProgram />
+                    </ProtectedRoute>
+                  } />
+                  <Route path="/admin/edit-healthcare/:id" element={
+                    <ProtectedRoute adminOnly={true}>
+                      <EditHealthcare />
                     </ProtectedRoute>
                   } />
                   <Route path="*" element={<NotFound />} />

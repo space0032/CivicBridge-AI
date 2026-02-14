@@ -41,6 +41,25 @@ public class ProgramService {
         return savedProgram;
     }
 
+    public Program updateProgram(Long id, Program programDetails) {
+        Program program = getProgramById(id);
+        program.setName(programDetails.getName());
+        program.setDescription(programDetails.getDescription());
+        program.setCategory(programDetails.getCategory());
+        program.setRegion(programDetails.getRegion());
+        program.setEligibilityCriteria(programDetails.getEligibilityCriteria());
+        program.setApplicationDeadline(programDetails.getApplicationDeadline());
+        program.setBenefits(programDetails.getBenefits());
+        program.setApplicationProcess(programDetails.getApplicationProcess());
+        program.setContactInfo(programDetails.getContactInfo());
+        program.setActive(programDetails.isActive());
+
+        sanitizeProgram(program);
+        Program updatedProgram = programRepository.save(program);
+        statsService.broadcastStats();
+        return updatedProgram;
+    }
+
     private void sanitizeProgram(Program program) {
         if (program.getName() != null)
             program.setName(program.getName().trim());

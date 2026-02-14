@@ -72,4 +72,16 @@ public class HealthcareController {
                     .body(ApiResponse.error(e.getMessage()));
         }
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse<HealthcareFacility>> updateFacility(
+            @PathVariable Long id, @Valid @RequestBody HealthcareFacility facility) {
+        try {
+            HealthcareFacility updated = healthcareService.updateFacility(id, facility);
+            return ResponseEntity.ok(ApiResponse.success("Facility updated successfully", updated));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .body(ApiResponse.error(e.getMessage()));
+        }
+    }
 }
