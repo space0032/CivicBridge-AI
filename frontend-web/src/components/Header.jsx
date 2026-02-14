@@ -23,44 +23,45 @@ const Header = () => {
   return (
     <header style={styles.header}>
       <div className="container" style={styles.container}>
-        <Link to="/" style={styles.logo} onClick={() => setIsMenuOpen(false)}>
+        <Link to="/" style={styles.logo} onClick={() => setIsMenuOpen(false)} aria-label={t('home')}>
           <h1>CivicBridge AI</h1>
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="desktop-nav" style={styles.desktopNav}>
-          <Link to="/programs" style={styles.navLink}>{t('programs')}</Link>
-          <Link to="/healthcare" style={styles.navLink}>{t('healthcare')}</Link>
-          <Link to="/voice-search" style={styles.navLink}>{t('voice_search')}</Link>
+        <nav className="desktop-nav" style={styles.desktopNav} aria-label={t('main_navigation')}>
+          <Link to="/programs" style={styles.navLink} aria-label={t('programs')}>{t('programs')}</Link>
+          <Link to="/healthcare" style={styles.navLink} aria-label={t('healthcare')}>{t('healthcare')}</Link>
+          <Link to="/voice-search" style={styles.navLink} aria-label={t('voice_search')}>{t('voice_search')}</Link>
 
           {user ? (
             <>
-              <Link to="/applications" style={styles.navLink}>{t('my_applications')}</Link>
+              <Link to="/applications" style={styles.navLink} aria-label={t('my_applications')}>{t('my_applications')}</Link>
               {user.roles?.includes('ROLE_ADMIN') && (
-                <Link to="/admin" style={styles.navLink}>
+                <Link to="/admin" style={styles.navLink} aria-label={t('admin_dashboard')}>
                   {t('admin')}
                 </Link>
               )}
-              <Link to="/profile" style={styles.navLink}>
-                <User size={18} style={{ marginRight: '5px' }} />
+              <Link to="/profile" style={styles.navLink} aria-label={t('profile')}>
+                <User size={18} style={{ marginRight: '5px' }} aria-hidden="true" />
                 {user.name || t('profile')}
               </Link>
               <button
                 onClick={handleLogout}
                 style={{ ...styles.navLink, background: 'none', border: 'none', cursor: 'pointer' }}
+                aria-label={t('logout')}
               >
                 {t('logout')}
               </button>
             </>
           ) : (
-            <Link to="/login" style={styles.navLink}>{t('login')}</Link>
+            <Link to="/login" style={styles.navLink} aria-label={t('login')}>{t('login')}</Link>
           )}
 
           <select
             value={currentLanguage}
             onChange={(e) => changeLanguage(e.target.value)}
             style={styles.langSelect}
-            aria-label="Select language"
+            aria-label={t('select_language')}
           >
             <option value="en">English</option>
             <option value="es">Español</option>
@@ -69,13 +70,13 @@ const Header = () => {
         </nav>
 
         {/* Mobile Toggle */}
-        <button className="menu-toggle" style={styles.menuToggle} onClick={toggleMenu} aria-label={isMenuOpen ? t('close') : t('menu')}>
-          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        <button className="menu-toggle" style={styles.menuToggle} onClick={toggleMenu} aria-label={isMenuOpen ? t('close_menu') : t('open_menu')}>
+          {isMenuOpen ? <X size={24} aria-hidden="true" /> : <Menu size={24} aria-hidden="true" />}
         </button>
 
         {/* Mobile Nav */}
         {isMenuOpen && (
-          <nav style={styles.mobileNav}>
+          <nav style={styles.mobileNav} aria-label={t('mobile_navigation')}>
             <Link to="/programs" style={styles.mobileNavLink} onClick={toggleMenu}>{t('programs')}</Link>
             <Link to="/healthcare" style={styles.mobileNavLink} onClick={toggleMenu}>{t('healthcare')}</Link>
             <Link to="/voice-search" style={styles.mobileNavLink} onClick={toggleMenu}>{t('voice_search')}</Link>
@@ -99,6 +100,7 @@ const Header = () => {
                   toggleMenu();
                 }}
                 style={styles.langSelect}
+                aria-label={t('select_language')}
               >
                 <option value="en">English</option>
                 <option value="es">Español</option>

@@ -1,0 +1,21 @@
+﻿
+> civicbridge-web@1.0.0 lint
+> eslint src --ext js,jsx
+
+
+C:\Users\antar\IdeaProjects\CivicBridge-AI\frontend-web\src\App.test.jsx
+  4:13  warning  'AuthContext' is defined but never used  no-unused-vars
+
+C:\Users\antar\IdeaProjects\CivicBridge-AI\frontend-web\src\i18n.js
+  44:7  error  Duplicate key 'admin_dashboard'  no-dupe-keys
+  54:7  error  Duplicate key 'programs'         no-dupe-keys
+  55:7  error  Duplicate key 'healthcare'       no-dupe-keys
+  56:7  error  Duplicate key 'education'        no-dupe-keys
+  57:7  error  Duplicate key 'employment'       no-dupe-keys
+  58:7  error  Duplicate key 'agriculture'      no-dupe-keys
+  59:7  error  Duplicate key 'voice_search'     no-dupe-keys
+  66:7  error  Duplicate key 'login'            no-dupe-keys
+  69:7  error  Duplicate key 'logout'           no-dupe-keys
+
+Γ£û 10 problems (9 errors, 1 warning)
+

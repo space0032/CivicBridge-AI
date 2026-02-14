@@ -38,6 +38,7 @@ const Healthcare = () => {
   const findNearby = async () => {
     try {
       setLoading(true);
+      setError(null);
       const coords = await getGeolocation();
       setLocation(coords);
 
@@ -47,9 +48,17 @@ const Healthcare = () => {
         10
       );
       setFacilities(response.data.data || []);
-      setError(null);
     } catch (err) {
-      setError(t('error_loading_facility'));
+      let errorMessage = t('error_loading_facility');
+      if (err.code === 1) { // PERMISSION_DENIED
+        errorMessage = t('geolocation_permission_denied');
+      } else if (err.code === 2) { // POSITION_UNAVAILABLE
+        errorMessage = t('geolocation_position_unavailable');
+      } else if (err.code === 3) { // TIMEOUT
+        errorMessage = t('geolocation_timeout');
+      }
+
+      setError(errorMessage);
       logger.error('Failed to get your location or find nearby facilities', err);
     } finally {
       setLoading(false);

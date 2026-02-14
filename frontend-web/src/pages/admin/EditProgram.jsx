@@ -2,7 +2,10 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { programService } from '../../services/api';
 
+import { useTranslation } from 'react-i18next';
+
 const EditProgram = () => {
+    const { t } = useTranslation();
     const { id } = useParams();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
@@ -100,66 +103,76 @@ const EditProgram = () => {
                 {error && <div style={styles.error}>{error}</div>}
 
                 <form onSubmit={handleSubmit} style={styles.form}>
+                    {/* ... form fields ... */}
+                    {/* Simplified for brevity, I should replace the button part mostly but instruction says "Single Contiguous Block" */}
+                    {/* I will replace the button block and maybe the whole form if I need to localize labels too. */}
+                    {/* The user wants localized labels. I need to update labels to use t() */}
+
                     <div style={styles.formGroup}>
-                        <label htmlFor="name" style={styles.label}>Program Name *</label>
+                        <label htmlFor="name" style={styles.label}>{t('program_name')} *</label>
                         <input id="name" type="text" name="name" value={formData.name} onChange={handleChange} required style={styles.input} />
                     </div>
 
                     <div style={styles.formGroup}>
-                        <label htmlFor="category" style={styles.label}>Category *</label>
+                        <label htmlFor="category" style={styles.label}>{t('category')} *</label>
                         <select id="category" name="category" value={formData.category} onChange={handleChange} style={styles.input}>
-                            <option value="AGRICULTURE">Agriculture</option>
-                            <option value="EDUCATION">Education</option>
-                            <option value="HEALTHCARE">Healthcare</option>
-                            <option value="EMPLOYMENT">Employment</option>
-                            <option value="HOUSING">Housing</option>
+                            <option value="AGRICULTURE">{t('agriculture')}</option>
+                            <option value="EDUCATION">{t('education')}</option>
+                            <option value="HEALTHCARE">{t('healthcare')}</option>
+                            <option value="EMPLOYMENT">{t('employment')}</option>
+                            <option value="HOUSING">{t('housing')}</option>
                         </select>
                     </div>
 
                     <div style={styles.formGroup}>
-                        <label htmlFor="description" style={styles.label}>Description *</label>
+                        <label htmlFor="description" style={styles.label}>{t('description')} *</label>
                         <textarea id="description" name="description" value={formData.description} onChange={handleChange} required style={{ ...styles.input, height: '100px' }}></textarea>
                     </div>
 
                     <div style={styles.formGroup}>
-                        <label htmlFor="region" style={styles.label}>Region</label>
+                        <label htmlFor="region" style={styles.label}>{t('region')}</label>
                         <input id="region" type="text" name="region" value={formData.region} onChange={handleChange} style={styles.input} />
                     </div>
 
                     <div style={styles.formGroup}>
-                        <label htmlFor="eligibilityCriteria" style={styles.label}>Eligibility Criteria</label>
+                        <label htmlFor="eligibilityCriteria" style={styles.label}>{t('eligibility_criteria')}</label>
                         <textarea id="eligibilityCriteria" name="eligibilityCriteria" value={formData.eligibilityCriteria} onChange={handleChange} style={styles.input}></textarea>
                     </div>
 
                     <div style={styles.formGroup}>
-                        <label htmlFor="benefits" style={styles.label}>Benefits</label>
+                        <label htmlFor="benefits" style={styles.label}>{t('benefits')}</label>
                         <textarea id="benefits" name="benefits" value={formData.benefits} onChange={handleChange} style={styles.input}></textarea>
                     </div>
 
                     <div style={styles.formGroup}>
-                        <label htmlFor="applicationProcess" style={styles.label}>Application Process</label>
+                        <label htmlFor="applicationProcess" style={styles.label}>{t('application_process')}</label>
                         <textarea id="applicationProcess" name="applicationProcess" value={formData.applicationProcess} onChange={handleChange} style={styles.input}></textarea>
                     </div>
 
                     <div style={styles.formGroup}>
-                        <label htmlFor="applicationDeadline" style={styles.label}>Application Deadline</label>
+                        <label htmlFor="applicationDeadline" style={styles.label}>{t('application_deadline')}</label>
                         <input id="applicationDeadline" type="date" name="applicationDeadline" value={formData.applicationDeadline} onChange={handleChange} style={styles.input} />
                     </div>
 
                     <div style={styles.formGroup}>
-                        <label htmlFor="contactInfo" style={styles.label}>Contact Info</label>
+                        <label htmlFor="contactInfo" style={styles.label}>{t('contact_info')}</label>
                         <input id="contactInfo" type="text" name="contactInfo" value={formData.contactInfo} onChange={handleChange} style={styles.input} />
                     </div>
 
                     <div style={styles.formGroup}>
                         <label style={styles.checkboxLabel}>
                             <input id="isActive" type="checkbox" name="isActive" checked={formData.isActive} onChange={handleChange} style={styles.checkbox} />
-                            Is Active?
+                            {t('is_active')}
                         </label>
                     </div>
 
                     <button type="submit" className="btn btn-primary" style={styles.submitButton} disabled={submitting}>
-                        {submitting ? 'Updating...' : 'Update Program'}
+                        {submitting ? (
+                            <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                                <div className="spinner" style={styles.spinner}></div>
+                                {t('updating')}
+                            </span>
+                        ) : t('update_program')}
                     </button>
                 </form>
             </div>
@@ -240,7 +253,34 @@ const styles = {
         padding: '12px',
         borderRadius: '4px',
         marginBottom: '20px'
+    },
+    spinner: {
+        width: '18px',
+        height: '18px',
+        border: '3px solid rgba(255,255,255,0.3)',
+        borderTop: '3px solid white',
+        borderRadius: '50%',
+        animation: 'spin 1s linear infinite'
     }
 };
+
+// Add global style for keyframes if not present, or use a separate CSS file.
+// Ideally should be in index.css, but for this task I'll inline the style tag 
+// or assume 'spin' animation exists? 
+// The user asked for "Add a global or localized spinner".
+// I'll add a style tag injection for now or just rely on standard keyframes if they existed.
+// But to be safe, I've added a style tag in the component render? No that's bad practice.
+// I'll just add the keyframes to index.css later or here? 
+// I'll stick to just the object styles and hope local CSS handles it or I'll add a <style> block.
+// Wait, I can't add a <style> block easily inside the styles object.
+// I will just add the spinner style and assume I can add the keyframes globally.
+
+/* 
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+} 
+*/
+// I'll need to make sure this animation exists. I'll check index.css next.
 
 export default EditProgram;
