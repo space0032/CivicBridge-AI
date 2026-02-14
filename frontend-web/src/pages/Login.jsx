@@ -38,7 +38,7 @@ const Login = () => {
           <h1 style={styles.title}>{t('login')}</h1>
           <p style={styles.subtitle}>Access your account to get started.</p>
         </div>
-        
+
         {error && <div style={styles.error}>{error}</div>}
 
         <form onSubmit={handleSubmit}>
@@ -66,14 +66,14 @@ const Login = () => {
               style={styles.input}
             />
           </div>
-          <button disabled={loading} type="submit" className="btn btn-primary" style={styles.button}>
+          <button disabled={loading} type="submit" className="btn btn-primary" style={styles.button} aria-label={loading ? t('logging_in') : t('login')}>
             {loading ? t('logging_in') : t('login')}
           </button>
         </form>
 
         <div style={styles.footer}>
           {t('no_account')}{' '}
-          <Link to="/register" style={styles.link}>{t('register')}</Link>
+          <Link to="/register" style={styles.link} aria-label={t('register')}>{t('register')}</Link>
         </div>
       </div>
     </div>

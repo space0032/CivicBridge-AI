@@ -115,7 +115,7 @@ const Register = () => {
 
                 <div style={styles.footer}>
                     {t('already_have_account')}{' '}
-                    <Link to="/login" style={styles.link}>{t('login_link')}</Link>
+                    <Link to="/login" style={styles.link}>{t('login')}</Link>
                 </div>
             </div>
         </div>

@@ -287,6 +287,9 @@ Process Request
 5. **SQL Injection Prevention**: Parameterized queries
 6. **CORS**: Configured allowed origins
 7. **Rate Limiting**: API rate limits per user/IP
+8. **CSRF Protection**:
+   - The application uses stateless JWT authentication, which naturally mitigates CSRF attacks as tokens are not automatically sent by the browser like cookies.
+   - For any cookie-based sessions, `SameSite=Strict` and `Secure` flags are enforced to prevent cross-site request forgery.
 
 ## Scalability Considerations
 

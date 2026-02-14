@@ -87,7 +87,7 @@ const Header = () => {
                   <Link to="/admin" style={styles.mobileNavLink} onClick={toggleMenu}>{t('admin')}</Link>
                 )}
                 <Link to="/profile" style={styles.mobileNavLink} onClick={toggleMenu}>{t('profile')}</Link>
-                <button onClick={handleLogout} style={styles.mobileNavLink}>{t('logout')}</button>
+                <button onClick={handleLogout} style={styles.mobileNavLink} aria-label={t('logout')}>{t('logout')}</button>
               </>
             ) : (
               <Link to="/login" style={styles.mobileNavLink} onClick={toggleMenu}>{t('login')}</Link>
