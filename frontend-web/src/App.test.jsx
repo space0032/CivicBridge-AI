@@ -5,10 +5,11 @@ import App from './App';
 describe('App', () => {
     it('renders the header and footer', () => {
         render(<App />);
-        
+
         // Check for header content
-        expect(screen.getByRole('banner')).toBeInTheDocument();
-        expect(screen.getByText('CivicBridge AI')).toBeInTheDocument();
+        const header = screen.getByRole('banner');
+        expect(header).toBeInTheDocument();
+        expect(header).toHaveTextContent('CivicBridge AI');
 
         // Check for footer content
         expect(screen.getByRole('contentinfo')).toBeInTheDocument();

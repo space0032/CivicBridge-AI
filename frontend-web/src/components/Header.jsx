@@ -28,7 +28,7 @@ const Header = () => {
         </Link>
 
         {/* Desktop Nav */}
-        <nav style={styles.desktopNav}>
+        <nav className="desktop-nav" style={styles.desktopNav}>
           <Link to="/programs" style={styles.navLink}>{t('programs')}</Link>
           <Link to="/healthcare" style={styles.navLink}>{t('healthcare')}</Link>
           <Link to="/voice-search" style={styles.navLink}>{t('voice_search')}</Link>
@@ -69,7 +69,7 @@ const Header = () => {
         </nav>
 
         {/* Mobile Toggle */}
-        <button style={styles.menuToggle} onClick={toggleMenu} aria-label={isMenuOpen ? t('close') : t('menu')}>
+        <button className="menu-toggle" style={styles.menuToggle} onClick={toggleMenu} aria-label={isMenuOpen ? t('close') : t('menu')}>
           {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
 
@@ -136,10 +136,7 @@ const styles = {
   desktopNav: {
     display: 'flex',
     gap: '20px',
-    alignItems: 'center',
-    '@media (max-width: 768px)': {
-      display: 'none'
-    }
+    alignItems: 'center'
   },
   navLink: {
     color: 'white',
@@ -163,13 +160,9 @@ const styles = {
     border: 'none',
     color: 'white',
     cursor: 'pointer',
-    zIndex: 1001,
-    '@media (max-width: 768px)': {
-      display: 'block'
-    }
+    zIndex: 1001
   },
   mobileNav: {
-    display: 'none',
     position: 'fixed',
     top: 0,
     left: 0,
@@ -180,9 +173,7 @@ const styles = {
     flexDirection: 'column',
     gap: '15px',
     zIndex: 1000,
-    '@media (max-width: 768px)': {
-      display: 'flex'
-    }
+    display: 'none'
   },
   mobileNavLink: {
     color: 'white',

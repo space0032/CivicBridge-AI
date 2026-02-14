@@ -124,4 +124,13 @@ body {
   body {
     font-size: 15px;
   }
+  .desktop-nav {
+    display: none !important;
+  }
+  .menu-toggle {
+    display: block !important;
+  }
+  .mobile-nav {
+    display: flex !important;
+  }
 }
