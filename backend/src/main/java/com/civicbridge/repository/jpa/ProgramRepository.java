@@ -9,14 +9,17 @@ import java.util.List;
 
 @Repository
 public interface ProgramRepository extends JpaRepository<Program, Long> {
-    List<Program> findByCategory(String category);
-    List<Program> findByRegion(String region);
-    List<Program> findByCategoryAndRegion(String category, String region);
-    List<Program> findByIsActiveTrue();
-    
-    @Query("SELECT p FROM Program p WHERE p.isActive = true AND " +
-           "(:category IS NULL OR p.category = :category) AND " +
-           "(:region IS NULL OR p.region = :region)")
-    List<Program> findByFilters(@Param("category") String category, 
-                                @Param("region") String region);
+       List<Program> findByCategory(String category);
+
+       List<Program> findByRegion(String region);
+
+       List<Program> findByCategoryAndRegion(String category, String region);
+
+       List<Program> findByIsActiveTrue();
+
+       @Query("SELECT p FROM Program p WHERE p.isActive = true AND " +
+                     "(:category IS NULL OR p.category = :category) AND " +
+                     "(:region IS NULL OR LOWER(p.region) LIKE LOWER(CONCAT('%', :region, '%')))")
+       List<Program> findByFilters(@Param("category") String category,
+                     @Param("region") String region);
 }
