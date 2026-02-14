@@ -69,8 +69,10 @@ const AdminDashboard = () => {
 
     return (
         <div className="container" style={styles.container}>
-            <h1 style={styles.title}>Admin Dashboard</h1>
-            <p style={styles.subtitle}>Welcome back, {user.name}</p>
+            <div style={styles.header}>
+                <h1 style={styles.title}>Admin Dashboard</h1>
+                <p style={styles.subtitle}>Welcome back, {user.name}. Here's a real-time overview of the platform.</p>
+            </div>
 
             <div style={styles.statsGrid}>
                 {stats.map((stat, index) => (
@@ -90,13 +92,13 @@ const AdminDashboard = () => {
                     <Link to="/admin/add-program" style={styles.actionCard}>
                         <PlusCircle size={32} style={styles.actionIcon} />
                         <h3>Add Program</h3>
-                        <p>Create a new government scheme or subsidy listing</p>
+                        <p>Create a new government scheme or subsidy listing.</p>
                     </Link>
 
                     <Link to="/admin/add-healthcare" style={styles.actionCard}>
                         <PlusCircle size={32} style={styles.actionIcon} />
                         <h3>Add Healthcare Facility</h3>
-                        <p>Register a new hospital, clinic, or vaccination center</p>
+                        <p>Register a new hospital, clinic, or vaccination center.</p>
                     </Link>
                 </div>
             </div>
@@ -111,6 +113,9 @@ const styles = {
         maxWidth: '1000px',
         margin: '0 auto'
     },
+    header: {
+        marginBottom: '40px'
+    },
     title: {
         fontSize: '32px',
         color: '#1f2937',
@@ -118,26 +123,25 @@ const styles = {
     },
     subtitle: {
         color: '#6b7280',
-        marginBottom: '40px',
         fontSize: '18px'
     },
     statsGrid: {
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
         gap: '20px',
-        marginBottom: '40px'
+        marginBottom: '50px'
     },
     statCard: {
         backgroundColor: 'white',
-        padding: '20px',
+        padding: '25px',
         borderRadius: '8px',
-        boxShadow: '0 2px 4px rgba(0,0,0,0.05)',
+        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
         display: 'flex',
         alignItems: 'center',
-        gap: '15px'
+        gap: '20px'
     },
     statIcon: {
-        padding: '10px',
+        padding: '12px',
         backgroundColor: '#f3f4f6',
         borderRadius: '50%'
     },
@@ -145,7 +149,7 @@ const styles = {
         flex: 1
     },
     statValue: {
-        fontSize: '24px',
+        fontSize: '28px',
         fontWeight: 'bold',
         color: '#1f2937',
         margin: 0
@@ -161,7 +165,9 @@ const styles = {
     sectionTitle: {
         fontSize: '24px',
         color: '#1f2937',
-        marginBottom: '20px'
+        marginBottom: '20px',
+        borderBottom: '1px solid #e5e7eb',
+        paddingBottom: '10px'
     },
     actionGrid: {
         display: 'grid',
@@ -175,16 +181,18 @@ const styles = {
         boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
         textDecoration: 'none',
         color: 'inherit',
-        transition: 'transform 0.2s',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        textAlign: 'center',
+        transition: 'transform 0.2s, box-shadow 0.2s',
         border: '1px solid #e5e7eb'
     },
     actionIcon: {
         color: '#2563eb',
         marginBottom: '15px'
+    },
+    accessDenied: {
+        textAlign: 'center',
+        padding: '40px',
+        backgroundColor: '#fff1f2',
+        borderRadius: '8px'
     }
 };
 

@@ -35,6 +35,7 @@ const Header = () => {
 
           {user ? (
             <>
+              <Link to="/applications" style={styles.navLink}>{t('my_applications')}</Link>
               {user.roles?.includes('ROLE_ADMIN') && (
                 <Link to="/admin" style={styles.navLink}>
                   {t('admin')}
@@ -80,6 +81,7 @@ const Header = () => {
             <Link to="/voice-search" style={styles.mobileNavLink} onClick={toggleMenu}>{t('voice_search')}</Link>
             {user ? (
               <>
+                <Link to="/applications" style={styles.mobileNavLink} onClick={toggleMenu}>{t('my_applications')}</Link>
                 {user.roles?.includes('ROLE_ADMIN') && (
                   <Link to="/admin" style={styles.mobileNavLink} onClick={toggleMenu}>{t('admin')}</Link>
                 )}

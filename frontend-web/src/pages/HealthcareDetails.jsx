@@ -26,23 +26,16 @@ const HealthcareDetails = () => {
                 setError(null);
             } catch (err) {
                 let errorMessage = t('error_loading_facility');
-
                 if (err.response) {
-                    // Specific API error responses
-                    if (err.response.status === 404) {
-                        errorMessage = t('api_error_404');
-                    } else if (err.response.status === 500) {
-                        errorMessage = t('api_error_500');
-                    }
+                    if (err.response.status === 404) errorMessage = t('api_error_404');
+                    else if (err.response.status === 500) errorMessage = t('api_error_500');
                     logger.error(`API Error (${err.response.status}):`, err.response.data);
                 } else if (err.request) {
-                    // Network errors
                     errorMessage = t('api_error_network');
                     logger.error('Network error while loading facility details');
                 } else {
                     logger.error('Unexpected error while loading facility details', err.message);
                 }
-
                 setError(errorMessage);
             } finally {
                 setLoading(false);
@@ -53,9 +46,9 @@ const HealthcareDetails = () => {
     }, [id, t]);
 
     const getDirections = () => {
-        if (facility && facility.latitude && facility.longitude) {
+        if (facility?.latitude && facility?.longitude) {
             window.open(`https://www.google.com/maps/dir/?api=1&destination=${facility.latitude},${facility.longitude}`, '_blank');
-        } else if (facility && facility.address) {
+        } else if (facility?.address) {
             window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(facility.address)}`, '_blank');
         }
     };
@@ -65,12 +58,12 @@ const HealthcareDetails = () => {
     if (!facility) return <div className="container" style={styles.container}>{t('facility_not_found')}</div>;
 
     return (
-        <div className="container" style={styles.container}>
-            <button onClick={() => navigate(-1)} style={styles.backButton}>
-                &larr; {t('back_to_healthcare')}
-            </button>
-
+        <div style={styles.container}>
             <div style={styles.card}>
+                <button onClick={() => navigate(-1)} style={styles.backButton}>
+                    &larr; {t('back_to_healthcare')}
+                </button>
+
                 <div style={styles.header}>
                     <h1 style={styles.title}>{facility.name}</h1>
                     <div style={styles.badges}>
@@ -82,24 +75,9 @@ const HealthcareDetails = () => {
                 </div>
 
                 <div style={styles.grid}>
-                    {facility.address && (
-                        <div style={styles.infoItem}>
-                            <div style={styles.iconWrapper}><MapPin size={20} /></div>
-                            <p>{facility.address}</p>
-                        </div>
-                    )}
-                    {facility.contactNumber && (
-                        <div style={styles.infoItem}>
-                            <div style={styles.iconWrapper}><Phone size={20} /></div>
-                            <p>{facility.contactNumber}</p>
-                        </div>
-                    )}
-                    {facility.operatingHours && (
-                        <div style={styles.infoItem}>
-                            <div style={styles.iconWrapper}><Clock size={20} /></div>
-                            <p>{facility.operatingHours}</p>
-                        </div>
-                    )}
+                    {facility.address && <InfoItem icon={<MapPin size={20} />} text={facility.address} />}
+                    {facility.contactNumber && <InfoItem icon={<Phone size={20} />} text={facility.contactNumber} />}
+                    {facility.operatingHours && <InfoItem icon={<Clock size={20} />} text={facility.operatingHours} />}
                 </div>
 
                 {facility.services && (
@@ -110,11 +88,7 @@ const HealthcareDetails = () => {
                 )}
 
                 <div style={styles.actions}>
-                    <button
-                        className="btn btn-primary"
-                        style={styles.directionsButton}
-                        onClick={getDirections}
-                    >
+                    <button className="btn btn-primary" style={styles.directionsButton} onClick={getDirections}>
                         {t('get_directions')}
                     </button>
                 </div>
@@ -123,10 +97,24 @@ const HealthcareDetails = () => {
     );
 };
 
+const InfoItem = ({ icon, text }) => (
+    <div style={styles.infoItem}>
+        <div style={styles.iconWrapper}>{icon}</div>
+        <p>{text}</p>
+    </div>
+);
+
 const styles = {
     container: {
-        paddingTop: '40px',
-        paddingBottom: '40px',
+        padding: '40px 20px',
+        backgroundColor: '#f9fafb',
+        minHeight: '100vh'
+    },
+    card: {
+        backgroundColor: 'white',
+        padding: '40px',
+        borderRadius: '8px',
+        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
         maxWidth: '800px',
         margin: '0 auto'
     },
@@ -136,15 +124,7 @@ const styles = {
         color: '#2563eb',
         cursor: 'pointer',
         marginBottom: '20px',
-        fontSize: '16px',
-        display: 'flex',
-        alignItems: 'center'
-    },
-    card: {
-        backgroundColor: 'white',
-        padding: '40px',
-        borderRadius: '8px',
-        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+        fontSize: '16px'
     },
     header: {
         marginBottom: '30px',
@@ -154,11 +134,12 @@ const styles = {
     title: {
         fontSize: '32px',
         color: '#1f2937',
-        marginBottom: '10px'
+        marginBottom: '15px'
     },
     badges: {
         display: 'flex',
-        gap: '10px'
+        gap: '10px',
+        flexWrap: 'wrap'
     },
     badge: {
         backgroundColor: '#dbeafe',
@@ -192,15 +173,15 @@ const styles = {
     grid: {
         display: 'grid',
         gap: '20px',
-        marginBottom: '30px',
-        backgroundColor: '#f9fafb',
-        padding: '20px',
-        borderRadius: '8px'
+        marginBottom: '30px'
     },
     infoItem: {
         display: 'flex',
         alignItems: 'center',
-        gap: '15px'
+        gap: '15px',
+        backgroundColor: '#f9fafb',
+        padding: '15px',
+        borderRadius: '8px'
     },
     iconWrapper: {
         color: '#6b7280'
@@ -215,7 +196,8 @@ const styles = {
         padding: '12px 24px'
     },
     error: {
-        color: '#dc2626'
+        color: '#dc2626',
+        textAlign: 'center'
     }
 };
 

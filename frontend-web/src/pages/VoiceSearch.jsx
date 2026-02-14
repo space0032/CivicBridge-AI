@@ -99,32 +99,35 @@ const VoiceSearch = () => {
   };
 
   return (
-    <div className="container">
-      <h1 className="title">{t('voice_search')}</h1>
-      <p className="subtitle">
-        {t('ask_questions')}
-      </p>
+    <div className="container" style={styles.container}>
+      <div style={styles.header}>
+        <h1 style={styles.title}>{t('voice_search')}</h1>
+        <p style={styles.subtitle}>{t('ask_questions')}</p>
+      </div>
 
-      <div className="voiceBox">
+      <div style={styles.voiceBox}>
         <button
           onClick={handleVoiceInput}
-          className={`voiceButton ${isListening ? 'voiceButtonListening' : 'voiceButtonIdle'}`}
+          style={{
+            ...styles.voiceButton,
+            ...(isListening ? styles.voiceButtonListening : styles.voiceButtonIdle)
+          }}
           aria-label={isListening ? 'Stop listening' : 'Start voice input'}
         >
-          {isListening ? <MicOff size={48} /> : <Mic size={48} />}
+          {isListening ? <MicOff size={64} /> : <Mic size={64} />}
         </button>
-        <p className="voiceStatus">
+        <p style={styles.voiceStatus}>
           {isListening ? t('listening') : t('click_to_speak')}
         </p>
       </div>
 
-      <form onSubmit={handleTextSubmit} className="form">
+      <form onSubmit={handleTextSubmit} style={styles.form}>
         <input
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Or type your question here..."
-          className="input"
+          style={styles.input}
         />
         <button
           type="submit"
@@ -135,27 +138,27 @@ const VoiceSearch = () => {
         </button>
       </form>
 
-      {error && <p className="error">{error}</p>}
+      {error && <p style={styles.error}>{error}</p>}
 
       {response && (
-        <div className="responseBox">
-          <div className="responseHeader">
+        <div style={styles.responseBox}>
+          <div style={styles.responseHeader}>
             <h3>Response:</h3>
             <button
               onClick={speakResponse}
-              className="speakButton"
+              style={styles.speakButton}
               aria-label="Speak response"
             >
               <Volume2 size={20} />
             </button>
           </div>
-          <p className="responseText">{response}</p>
+          <p>{response}</p>
         </div>
       )}
 
-      <div className="examples">
-        <h3 className="examplesTitle">Example Questions:</h3>
-        <ul className="examplesList">
+      <div style={styles.examples}>
+        <h3 style={styles.examplesTitle}>Example Questions:</h3>
+        <ul style={styles.examplesList}>
           <li onClick={() => setQuery('What government subsidies are available for farmers?')}>
             &quot;What government subsidies are available for farmers?&quot;
           </li>
@@ -172,6 +175,103 @@ const VoiceSearch = () => {
       </div>
     </div>
   );
+};
+
+const styles = {
+  container: {
+    paddingTop: '40px',
+    paddingBottom: '40px',
+    maxWidth: '800px',
+    margin: '0 auto'
+  },
+  header: {
+    textAlign: 'center',
+    marginBottom: '40px'
+  },
+  title: {
+    fontSize: '36px',
+    color: '#1f2937',
+    marginBottom: '10px'
+  },
+  subtitle: {
+    fontSize: '18px',
+    color: '#6b7280'
+  },
+  voiceBox: {
+    textAlign: 'center',
+    marginBottom: '40px'
+  },
+  voiceButton: {
+    width: '120px',
+    height: '120px',
+    borderRadius: '50%',
+    border: 'none',
+    cursor: 'pointer',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    color: 'white',
+    transition: 'background-color 0.3s, transform 0.2s'
+  },
+  voiceButtonIdle: {
+    backgroundColor: '#2563eb'
+  },
+  voiceButtonListening: {
+    backgroundColor: '#dc2626',
+    transform: 'scale(1.1)'
+  },
+  voiceStatus: {
+    marginTop: '15px',
+    fontSize: '16px',
+    color: '#4b5563'
+  },
+  form: {
+    display: 'flex',
+    gap: '10px',
+    marginBottom: '30px'
+  },
+  input: {
+    flex: 1,
+    padding: '12px',
+    fontSize: '16px',
+    borderRadius: '4px',
+    border: '1px solid #d1d5db'
+  },
+  error: {
+    color: '#dc2626',
+    textAlign: 'center',
+    marginBottom: '20px'
+  },
+  responseBox: {
+    backgroundColor: '#f9fafb',
+    padding: '20px',
+    borderRadius: '8px',
+    marginBottom: '30px'
+  },
+  responseHeader: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '10px'
+  },
+  speakButton: {
+    background: 'none',
+    border: 'none',
+    cursor: 'pointer'
+  },
+  examples: {
+    marginTop: '40px'
+  },
+  examplesTitle: {
+    fontSize: '20px',
+    marginBottom: '15px'
+  },
+  examplesList: {
+    listStyle: 'none',
+    padding: 0,
+    display: 'grid',
+    gap: '10px'
+  }
 };
 
 export default VoiceSearch;

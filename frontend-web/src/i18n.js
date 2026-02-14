@@ -47,8 +47,6 @@ const resources = {
       "api_error_404": "Healthcare facility not found.",
       "api_error_500": "Server error. Please try again later.",
       "api_error_network": "Network error. Please check your internet connection.",
-
-
       "explore_resources": "Explore resources available in your area",
       "find_nearby_hospitals": "Find nearby hospitals, clinics, and free vaccination programs",
       "discover_scholarships": "Discover scholarships and educational opportunities",
@@ -90,7 +88,17 @@ const resources = {
       "unexpected_error": "We're sorry, but an unexpected error has occurred.",
       "refresh_page": "Refresh Page",
       "menu": "Menu",
-      "close": "Close"
+      "close": "Close",
+      "my_applications": "My Applications",
+      "apply_for": "Apply for",
+      "email_address": "Email Address",
+      "submit_application": "Submit Application",
+      "application_submitted": "Application submitted successfully!",
+      "error_submitting_application": "Failed to submit application.",
+      "no_applications_found": "You have not submitted any applications yet.",
+      "status": "Status",
+      "submitted_on": "Submitted On",
+      "error_loading_applications": "Failed to load applications."
     }
   },
   es: {
@@ -129,8 +137,6 @@ const resources = {
       "api_error_404": "Instalación de salud no encontrada.",
       "api_error_500": "Error del servidor. Por favor, inténtelo de nuevo más tarde.",
       "api_error_network": "Error de red. Por favor, compruebe su conexión a Internet.",
-
-
       "explore_resources": "Explore los recursos disponibles en su área",
       "find_nearby_hospitals": "Encuentre hospitales, clínicas y programas de vacunación gratuitos cercanos",
       "discover_scholarships": "Descubra becas y oportunidades educativas",
@@ -173,7 +179,17 @@ const resources = {
       "unexpected_error": "Lo sentimos, pero ha ocurrido un error inesperado.",
       "refresh_page": "Actualizar página",
       "menu": "Menú",
-      "close": "Cerrar"
+      "close": "Cerrar",
+      "my_applications": "Mis Solicitudes",
+      "apply_for": "Aplicar para",
+      "email_address": "Dirección de correo electrónico",
+      "submit_application": "Enviar Solicitud",
+      "application_submitted": "¡Solicitud enviada con éxito!",
+      "error_submitting_application": "Error al enviar la solicitud.",
+      "no_applications_found": "Aún no has enviado ninguna solicitud.",
+      "status": "Estado",
+      "submitted_on": "Enviado el",
+      "error_loading_applications": "Error al cargar las solicitudes."
     }
   },
   hi: {
@@ -214,8 +230,6 @@ const resources = {
       "api_error_404": "स्वास्थ्य सेवा सुविधा नहीं मिली।",
       "api_error_500": "सर्वर त्रुटि। कृपया बाद में पुनः प्रयास करें।",
       "api_error_network": "नेटवर्क त्रुटि। कृपया अपना इंटरनेट कनेक्शन जांचें।",
-
-
       "explore_resources": "अपने क्षेत्र में उपलब्ध संसाधनों का पता लगाएं",
       "find_nearby_hospitals": "आसपास के अस्पताल, क्लीनिक और मुफ्त टीकाकरण कार्यक्रम खोजें",
       "discover_scholarships": "छात्रवृत्ति और शैक्षिक अवसरों की खोज करें",
@@ -255,10 +269,20 @@ const resources = {
       "listening": "सुन रहा है...",
       "click_to_speak": "बोलने के लिए क्लिक करें",
       "something_went_wrong": "कुछ गलत हो गया।",
-      "unexpected_error": "हमें खेद है, लेकिन एक अप्रत्याशित त्रुटि हुई है।",
+      "unexpected_error": "हमें खेद है, लेकिन एक अप्रत्याशक्षित त्रुटि हुई है।",
       "refresh_page": "पेज रिफ्रेश करें",
       "menu": "मेनू",
-      "close": "बंद करें"
+      "close": "बंद करें",
+      "my_applications": "मेरे आवेदन",
+      "apply_for": "के लिए आवेदन करें",
+      "email_address": "ईमेल पता",
+      "submit_application": "आवेदन जमा करें",
+      "application_submitted": "आवेदन सफलतापूर्वक जमा किया गया!",
+      "error_submitting_application": "आवेदन जमा करने में विफल।",
+      "no_applications_found": "आपने अभी तक कोई आवेदन जमा नहीं किया है।",
+      "status": "स्थिति",
+      "submitted_on": "को प्रस्तुत किया गया",
+      "error_loading_applications": "आवेनों को लोड करने में विफल।"
     }
   }
 };

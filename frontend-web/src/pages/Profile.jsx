@@ -15,12 +15,10 @@ const Profile = () => {
         const fetchHistory = async () => {
             try {
                 setLoading(true);
-                // Assuming user.id exists. If using demoUser, it has id: 1
                 const response = await voiceService.getHistory(user.id);
                 setHistory(response.data?.data || []);
             } catch (err) {
                 logger.error('Failed to load history', err);
-                // Don't show error to user, just show empty history or keep loading false
             } finally {
                 setLoading(false);
             }
@@ -43,65 +41,63 @@ const Profile = () => {
 
     return (
         <div className="container" style={styles.container}>
-            <div style={styles.profileCard}>
-                <div style={styles.profileHeader}>
-                    <div style={styles.avatar}>
-                        <User size={40} color="white" />
-                    </div>
-                    <div>
-                        <h1 style={styles.name}>{user.name || user.fullName || 'User'}</h1>
-                        <p style={styles.role}>{user.role || 'Community Member'}</p>
-                    </div>
-                </div>
-
-                <div style={styles.infoSection}>
-                    <p><strong>Username:</strong> {user.username}</p>
-                    {user.email && <p><strong>Email:</strong> {user.email}</p>}
-                </div>
-
-                <button onClick={handleLogout} className="btn" style={styles.logoutButton}>
-                    Logout
-                </button>
+            <div style={styles.header}>
+                <h1 style={styles.title}>My Profile</h1>
+                <p style={styles.subtitle}>Manage your account and view your activity.</p>
             </div>
 
-            <div style={styles.historySection}>
-                <h2 style={styles.sectionTitle}>Voice Search History</h2>
+            <div style={styles.grid}>
+                <div style={styles.profileCard}>
+                    <div style={styles.profileHeader}>
+                        <div style={styles.avatar}>
+                            <User size={40} color="white" />
+                        </div>
+                        <div>
+                            <h2 style={styles.name}>{user.name || user.fullName || 'User'}</h2>
+                            <p style={styles.role}>{user.role || 'Community Member'}</p>
+                        </div>
+                    </div>
 
-                {loading ? (
-                    <p>Loading history...</p>
-                ) : history.length > 0 ? (
-                    <div style={styles.historyList}>
-                        {history.map((item, index) => (
-                            <div key={item.id || index} style={styles.historyItem}>
-                                <div style={styles.historyIcon}>
-                                    <Mic size={18} />
-                                </div>
-                                <div style={styles.historyContent}>
-                                    <p style={styles.query}>&quot;{item.queryText}&quot;</p>
-                                    <div style={styles.meta}>
-                                        <span style={styles.date}>
-                                            <Calendar size={14} style={{ marginRight: '4px' }} />
-                                            {new Date(item.timestamp).toLocaleDateString()}
-                                        </span>
-                                        {item.responseSummary && (
-                                            <span style={styles.response}> • {item.responseSummary}</span>
-                                        )}
+                    <div style={styles.infoSection}>
+                        <p><strong>Username:</strong> {user.username}</p>
+                        {user.email && <p><strong>Email:</strong> {user.email}</p>}
+                    </div>
+
+                    <button onClick={handleLogout} className="btn" style={styles.logoutButton}>
+                        Logout
+                    </button>
+                </div>
+
+                <div style={styles.historySection}>
+                    <h2 style={styles.sectionTitle}>Voice Search History</h2>
+                    {loading ? (
+                        <p>Loading history...</p>
+                    ) : history.length > 0 ? (
+                        <div style={styles.historyList}>
+                            {history.map((item, index) => (
+                                <div key={item.id || index} style={styles.historyItem}>
+                                    <div style={styles.historyIcon}><Mic size={18} /></div>
+                                    <div style={styles.historyContent}>
+                                        <p style={styles.query}>&quot;{item.queryText}&quot;</p>
+                                        <div style={styles.meta}>
+                                            <span style={styles.date}>
+                                                <Calendar size={14} style={{ marginRight: '4px' }} />
+                                                {new Date(item.timestamp).toLocaleDateString()}
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        ))}
-                    </div>
-                ) : (
-                    <div style={styles.emptyState}>
-                        <p>No search history yet.</p>
-                        <button
-                            onClick={() => navigate('/voice-search')}
-                            style={styles.linkButton}
-                        >
-                            Try Voice Search
-                        </button>
-                    </div>
-                )}
+                            ))}
+                        </div>
+                    ) : (
+                        <div style={styles.emptyState}>
+                            <p>No search history yet.</p>
+                            <button onClick={() => navigate('/voice-search')} style={styles.linkButton}>
+                                Try Voice Search
+                            </button>
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );
@@ -111,24 +107,36 @@ const styles = {
     container: {
         paddingTop: '40px',
         paddingBottom: '40px',
-        maxWidth: '800px',
+        maxWidth: '1000px',
         margin: '0 auto'
+    },
+    header: {
+        textAlign: 'center',
+        marginBottom: '40px'
+    },
+    title: {
+        fontSize: '36px',
+        color: '#1f2937',
+        marginBottom: '10px'
+    },
+    subtitle: {
+        fontSize: '18px',
+        color: '#6b7280'
+    },
+    grid: {
+        display: 'grid',
+        gridTemplateColumns: '300px 1fr',
+        gap: '30px',
+        alignItems: 'start'
     },
     profileCard: {
         backgroundColor: 'white',
         padding: '30px',
         borderRadius: '8px',
         boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
-        marginBottom: '30px',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
         textAlign: 'center'
     },
     profileHeader: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
         marginBottom: '20px'
     },
     avatar: {
@@ -139,10 +147,10 @@ const styles = {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        marginBottom: '15px'
+        margin: '0 auto 15px'
     },
     name: {
-        fontSize: '24px',
+        fontSize: '22px',
         margin: '0 0 5px 0',
         color: '#1f2937'
     },
@@ -152,15 +160,13 @@ const styles = {
     },
     infoSection: {
         marginBottom: '20px',
-        color: '#374151'
+        color: '#374151',
+        textAlign: 'left'
     },
     logoutButton: {
         backgroundColor: '#ef4444',
         color: 'white',
-        padding: '8px 20px',
-        border: 'none',
-        borderRadius: '4px',
-        cursor: 'pointer'
+        width: '100%'
     },
     historySection: {
         backgroundColor: 'white',
@@ -185,8 +191,7 @@ const styles = {
         gap: '15px',
         padding: '15px',
         backgroundColor: '#f9fafb',
-        borderRadius: '8px',
-        alignItems: 'flex-start'
+        borderRadius: '8px'
     },
     historyIcon: {
         color: '#2563eb',
@@ -210,10 +215,6 @@ const styles = {
         display: 'flex',
         alignItems: 'center'
     },
-    response: {
-        marginLeft: '5px',
-        color: '#4b5563'
-    },
     emptyState: {
         textAlign: 'center',
         padding: '20px',
@@ -223,7 +224,6 @@ const styles = {
         background: 'none',
         border: 'none',
         color: '#2563eb',
-        textDecoration: 'underline',
         cursor: 'pointer',
         fontSize: '16px',
         marginTop: '10px'

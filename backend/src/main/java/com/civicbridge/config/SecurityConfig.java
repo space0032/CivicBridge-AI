@@ -53,6 +53,7 @@ public class SecurityConfig {
                         .requestMatchers("/programs/**").hasRole("ADMIN")
                         .requestMatchers("/healthcare/**").hasRole("ADMIN")
                         .requestMatchers("/voice-query/**").permitAll()
+                        .requestMatchers("/api/applications/**").authenticated()
                         .anyRequest().authenticated());
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

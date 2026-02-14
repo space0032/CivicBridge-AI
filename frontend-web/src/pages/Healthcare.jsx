@@ -66,15 +66,22 @@ const Healthcare = () => {
 
   return (
     <div className="container" style={styles.container}>
-      <h1 style={styles.title}>{t('healthcare')}</h1>
+      <div style={styles.header}>
+        <h1 style={styles.title}>{t('healthcare')}</h1>
+        <p style={styles.subtitle}>
+          Find hospitals, clinics, and other healthcare facilities near you.
+        </p>
+      </div>
 
       <div style={styles.filters}>
         <div className="form-group">
-          <label>Facility Type</label>
+          <label htmlFor="type-filter">Facility Type</label>
           <select
+            id="type-filter"
             name="type"
             value={filters.type}
             onChange={handleFilterChange}
+            style={styles.select}
           >
             <option value="">All Types</option>
             <option value="HOSPITAL">Hospital</option>
@@ -83,17 +90,16 @@ const Healthcare = () => {
           </select>
         </div>
 
-        <div className="form-group">
-          <label>
-            <input
-              type="checkbox"
-              name="freeServices"
-              checked={filters.freeServices}
-              onChange={handleFilterChange}
-              style={styles.checkbox}
-            />
-            Free Services Only
-          </label>
+        <div className="form-group" style={styles.checkboxGroup}>
+          <input
+            type="checkbox"
+            id="free-services-filter"
+            name="freeServices"
+            checked={filters.freeServices}
+            onChange={handleFilterChange}
+            style={styles.checkbox}
+          />
+          <label htmlFor="free-services-filter">Free Services Only</label>
         </div>
 
         <button
@@ -101,7 +107,7 @@ const Healthcare = () => {
           onClick={findNearby}
           style={styles.nearbyButton}
         >
-          <MapPin size={18} style={{ marginRight: '5px' }} />
+          <MapPin size={18} style={{ marginRight: '8px' }} />
           Find Nearby
         </button>
       </div>
@@ -132,20 +138,41 @@ const styles = {
     paddingTop: '40px',
     paddingBottom: '40px'
   },
+  header: {
+    textAlign: 'center',
+    marginBottom: '40px'
+  },
   title: {
     fontSize: '36px',
     color: '#1f2937',
-    marginBottom: '30px'
+    marginBottom: '10px'
+  },
+  subtitle: {
+    fontSize: '18px',
+    color: '#6b7280',
+    maxWidth: '600px',
+    margin: '0 auto'
   },
   filters: {
     display: 'grid',
     gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
     gap: '20px',
-    marginBottom: '30px',
+    marginBottom: '40px',
     padding: '20px',
     backgroundColor: '#f9fafb',
     borderRadius: '8px',
+    border: '1px solid #e5e7eb',
     alignItems: 'end'
+  },
+  select: {
+    width: '100%',
+    padding: '10px',
+    borderRadius: '4px',
+    border: '1px solid #d1d5db'
+  },
+  checkboxGroup: {
+    display: 'flex',
+    alignItems: 'center'
   },
   checkbox: {
     marginRight: '8px'

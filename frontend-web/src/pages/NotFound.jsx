@@ -5,15 +5,17 @@ import { AlertTriangle } from 'lucide-react';
 const NotFound = () => {
     const { t } = useTranslation();
     return (
-        <div className="container" style={styles.container}>
-            <AlertTriangle size={64} color="#f59e0b" style={{ marginBottom: '20px' }} />
-            <h1 style={styles.title}>{t('not_found_title')}</h1>
-            <p style={styles.message}>
-                {t('not_found_message')}
-            </p>
-            <Link to="/" className="btn btn-primary" style={styles.link}>
-                {t('go_to_homepage')}
-            </Link>
+        <div style={styles.container}>
+            <div style={styles.card}>
+                <AlertTriangle size={64} color="#f59e0b" style={{ marginBottom: '20px' }} />
+                <h1 style={styles.title}>{t('not_found_title')}</h1>
+                <p style={styles.message}>
+                    {t('not_found_message')}
+                </p>
+                <Link to="/" className="btn btn-primary" style={styles.link}>
+                    {t('go_to_homepage')}
+                </Link>
+            </div>
         </div>
     );
 };
@@ -24,20 +26,27 @@ const styles = {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        minHeight: '60vh',
-        textAlign: 'center',
+        minHeight: 'calc(100vh - 140px)',
+        backgroundColor: '#f9fafb',
         padding: '20px'
     },
+    card: {
+        backgroundColor: 'white',
+        padding: '50px',
+        borderRadius: '8px',
+        boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+        textAlign: 'center',
+        maxWidth: '500px'
+    },
     title: {
-        fontSize: '36px',
+        fontSize: '28px',
         color: '#1f2937',
-        marginBottom: '10px'
+        marginBottom: '15px'
     },
     message: {
-        fontSize: '18px',
+        fontSize: '16px',
         color: '#6b7280',
-        marginBottom: '30px',
-        maxWidth: '500px'
+        marginBottom: '30px'
     },
     link: {
         padding: '12px 24px',

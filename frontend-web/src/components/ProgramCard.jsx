@@ -1,11 +1,20 @@
-
 import { useNavigate } from 'react-router-dom';
 
 const ProgramCard = ({ program }) => {
   const navigate = useNavigate();
 
+  const handleCardClick = () => {
+    navigate(`/programs/${program.id}`);
+  };
+
   return (
-    <div className="card" style={styles.card}>
+    <div 
+      className="card" 
+      style={styles.card} 
+      onClick={handleCardClick}
+      onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-5px)'}
+      onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+    >
       <h3 style={styles.title}>{program.name}</h3>
       <p style={styles.category}>
         <span style={styles.badge}>{program.category}</span>
@@ -39,9 +48,12 @@ const ProgramCard = ({ program }) => {
       <button
         className="btn btn-primary"
         style={styles.button}
-        onClick={() => navigate(`/programs/${program.id}`)}
+        onClick={(e) => {
+          e.stopPropagation(); // Prevent card click event from firing
+          navigate(`/apply/${program.id}`);
+        }}
       >
-        Learn More
+        Apply Now
       </button>
     </div>
   );
@@ -49,12 +61,20 @@ const ProgramCard = ({ program }) => {
 
 const styles = {
   card: {
-    transition: 'transform 0.2s',
-    cursor: 'pointer'
+    transition: 'transform 0.2s, box-shadow 0.2s',
+    cursor: 'pointer',
+    border: '1px solid #e5e7eb',
+    borderRadius: '8px',
+    padding: '20px',
+    backgroundColor: 'white',
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%'
   },
   title: {
     color: '#1f2937',
-    marginBottom: '10px'
+    marginBottom: '10px',
+    fontSize: '18px'
   },
   category: {
     marginBottom: '10px'
@@ -64,11 +84,12 @@ const styles = {
     color: '#1e40af',
     padding: '4px 12px',
     borderRadius: '12px',
-    fontSize: '14px'
+    fontSize: '12px'
   },
   description: {
     color: '#6b7280',
-    marginBottom: '15px'
+    marginBottom: '15px',
+    flexGrow: 1
   },
   info: {
     fontSize: '14px',
@@ -80,7 +101,8 @@ const styles = {
     marginBottom: '15px'
   },
   button: {
-    marginTop: '10px'
+    marginTop: 'auto',
+    width: '100%'
   }
 };
 

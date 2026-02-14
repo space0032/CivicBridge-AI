@@ -6,73 +6,77 @@ const Home = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="container" style={styles.container}>
+    <div>
       <section style={styles.hero}>
-        <h1 style={styles.title}>{t('welcome')}</h1>
-        <p style={styles.subtitle}>
-          {t('intro')}
-        </p>
-
-        <div style={styles.searchBox}>
-          <input
-            type="text"
-            placeholder={typeof t('search') === 'string' ? t('search') : 'Search for resources'}
-            style={styles.searchInput}
-          />
-          <button className="btn btn-primary">{t('search')}</button>
+        <div className="container">
+          <h1 style={styles.title}>{t('welcome')}</h1>
+          <p style={styles.subtitle}>{t('intro')}</p>
+          <Link to="/programs" className="btn btn-primary" style={styles.ctaButton}>
+            {t('browse_programs')}
+          </Link>
         </div>
       </section>
 
       <section style={styles.features}>
-        <h2 style={styles.sectionTitle}>{t('what_we_offer')}</h2>
-        <div style={styles.grid}>
-          <Link to="/programs?category=HEALTHCARE" style={styles.featureCard}>
-            <Heart size={48} color="#2563eb" />
-            <h3>{t('healthcare')}</h3>
-            <p>{t('find_nearby_hospitals')}</p>
-          </Link>
-
-          <Link to="/programs?category=EDUCATION" style={styles.featureCard}>
-            <GraduationCap size={48} color="#2563eb" />
-            <h3>{t('education')}</h3>
-            <p>{t('discover_scholarships')}</p>
-          </Link>
-
-          <Link to="/programs?category=EMPLOYMENT" style={styles.featureCard}>
-            <Briefcase size={48} color="#2563eb" />
-            <h3>{t('employment')}</h3>
-            <p>{t('job_training')}</p>
-          </Link>
-
-          <Link to="/voice-search" style={styles.featureCard}>
-            <Mic size={48} color="#2563eb" />
-            <h3>{t('voice_search')}</h3>
-            <p>{t('voice_commands_desc')}</p>
-          </Link>
+        <div className="container">
+          <h2 style={styles.sectionTitle}>{t('what_we_offer')}</h2>
+          <div style={styles.grid}>
+            <FeatureCard
+              icon={<Heart size={48} color="#2563eb" />}
+              title={t('healthcare')}
+              description={t('find_nearby_hospitals')}
+              link="/programs?category=HEALTHCARE"
+            />
+            <FeatureCard
+              icon={<GraduationCap size={48} color="#2563eb" />}
+              title={t('education')}
+              description={t('discover_scholarships')}
+              link="/programs?category=EDUCATION"
+            />
+            <FeatureCard
+              icon={<Briefcase size={48} color="#2563eb" />}
+              title={t('employment')}
+              description={t('job_training')}
+              link="/programs?category=EMPLOYMENT"
+            />
+            <FeatureCard
+              icon={<Mic size={48} color="#2563eb" />}
+              title={t('voice_search')}
+              description={t('voice_commands_desc')}
+              link="/voice-search"
+            />
+          </div>
         </div>
       </section>
 
       <section style={styles.cta}>
-        <h2>{t('ready_to_start')}</h2>
-        <p>{t('explore_resources')}</p>
-        <Link to="/programs">
-          <button className="btn btn-primary" style={styles.ctaButton}>
+        <div className="container">
+          <h2 style={styles.sectionTitle}>{t('ready_to_start')}</h2>
+          <p style={{ textAlign: 'center', marginBottom: '30px', color: '#4b5563' }}>
+            {t('explore_resources')}
+          </p>
+          <Link to="/programs" className="btn btn-primary" style={styles.ctaButton}>
             {t('browse_programs')}
-          </button>
-        </Link>
+          </Link>
+        </div>
       </section>
     </div>
   );
 };
 
+const FeatureCard = ({ icon, title, description, link }) => (
+  <Link to={link} style={styles.featureCard}>
+    <div style={{ marginBottom: '20px' }}>{icon}</div>
+    <h3 style={{ fontSize: '20px', marginBottom: '10px' }}>{title}</h3>
+    <p style={{ color: '#6b7280' }}>{description}</p>
+  </Link>
+);
+
 const styles = {
-  container: {
-    paddingTop: '40px',
-    paddingBottom: '40px'
-  },
   hero: {
-    textAlign: 'center',
-    marginBottom: '60px'
+    backgroundColor: '#f9fafb',
+    padding: '80px 0',
+    textAlign: 'center'
   },
   title: {
     fontSize: '48px',
@@ -82,30 +86,22 @@ const styles = {
   subtitle: {
     fontSize: '20px',
     color: '#6b7280',
-    marginBottom: '30px'
-  },
-  searchBox: {
-    display: 'flex',
-    gap: '10px',
+    marginBottom: '40px',
     maxWidth: '600px',
-    margin: '0 auto',
-    justifyContent: 'center'
+    margin: '0 auto 40px'
   },
-  searchInput: {
-    flex: 1,
-    padding: '12px 20px',
-    fontSize: '16px',
-    border: '2px solid #e5e7eb',
-    borderRadius: '5px'
+  ctaButton: {
+    fontSize: '18px',
+    padding: '15px 30px'
   },
   features: {
-    marginBottom: '60px'
+    padding: '80px 0'
   },
   sectionTitle: {
     textAlign: 'center',
     fontSize: '32px',
     color: '#1f2937',
-    marginBottom: '40px'
+    marginBottom: '50px'
   },
   grid: {
     display: 'grid',
@@ -117,21 +113,19 @@ const styles = {
     textAlign: 'center',
     backgroundColor: 'white',
     borderRadius: '8px',
-    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
     textDecoration: 'none',
     color: 'inherit',
-    transition: 'transform 0.3s'
+    transition: 'transform 0.3s, box-shadow 0.3s',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
   },
   cta: {
-    textAlign: 'center',
-    padding: '60px 20px',
-    backgroundColor: '#f9fafb',
-    borderRadius: '8px'
-  },
-  ctaButton: {
-    marginTop: '20px',
-    fontSize: '18px',
-    padding: '15px 30px'
+    backgroundColor: '#2563eb',
+    color: 'white',
+    padding: '80px 0',
+    textAlign: 'center'
   }
 };
 

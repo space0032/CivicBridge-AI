@@ -1,31 +1,36 @@
-const isProduction = import.meta.env.PROD;
+const LOG_LEVEL = import.meta.env.VITE_LOG_LEVEL || (import.meta.env.PROD ? 'error' : 'debug');
+
+const levels = {
+  debug: 0,
+  info: 1,
+  warn: 2,
+  error: 3,
+};
+
+const currentLevel = levels[LOG_LEVEL] ?? levels.debug;
 
 const logger = {
-    log: (...args) => {
-        if (!isProduction) {
-            console.log(...args);
-        }
-    },
-    info: (...args) => {
-        if (!isProduction) {
-            console.info(...args);
-        }
-    },
-    warn: (...args) => {
-        if (!isProduction) {
-            console.warn(...args);
-        }
-    },
-    error: (...args) => {
-        if (isProduction) {
-            // Integration with external monitoring services (e.g., Sentry, LogRocket)
-            // Example: Sentry.captureException(args[0]);
-            // For now, we'll continue to log but acknowledge it's for production monitoring
-            console.error('[Production Error Log]:', ...args);
-        } else {
-            console.error(...args);
-        }
+  debug: (...args) => {
+    if (currentLevel <= levels.debug) {
+      console.log('[DEBUG]', ...args);
     }
+  },
+  info: (...args) => {
+    if (currentLevel <= levels.info) {
+      console.info('[INFO]', ...args);
+    }
+  },
+  warn: (...args) => {
+    if (currentLevel <= levels.warn) {
+      console.warn('[WARN]', ...args);
+    }
+  },
+  error: (...args) => {
+    if (currentLevel <= levels.error) {
+      // In a real app, this would integrate with a logging service like Sentry
+      console.error('[ERROR]', ...args);
+    }
+  },
 };
 
 export default logger;

@@ -205,6 +205,58 @@ GET /api/voice-query/history/1
 }
 ```
 
+## Application API
+
+### Submit Application
+```http
+POST /api/applications
+Content-Type: application/json
+
+{
+  "programId": 1,
+  "name": "John Doe",
+  "email": "john.doe@example.com"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Application submitted successfully",
+  "data": {
+    "id": 1,
+    "programId": 1,
+    "userId": 1,
+    "status": "PENDING",
+    "createdAt": "2024-01-15T10:30:00"
+  }
+}
+```
+
+### Get My Applications
+```http
+GET /api/applications
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": 1,
+      "program": {
+        "id": 1,
+        "name": "Rural Health Initiative"
+      },
+      "status": "PENDING",
+      "createdAt": "2024-01-15T10:30:00"
+    }
+  ]
+}
+```
+
 ## Error Responses
 
 All errors follow this format:

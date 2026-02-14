@@ -14,21 +14,34 @@ export const useLanguage = () => {
 export const LanguageProvider = ({ children }) => {
   const { i18n } = useTranslation();
   const [currentLanguage, setCurrentLanguage] = useState(i18n.language || 'en');
+  const [loading, setLoading] = useState(false);
 
-  // Sync state with i18n on mount/change
   useEffect(() => {
-    if (i18n.language && i18n.language !== currentLanguage) {
-      setCurrentLanguage(i18n.language);
-    }
-  }, [i18n.language, currentLanguage]);
+    const handleLanguageChanged = (lng) => {
+      setCurrentLanguage(lng);
+      setLoading(false);
+    };
+    i18n.on('languageChanged', handleLanguageChanged);
+    return () => {
+      i18n.off('languageChanged', handleLanguageChanged);
+    };
+  }, [i18n]);
 
   const changeLanguage = (lang) => {
-    i18n.changeLanguage(lang);
-    setCurrentLanguage(lang);
+    if (i18n.language !== lang) {
+      setLoading(true);
+      i18n.changeLanguage(lang);
+    }
+  };
+
+  const value = {
+    currentLanguage,
+    changeLanguage,
+    loading
   };
 
   return (
-    <LanguageContext.Provider value={{ currentLanguage, changeLanguage }}>
+    <LanguageContext.Provider value={value}>
       {children}
     </LanguageContext.Provider>
   );

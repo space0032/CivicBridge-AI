@@ -1,4 +1,5 @@
 import axios from 'axios';
+import applicationService from './application';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080/api';
 
@@ -61,5 +62,7 @@ export const authService = {
 export const adminService = {
   getStats: () => api.get('/stats')
 };
+
+export { applicationService };
 
 export default api;

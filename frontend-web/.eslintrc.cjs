@@ -1,6 +1,6 @@
 module.exports = {
     root: true,
-    env: { browser: true, es2020: true },
+    env: { browser: true, es2020: true, node: true },
     extends: [
         'eslint:recommended',
         'plugin:react/recommended',
@@ -11,6 +11,11 @@ module.exports = {
     parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
     settings: { react: { version: '18.2' } },
     rules: {
-        'react/prop-types': 'off', // Optional: disable prop-types if not using them strictly
+        'react/prop-types': 'off',
+        'prefer-const': 'warn',
+        'no-unused-vars': ['warn', { 'args': 'none' }],
     },
+    globals: {
+        "vi": "readonly"
+    }
 }

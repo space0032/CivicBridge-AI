@@ -1,50 +1,47 @@
 # Contributing to CivicBridge AI
 
-We love your input! We want to make contributing to CivicBridge AI as easy and transparent as possible, whether it's:
+We love your input! We want to make contributing to CivicBridge AI as easy and transparent as possible.
 
-- Reporting a bug
-- Discussing the current state of the code
-- Submitting a fix
-- Proposing new features
-- Becoming a maintainer
+## How to Contribute
+
+- **Reporting a bug**: Use GitHub's issue tracker to report bugs.
+- **Suggesting an enhancement**: Use GitHub's issue tracker to suggest new features.
+- **Submitting a pull request**: Fork the repo, create a branch, and submit a PR.
 
 ## Development Process
 
-We use GitHub to host code, to track issues and feature requests, as well as accept pull requests.
-
-1. Fork the repo and create your branch from `main`
-2. If you've added code that should be tested, add tests
-3. If you've changed APIs, update the documentation
-4. Ensure the test suite passes
-5. Make sure your code lints
-6. Issue that pull request!
+1. **Fork the repository**: Create your own fork of the project.
+2. **Create a branch**: `git checkout -b feature/your-feature-name`
+3. **Make your changes**: Add your code and tests.
+4. **Run tests**: `npm test` (frontend) and `mvn test` (backend).
+5. **Lint your code**: `npm run lint` (frontend).
+6. **Commit your changes**: `git commit -m 'Add some feature'`
+7. **Push to your branch**: `git push origin feature/your-feature-name`
+8. **Submit a pull request**: Open a PR against the `main` branch.
 
 ## Pull Request Process
 
-1. Update the README.md with details of changes to the interface
-2. Update the docs/ with any new documentation
-3. The PR will be merged once you have the sign-off of at least one maintainer
+1. **Update documentation**: If you've changed APIs or added new features, update the relevant documentation in the `docs/` directory.
+2. **Get a review**: At least one maintainer must approve the PR.
+3. **Merge**: Once approved, the PR will be merged.
 
-## Any contributions you make will be under the MIT Software License
+## Code Style
 
-In short, when you submit code changes, your submissions are understood to be under the same [MIT License](http://choosealicense.com/licenses/mit/) that covers the project.
+- **Frontend**: We use Prettier and ESLint to enforce a consistent code style.
+- **Backend**: We follow the Google Java Style Guide.
 
-## Report bugs using GitHub's [issue tracker]
+## "Apply Now" Functionality
 
-We use GitHub issues to track public bugs. Report a bug by [opening a new issue](https://github.com/space0032/CivicBridge-AI/issues).
+The "Apply Now" functionality is a key feature of CivicBridge AI. It allows users to apply for programs directly from the application.
 
-## Write bug reports with detail, background, and sample code
+### Frontend
 
-**Great Bug Reports** tend to have:
+The frontend is built with React and uses a combination of React Router, React Context, and the Web Speech API. The application form is a controlled component that is managed by the `ApplicationPage` component.
 
-- A quick summary and/or background
-- Steps to reproduce
-  - Be specific!
-  - Give sample code if you can
-- What you expected would happen
-- What actually happens
-- Notes (possibly including why you think this might be happening)
+### Backend
+
+The backend is built with Spring Boot and uses a combination of Spring Data JPA, Spring Security, and the Web Speech API. The application data is stored in a PostgreSQL database.
 
 ## License
 
-By contributing, you agree that your contributions will be licensed under its MIT License.
+By contributing, you agree that your contributions will be licensed under the MIT License.

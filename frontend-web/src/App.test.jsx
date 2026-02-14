@@ -1,13 +1,17 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import App from './App';
 
 describe('App', () => {
-    it('renders correctly', () => {
-        // Basic smoke test
+    it('renders the header and footer', () => {
         render(<App />);
-        // Initial render might show loading or login, depending on auth state
-        // Just checking if it mounts without crashing for now
-        expect(true).toBe(true);
+        
+        // Check for header content
+        expect(screen.getByRole('banner')).toBeInTheDocument();
+        expect(screen.getByText('CivicBridge AI')).toBeInTheDocument();
+
+        // Check for footer content
+        expect(screen.getByRole('contentinfo')).toBeInTheDocument();
+        expect(screen.getByText(/© 2024 CivicBridge AI/)).toBeInTheDocument();
     });
 });

@@ -33,12 +33,10 @@ const Register = () => {
             const payload = {
                 ...sanitizedData,
                 preferredLanguage: i18n.language || 'en',
-                region: 'Universal' // Default for new users
+                region: 'Universal'
             };
 
-            // Register
             await authService.register(payload);
-            // Automatically login after successful registration
             await login({
                 username: sanitizedData.username,
                 password: sanitizedData.password
@@ -52,14 +50,20 @@ const Register = () => {
     };
 
     return (
-        <div className="container" style={styles.container}>
+        <div style={styles.container}>
             <div style={styles.card}>
-                <h2 style={styles.title}>{t('create_account')}</h2>
+                <div style={styles.header}>
+                    <h1 style={styles.title}>{t('create_account')}</h1>
+                    <p style={styles.subtitle}>Join our community to access all features.</p>
+                </div>
+
                 {error && <div style={styles.error}>{error}</div>}
+
                 <form onSubmit={handleSubmit}>
-                    <div className="form-group" style={styles.formGroup}>
-                        <label style={styles.label}>{t('full_name')}</label>
+                    <div style={styles.formGroup}>
+                        <label htmlFor="fullName" style={styles.label}>{t('full_name')}</label>
                         <input
+                            id="fullName"
                             type="text"
                             name="fullName"
                             value={formData.fullName}
@@ -68,9 +72,10 @@ const Register = () => {
                             style={styles.input}
                         />
                     </div>
-                    <div className="form-group" style={styles.formGroup}>
-                        <label style={styles.label}>{t('email')}</label>
+                    <div style={styles.formGroup}>
+                        <label htmlFor="email" style={styles.label}>{t('email')}</label>
                         <input
+                            id="email"
                             type="email"
                             name="email"
                             value={formData.email}
@@ -79,9 +84,10 @@ const Register = () => {
                             style={styles.input}
                         />
                     </div>
-                    <div className="form-group" style={styles.formGroup}>
-                        <label style={styles.label}>{t('username')}</label>
+                    <div style={styles.formGroup}>
+                        <label htmlFor="username" style={styles.label}>{t('username')}</label>
                         <input
+                            id="username"
                             type="text"
                             name="username"
                             value={formData.username}
@@ -90,9 +96,10 @@ const Register = () => {
                             style={styles.input}
                         />
                     </div>
-                    <div className="form-group" style={styles.formGroup}>
-                        <label style={styles.label}>{t('password')}</label>
+                    <div style={styles.formGroup}>
+                        <label htmlFor="password" style={styles.label}>{t('password')}</label>
                         <input
+                            id="password"
                             type="password"
                             name="password"
                             value={formData.password}
@@ -105,8 +112,10 @@ const Register = () => {
                         {loading ? t('creating_account') : t('register')}
                     </button>
                 </form>
+
                 <div style={styles.footer}>
-                    {t('already_have_account')} <Link to="/login">{t('login_link')}</Link>
+                    {t('already_have_account')}{' '}
+                    <Link to="/login" style={styles.link}>{t('login_link')}</Link>
                 </div>
             </div>
         </div>
@@ -119,22 +128,29 @@ const styles = {
         justifyContent: 'center',
         alignItems: 'center',
         minHeight: 'calc(100vh - 140px)',
-        padding: '20px'
+        backgroundColor: '#f9fafb',
+        padding: '40px 20px'
     },
     card: {
         backgroundColor: 'white',
         padding: '40px',
         borderRadius: '8px',
-        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+        boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
         width: '100%',
         maxWidth: '400px'
     },
-    title: {
-        fontSize: '24px',
-        fontWeight: 'bold',
-        marginBottom: '20px',
+    header: {
         textAlign: 'center',
+        marginBottom: '30px'
+    },
+    title: {
+        fontSize: '28px',
+        fontWeight: 'bold',
         color: '#1f2937'
+    },
+    subtitle: {
+        marginTop: '5px',
+        color: '#6b7280'
     },
     formGroup: {
         marginBottom: '20px'
@@ -148,7 +164,7 @@ const styles = {
     },
     input: {
         width: '100%',
-        padding: '10px',
+        padding: '12px',
         borderRadius: '4px',
         border: '1px solid #d1d5db',
         fontSize: '16px'
@@ -162,16 +178,22 @@ const styles = {
     error: {
         backgroundColor: '#fee2e2',
         color: '#dc2626',
-        padding: '10px',
+        padding: '12px',
         borderRadius: '4px',
         marginBottom: '20px',
-        fontSize: '14px'
+        fontSize: '14px',
+        textAlign: 'center'
     },
     footer: {
-        marginTop: '20px',
+        marginTop: '25px',
         textAlign: 'center',
         fontSize: '14px',
         color: '#6b7280'
+    },
+    link: {
+        color: '#2563eb',
+        textDecoration: 'none',
+        fontWeight: '500'
     }
 };
 

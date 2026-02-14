@@ -8,31 +8,38 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check if user is logged in (e.g. from localStorage)
-    const storedUser = localStorage.getItem('user');
-    const token = localStorage.getItem('token');
+    const verifyUser = async () => {
+      const storedUser = localStorage.getItem('user');
+      const token = localStorage.getItem('token');
 
-    if (storedUser && token) {
-      try {
-        setUser(JSON.parse(storedUser));
-      } catch (e) {
-        localStorage.removeItem('user');
-        localStorage.removeItem('token');
+      if (storedUser && token) {
+        try {
+          // You might want to add a backend endpoint to verify the token
+          setUser(JSON.parse(storedUser));
+        } catch (e) {
+          localStorage.removeItem('user');
+          localStorage.removeItem('token');
+        }
       }
-    }
-    setLoading(false);
+      setLoading(false);
+    };
+
+    verifyUser();
   }, []);
 
   const login = async (credentials) => {
-    const response = await authService.login(credentials);
-    // Backend now returns { success, message, data: { token, user } }
-    const { token, user: userData } = response.data.data;
+    setLoading(true);
+    try {
+      const response = await authService.login(credentials);
+      const { token, user: userData } = response.data.data;
 
-    setUser(userData);
-    localStorage.setItem('user', JSON.stringify(userData));
-    localStorage.setItem('token', token);
-
-    return userData;
+      setUser(userData);
+      localStorage.setItem('user', JSON.stringify(userData));
+      localStorage.setItem('token', token);
+      return userData;
+    } finally {
+      setLoading(false);
+    }
   };
 
   const logout = () => {
@@ -51,7 +58,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={value}>
-      {!loading && children}
+      {children}
     </AuthContext.Provider>
   );
 };

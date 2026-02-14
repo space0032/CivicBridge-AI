@@ -50,15 +50,22 @@ const Programs = () => {
 
   return (
     <div className="container" style={styles.container}>
-      <h1 style={styles.title}>{t('programs')}</h1>
+      <div style={styles.header}>
+        <h1 style={styles.title}>{t('programs')}</h1>
+        <p style={styles.subtitle}>
+          Explore a wide range of government programs and find the support you need.
+        </p>
+      </div>
 
       <div style={styles.filters}>
         <div className="form-group">
-          <label>Category</label>
+          <label htmlFor="category-filter">Category</label>
           <select
+            id="category-filter"
             name="category"
             value={filters.category}
             onChange={handleFilterChange}
+            style={styles.select}
           >
             <option value="">All Categories</option>
             <option value="HEALTHCARE">Healthcare</option>
@@ -69,13 +76,15 @@ const Programs = () => {
         </div>
 
         <div className="form-group">
-          <label>Region</label>
+          <label htmlFor="region-filter">Region</label>
           <input
+            id="region-filter"
             type="text"
             name="region"
             value={filters.region}
             onChange={handleFilterChange}
             placeholder="Enter your region"
+            style={styles.input}
           />
         </div>
       </div>
@@ -101,19 +110,42 @@ const styles = {
     paddingTop: '40px',
     paddingBottom: '40px'
   },
+  header: {
+    textAlign: 'center',
+    marginBottom: '40px'
+  },
   title: {
     fontSize: '36px',
     color: '#1f2937',
-    marginBottom: '30px'
+    marginBottom: '10px'
+  },
+  subtitle: {
+    fontSize: '18px',
+    color: '#6b7280',
+    maxWidth: '600px',
+    margin: '0 auto'
   },
   filters: {
     display: 'grid',
     gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
     gap: '20px',
-    marginBottom: '30px',
+    marginBottom: '40px',
     padding: '20px',
     backgroundColor: '#f9fafb',
-    borderRadius: '8px'
+    borderRadius: '8px',
+    border: '1px solid #e5e7eb'
+  },
+  select: {
+    width: '100%',
+    padding: '10px',
+    borderRadius: '4px',
+    border: '1px solid #d1d5db'
+  },
+  input: {
+    width: '100%',
+    padding: '10px',
+    borderRadius: '4px',
+    border: '1px solid #d1d5db'
   },
   grid: {
     display: 'grid',

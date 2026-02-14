@@ -18,6 +18,8 @@ import AddHealthcare from './pages/admin/AddHealthcare';
 import NotFound from './pages/NotFound';
 import ErrorBoundary from './components/ErrorBoundary';
 import ProtectedRoute from './components/ProtectedRoute';
+import ApplicationPage from './pages/ApplicationPage';
+import MyApplications from './pages/MyApplications';
 
 import { Toaster } from 'react-hot-toast';
 
@@ -27,10 +29,19 @@ function App() {
       <AuthProvider>
         <Router>
           <ErrorBoundary>
-            <div className="app" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-              <Toaster position="top-center" />
+            <div className="app-wrapper" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+              <Toaster 
+                position="top-center" 
+                toastOptions={{
+                  duration: 5000,
+                  style: {
+                    background: '#333',
+                    color: '#fff',
+                  },
+                }}
+              />
               <Header />
-              <main style={{ flex: 1 }}>
+              <main style={{ flex: 1, padding: '20px 0' }}>
                 <Routes>
                   <Route path="/" element={<Home />} />
                   <Route path="/programs" element={<Programs />} />
@@ -40,6 +51,16 @@ function App() {
                   <Route path="/register" element={<Register />} />
                   <Route path="/programs/:id" element={<ProgramDetails />} />
                   <Route path="/healthcare/:id" element={<HealthcareDetails />} />
+                  <Route path="/apply/:id" element={
+                    <ProtectedRoute>
+                      <ApplicationPage />
+                    </ProtectedRoute>
+                  } />
+                  <Route path="/applications" element={
+                    <ProtectedRoute>
+                      <MyApplications />
+                    </ProtectedRoute>
+                  } />
                   <Route path="/profile" element={
                     <ProtectedRoute>
                       <Profile />

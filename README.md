@@ -15,6 +15,7 @@ CivicBridge AI is a hybrid (web + mobile) application that improves access to re
 - **AI-Powered Search**: Natural language processing for intelligent query responses
 - **Push Notifications**: Alerts for important deadlines and programs
 - **Progressive Web App**: App-like experience in web browsers
+- **Application Management**: A streamlined process for applying to programs and tracking application status.
 
 ## 🏗️ Architecture
 
@@ -24,8 +25,8 @@ CivicBridge AI is a hybrid (web + mobile) application that improves access to re
 ├─────────────────────┤       ├──────────────────┤       ├─────────────────────────┤
 │ Web App (React.js)  │       │ Spring Boot      │       │ Gov APIs (programs)     │
 │ Mobile (Flutter)    │──────▶│ REST APIs        │       │ AI APIs (NLP, TTS, STT) │
-│ Progressive Web App │       │ PostgreSQL       │       │ GIS APIs                │
-└─────────────────────┘       │ MongoDB          │       └─────────────────────────┘
+│ Progressive Web App │       │ PostgreSQL       │       └─────────────────────────┘
+└─────────────────────┘       │ MongoDB          │
                               └──────────────────┘
 ```
 
@@ -73,6 +74,8 @@ Located in `/backend`
 - `GET /api/healthcare` - List healthcare facilities
 - `GET /api/healthcare/nearby` - Find nearby facilities
 - `POST /api/voice-query` - Process voice/text queries
+- `POST /api/applications` - Submit an application for a program
+- `GET /api/applications` - Get a list of a user's applications
 
 **Run Locally:**
 ```bash
@@ -98,6 +101,7 @@ Located in `/frontend-web`
 - Multilingual interface
 - Geolocation integration
 - Progressive Web App
+- Application submission and tracking
 
 **Run Locally:**
 ```bash
@@ -145,7 +149,8 @@ A farmer in a rural area uses voice input to ask: "What government subsidies are
 A student uses the web portal to search for scholarship programs in their region.
 - Filters by category (Education) and location
 - Views detailed eligibility criteria
-- Saves deadline notifications
+- Applies for the scholarship directly through the platform
+- Tracks the status of their application
 
 ### Scenario 3: Healthcare Access
 A family looks up hospitals offering free vaccination programs for children.
@@ -158,6 +163,7 @@ A job seeker searches for skill-building programs in their language.
 - Voice or text query in regional language
 - AI suggests relevant training programs
 - Provides application deadlines and contact info
+- Applies for the program and tracks their application status
 
 ## 🔧 Configuration
 

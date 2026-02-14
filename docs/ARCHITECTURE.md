@@ -26,6 +26,7 @@ CivicBridge AI follows a three-tier architecture with a shared backend serving b
 ├─────────────────────┬─────────────────────┬─────────────────────┤
 │   Auth Service      │   Program Service   │   Healthcare Svc    │
 │   AI Service        │   Location Service  │   Notification Svc  │
+│   Application Svc   │                     │                     │
 └─────────────────────┴─────────────────────┴─────────────────────┘
                               │
                               ▼
@@ -64,6 +65,7 @@ CivicBridge AI follows a three-tier architecture with a shared backend serving b
 - Multilingual support (EN, ES, HI)
 - Geolocation integration
 - Real-time search and filtering
+- Application submission and tracking
 
 #### Mobile App (Flutter)
 - **Framework**: Flutter 3.0+
@@ -92,24 +94,28 @@ CivicBridge AI follows a three-tier architecture with a shared backend serving b
    - ProgramController: Program management
    - HealthcareController: Healthcare facility management
    - AIController: Voice query processing
+   - ApplicationController: Application submission and tracking
 
 2. **Services** (Business Logic)
    - AuthService: User authentication and registration
    - ProgramService: Program CRUD operations
    - HealthcareService: Healthcare facility management
    - AIService: NLP processing and query handling
+   - ApplicationService: Application submission and tracking
 
 3. **Repositories** (Data Access)
    - UserRepository: User data (PostgreSQL)
    - ProgramRepository: Program data (PostgreSQL)
    - HealthcareFacilityRepository: Healthcare data (PostgreSQL)
    - QueryHistoryRepository: Query logs (MongoDB)
+   - ApplicationRepository: Application data (PostgreSQL)
 
 4. **Models** (Domain Objects)
    - User: User entity
    - Program: Government program entity
    - HealthcareFacility: Healthcare facility entity
    - QueryHistory: Query history document
+   - Application: Application entity
 
 ### 3. Database Layer
 
@@ -120,6 +126,7 @@ CivicBridge AI follows a three-tier architecture with a shared backend serving b
   - users
   - programs
   - healthcare_facilities
+  - applications
 
 **Why PostgreSQL?**
 - ACID compliance
@@ -204,7 +211,31 @@ Return Results
 Display on Map/List
 ```
 
-### 3. Offline Data Sync (Mobile)
+### 3. Application Submission Flow
+
+```
+User Clicks "Apply Now"
+    ↓
+Navigate to Application Page
+    ↓
+User Fills Out Form
+    ↓
+Frontend Validation
+    ↓
+API Request to Backend
+    ↓
+Authentication/Authorization
+    ↓
+Service Layer Processing
+    ↓
+Database Insert
+    ↓
+Return Success Response
+    ↓
+Navigate to "My Applications" Page
+```
+
+### 4. Offline Data Sync (Mobile)
 
 ```
 App Launch
