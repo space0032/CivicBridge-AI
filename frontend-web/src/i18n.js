@@ -125,7 +125,6 @@ const resources = {
       "filter": "Filtrar",
       "apply": "Aplicar",
       "learn_more": "Saber más",
-      "learn_more": "Saber más",
       "register": "Registrarse",
       "facility_type": "Tipo de instalación",
       "free_services_only": "Solo servicios gratuitos",
