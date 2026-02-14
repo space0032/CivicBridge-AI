@@ -80,6 +80,18 @@ const AdminDashboard = () => {
         );
     }
 
+    const isProgramActive = (deadline) => {
+        if (!deadline) return true;
+
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
+        const todayStr = `${yyyy}-${mm}-${dd}`;
+
+        return deadline >= todayStr;
+    };
+
     return (
         <div className="container" style={styles.container}>
             <div style={styles.header}>
@@ -131,23 +143,26 @@ const AdminDashboard = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {programs.map(program => (
-                                    <tr key={program.id} style={styles.tr}>
-                                        <td style={styles.td}>{program.name}</td>
-                                        <td style={styles.td}>{program.category}</td>
-                                        <td style={styles.td}>{program.region}</td>
-                                        <td style={styles.td}>
-                                            <span style={program.isActive ? styles.statusActive : styles.statusInactive}>
-                                                {program.isActive ? 'Active' : 'Inactive'}
-                                            </span>
-                                        </td>
-                                        <td style={styles.td}>
-                                            <Link to={`/admin/edit-program/${program.id}`} style={styles.editLink}>
-                                                <Edit2 size={18} /> Edit
-                                            </Link>
-                                        </td>
-                                    </tr>
-                                ))}
+                                {programs.map(program => {
+                                    const active = isProgramActive(program.applicationDeadline);
+                                    return (
+                                        <tr key={program.id} style={styles.tr}>
+                                            <td style={styles.td}>{program.name}</td>
+                                            <td style={styles.td}>{program.category}</td>
+                                            <td style={styles.td}>{program.region}</td>
+                                            <td style={styles.td}>
+                                                <span style={active ? styles.statusActive : styles.statusInactive}>
+                                                    {active ? 'Active' : 'Expired'}
+                                                </span>
+                                            </td>
+                                            <td style={styles.td}>
+                                                <Link to={`/admin/edit-program/${program.id}`} style={styles.editLink}>
+                                                    <Edit2 size={18} /> Edit
+                                                </Link>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
                             </tbody>
                         </table>
                     </div>

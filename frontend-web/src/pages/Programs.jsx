@@ -4,8 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { programService } from '../services/api';
 import ProgramCard from '../components/ProgramCard';
 
-const programsCache = new Map();
-
 const Programs = () => {
   const { t } = useTranslation();
   const [searchParams] = useSearchParams();
@@ -17,21 +15,28 @@ const Programs = () => {
     region: ''
   });
 
+  const isProgramActive = (deadline) => {
+    if (!deadline) return true;
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    const todayStr = `${yyyy}-${mm}-${dd}`;
+
+    return deadline >= todayStr;
+  };
+
   useEffect(() => {
     const fetchPrograms = async () => {
-      const cacheKey = JSON.stringify(filters);
-      if (programsCache.has(cacheKey)) {
-        setPrograms(programsCache.get(cacheKey));
-        setLoading(false);
-        return;
-      }
-
       try {
         setLoading(true);
         const response = await programService.getAll(filters);
         const data = response.data.data || [];
-        setPrograms(data);
-        programsCache.set(cacheKey, data);
+
+        // Filter out expired programs
+        const activePrograms = data.filter(program => isProgramActive(program.applicationDeadline));
+
+        setPrograms(activePrograms);
         setError(null);
       } catch (err) {
         setError('Failed to load programs');

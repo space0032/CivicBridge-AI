@@ -3,19 +3,40 @@ import { useNavigate } from 'react-router-dom';
 const ProgramCard = ({ program }) => {
   const navigate = useNavigate();
 
+  const isProgramActive = (deadline) => {
+    if (!deadline) return true;
+
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    const todayStr = `${yyyy}-${mm}-${dd}`;
+
+    return deadline >= todayStr;
+  };
+
+  const active = isProgramActive(program.applicationDeadline);
+
   const handleCardClick = () => {
     navigate(`/programs/${program.id}`);
   };
 
   return (
-    <div 
-      className="card" 
-      style={styles.card} 
+    <div
+      className="card"
+      style={{
+        ...styles.card,
+        opacity: active ? 1 : 0.8,
+        border: active ? '1px solid #e5e7eb' : '1px solid #fee2e2'
+      }}
       onClick={handleCardClick}
       onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-5px)'}
       onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
     >
-      <h3 style={styles.title}>{program.name}</h3>
+      <div style={styles.headerRow}>
+        <h3 style={styles.title}>{program.name}</h3>
+        {!active && <span style={styles.expiredBadge}>Expired</span>}
+      </div>
       <p style={styles.category}>
         <span style={styles.badge}>{program.category}</span>
       </p>
@@ -34,7 +55,10 @@ const ProgramCard = ({ program }) => {
       )}
 
       {program.applicationDeadline && (
-        <p style={styles.deadline}>
+        <p style={{
+          ...styles.deadline,
+          color: active ? '#dc2626' : '#9ca3af'
+        }}>
           <strong>Deadline:</strong> {program.applicationDeadline}
         </p>
       )}
@@ -47,13 +71,18 @@ const ProgramCard = ({ program }) => {
 
       <button
         className="btn btn-primary"
-        style={styles.button}
+        style={{
+          ...styles.button,
+          backgroundColor: active ? '#2563eb' : '#9ca3af',
+          cursor: active ? 'pointer' : 'not-allowed'
+        }}
+        disabled={!active}
         onClick={(e) => {
           e.stopPropagation(); // Prevent card click event from firing
-          navigate(`/apply/${program.id}`);
+          if (active) navigate(`/apply/${program.id}`);
         }}
       >
-        Apply Now
+        {active ? 'Apply Now' : 'Application Closed'}
       </button>
     </div>
   );
@@ -74,7 +103,23 @@ const styles = {
   title: {
     color: '#1f2937',
     marginBottom: '10px',
-    fontSize: '18px'
+    fontSize: '18px',
+    flex: 1
+  },
+  headerRow: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    gap: '10px',
+    marginBottom: '5px'
+  },
+  expiredBadge: {
+    backgroundColor: '#f3f4f6',
+    color: '#6b7280',
+    padding: '2px 8px',
+    borderRadius: '4px',
+    fontSize: '12px',
+    fontWeight: 'bold'
   },
   category: {
     marginBottom: '10px'
