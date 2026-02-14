@@ -26,6 +26,14 @@ export default defineConfig({
       }
     }
   },
+  resolve: {
+    alias: {
+      'stompjs': 'stompjs/lib/stomp.js',
+    },
+  },
+  define: {
+    'global': 'window',
+  },
   server: {
     port: 3000,
     proxy: {
