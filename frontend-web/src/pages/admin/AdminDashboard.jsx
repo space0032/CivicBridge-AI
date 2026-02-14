@@ -71,7 +71,7 @@ const AdminDashboard = () => {
         <div className="container" style={styles.container}>
             <div style={styles.header}>
                 <h1 style={styles.title}>Admin Dashboard</h1>
-                <p style={styles.subtitle}>Welcome back, {user.name}. Here's a real-time overview of the platform.</p>
+                <p style={styles.subtitle}>Welcome back, {user.name}. Here&apos;s a real-time overview of the platform.</p>
             </div>
 
             <div style={styles.statsGrid}>

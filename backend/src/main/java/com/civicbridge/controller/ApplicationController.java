@@ -1,30 +1,46 @@
 package com.civicbridge.controller;
 
+import com.civicbridge.dto.ApiResponse;
 import com.civicbridge.dto.ApplicationRequest;
 import com.civicbridge.model.Application;
 import com.civicbridge.service.ApplicationService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/applications")
+@RequestMapping("/applications")
+@RequiredArgsConstructor
+@Slf4j
 public class ApplicationController {
 
     private final ApplicationService applicationService;
 
-    public ApplicationController(ApplicationService applicationService) {
-        this.applicationService = applicationService;
-    }
-
     @PostMapping
-    public ResponseEntity<Application> submitApplication(@RequestBody ApplicationRequest applicationRequest) {
-        return ResponseEntity.ok(applicationService.submitApplication(applicationRequest));
+    public ResponseEntity<ApiResponse<Application>> submitApplication(
+            @RequestBody ApplicationRequest applicationRequest) {
+        try {
+            Application application = applicationService.submitApplication(applicationRequest);
+            return ResponseEntity.ok(ApiResponse.success("Application submitted successfully", application));
+        } catch (Exception e) {
+            log.error("Error submitting application: {}", e.getMessage());
+            return ResponseEntity.badRequest()
+                    .body(ApiResponse.error(e.getMessage()));
+        }
     }
 
     @GetMapping
-    public ResponseEntity<List<Application>> getMyApplications() {
-        return ResponseEntity.ok(applicationService.getMyApplications());
+    public ResponseEntity<ApiResponse<List<Application>>> getMyApplications() {
+        try {
+            List<Application> applications = applicationService.getMyApplications();
+            return ResponseEntity.ok(ApiResponse.success(applications));
+        } catch (Exception e) {
+            log.error("Error fetching applications: {}", e.getMessage());
+            return ResponseEntity.badRequest()
+                    .body(ApiResponse.error(e.getMessage()));
+        }
     }
 }

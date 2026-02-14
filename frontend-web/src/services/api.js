@@ -1,7 +1,8 @@
 import axios from 'axios';
 import applicationService from './application';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080/api';
+// Use a relative path for the API base URL to ensure it goes through the Vite proxy in development.
+const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
 
 const api = axios.create({
   baseURL: API_BASE_URL,

@@ -21,4 +21,5 @@ public class Program {
     private String benefits;
     private String applicationProcess;
     private String contactInfo;
+    private boolean isActive = true;
 }

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { applicationService } from '../services/api';
 import toast from 'react-hot-toast';
-import { FileText, Calendar, AlertCircle } from 'lucide-react';
+import { FileText, Calendar } from 'lucide-react';
 
 const MyApplications = () => {
   const { t } = useTranslation();

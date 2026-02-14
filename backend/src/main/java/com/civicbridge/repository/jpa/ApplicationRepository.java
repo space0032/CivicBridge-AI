@@ -1,4 +1,4 @@
-package com.civicbridge.repository;
+package com.civicbridge.repository.jpa;
 
 import com.civicbridge.model.Application;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface ApplicationRepository extends JpaRepository<Application, Long> {
-    List<Application> findByUserId(Long userId);
+    List<Application> findByUser_Id(Long userId);
 }
