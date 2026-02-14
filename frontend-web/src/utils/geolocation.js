@@ -1,4 +1,11 @@
+import logger from './logger';
+
 export const getGeolocation = (timeout = 10000) => {
+  // ... (keep getGeolocation as is, need to be careful with range)
+  // Actually I should just replace the whole file to be safe or use multi_replace.
+  // Let's use replace_file_content but I need to include the top import.
+  // I'll replace from line 1 to 61.
+
   return new Promise((resolve, reject) => {
     if (!navigator.geolocation) {
       reject(new Error('Geolocation is not supported by this browser'));
@@ -35,6 +42,7 @@ export const getGeolocation = (timeout = 10000) => {
             errorMessage = "An unknown error occurred.";
             break;
         }
+        logger.error("Geolocation error:", error);
         reject(new Error(errorMessage));
       },
       options
@@ -43,9 +51,13 @@ export const getGeolocation = (timeout = 10000) => {
 };
 
 export const calculateDistance = (lat1, lon1, lat2, lon2) => {
-  if (lat1 < -90 || lat1 > 90 || lon1 < -180 || lon1 > 180 ||
-      lat2 < -90 || lat2 > 90 || lon2 < -180 || lon2 > 180) {
-    throw new Error("Invalid latitude or longitude values");
+  // Validate inputs
+  const isValid = (val, min, max) => typeof val === 'number' && !isNaN(val) && val >= min && val <= max;
+
+  if (!isValid(lat1, -90, 90) || !isValid(lon1, -180, 180) ||
+    !isValid(lat2, -90, 90) || !isValid(lon2, -180, 180)) {
+    logger.error("Invalid coordinates provided to calculateDistance:", { lat1, lon1, lat2, lon2 });
+    return null;
   }
 
   const R = 6371; // Earth's radius in km

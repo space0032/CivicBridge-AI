@@ -24,12 +24,20 @@ const ErrorBoundary = ({ children }) => {
                     <AlertTriangle size={64} color="#dc2626" style={{ marginBottom: '20px' }} />
                     <h1 style={styles.title}>{t('something_went_wrong')}</h1>
                     <p style={styles.message}>{t('unexpected_error')}</p>
-                    <button
-                        onClick={() => window.location.reload()}
-                        style={styles.button}
-                    >
-                        {t('refresh_page')}
-                    </button>
+                    <div style={styles.buttonGroup}>
+                        <button
+                            onClick={() => window.location.reload()}
+                            style={styles.button}
+                        >
+                            {t('refresh_page')}
+                        </button>
+                        <button
+                            onClick={() => window.location.href = '/'}
+                            style={styles.secondaryButton}
+                        >
+                            {t('go_to_homepage')}
+                        </button>
+                    </div>
                 </div>
             </div>
         );
@@ -54,7 +62,8 @@ const styles = {
         borderRadius: '8px',
         boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
         textAlign: 'center',
-        maxWidth: '500px'
+        maxWidth: '500px',
+        width: '100%'
     },
     title: {
         fontSize: '28px',
@@ -66,6 +75,12 @@ const styles = {
         color: '#6b7280',
         marginBottom: '30px'
     },
+    buttonGroup: {
+        display: 'flex',
+        gap: '12px',
+        justifyContent: 'center',
+        flexWrap: 'wrap'
+    },
     button: {
         padding: '12px 24px',
         fontSize: '16px',
@@ -73,7 +88,18 @@ const styles = {
         color: 'white',
         border: 'none',
         borderRadius: '5px',
-        cursor: 'pointer'
+        cursor: 'pointer',
+        transition: 'background-color 0.2s'
+    },
+    secondaryButton: {
+        padding: '12px 24px',
+        fontSize: '16px',
+        backgroundColor: '#6b7280',
+        color: 'white',
+        border: 'none',
+        borderRadius: '5px',
+        cursor: 'pointer',
+        transition: 'background-color 0.2s'
     }
 };
 

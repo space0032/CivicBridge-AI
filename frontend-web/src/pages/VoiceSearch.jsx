@@ -6,6 +6,7 @@ import { startSpeechRecognition, textToSpeech } from '../utils/speech';
 import { getGeolocation } from '../utils/geolocation';
 import { Mic, MicOff, Volume2 } from 'lucide-react';
 import './VoiceSearch.css';
+import { EXAMPLE_QUERIES } from '../config/queries';
 
 const VoiceSearch = () => {
   const { t, i18n } = useTranslation();
@@ -159,18 +160,11 @@ const VoiceSearch = () => {
       <div style={styles.examples}>
         <h3 style={styles.examplesTitle}>Example Questions:</h3>
         <ul style={styles.examplesList}>
-          <li onClick={() => setQuery('What government subsidies are available for farmers?')}>
-            &quot;What government subsidies are available for farmers?&quot;
-          </li>
-          <li onClick={() => setQuery('Find scholarship programs near me')}>
-            &quot;Find scholarship programs near me&quot;
-          </li>
-          <li onClick={() => setQuery('Where can I get free vaccination for my child?')}>
-            &quot;Where can I get free vaccination for my child?&quot;
-          </li>
-          <li onClick={() => setQuery('What skill training programs are available?')}>
-            &quot;What skill training programs are available?&quot;
-          </li>
+          {EXAMPLE_QUERIES.map((q, index) => (
+            <li key={index} onClick={() => setQuery(q)}>
+              &quot;{q}&quot;
+            </li>
+          ))}
         </ul>
       </div>
     </div>

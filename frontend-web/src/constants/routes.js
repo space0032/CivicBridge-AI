@@ -1,0 +1,18 @@
+export const ROUTES = {
+    HOME: '/',
+    PROGRAMS: '/programs',
+    PROGRAM_DETAILS: '/programs/:id',
+    HEALTHCARE: '/healthcare',
+    HEALTHCARE_DETAILS: '/healthcare/:id',
+    VOICE_SEARCH: '/voice-search',
+    LOGIN: '/login',
+    REGISTER: '/register',
+    APPLY: '/apply/:id',
+    APPLICATIONS: '/applications',
+    PROFILE: '/profile',
+    ADMIN_DASHBOARD: '/admin',
+    ADMIN_ADD_PROGRAM: '/admin/add-program',
+    ADMIN_ADD_HEALTHCARE: '/admin/add-healthcare',
+    ADMIN_EDIT_PROGRAM: '/admin/edit-program/:id',
+    ADMIN_EDIT_HEALTHCARE: '/admin/edit-healthcare/:id',
+};

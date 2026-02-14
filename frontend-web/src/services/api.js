@@ -1,5 +1,9 @@
 import axios from 'axios';
 import applicationService from './application';
+import logger from '../utils/logger';
+import { mapErrorCodeToMessage } from '../utils/errorMapper';
+import i18n from '../i18n';
+import { API_ENDPOINTS } from '../config/apiEndpoints';
 
 // Use a relative path for the API base URL to ensure it goes through the Vite proxy in development.
 const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
@@ -23,47 +27,66 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Add a response interceptor to handle 401 errors
-api.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response && error.response.status === 401) {
+const handleApiError = (error) => {
+  // Log the error.
+  logger.error('API Error:', error);
+
+  // Handle specific HTTP status codes.
+  if (error.response) {
+    if (error.response.status === 401) {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
       window.location.href = '/login';
+    } else {
+      throw new Error(mapErrorCodeToMessage(error.response.status));
     }
-    return Promise.reject(error);
+  } else if (error.request) {
+    throw new Error(i18n.t('api_error_network'));
+  } else {
+    throw new Error(i18n.t('unexpected_error'));
+  }
+};
+
+// Add a response interceptor to handle errors
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    try {
+      handleApiError(error);
+    } catch (e) {
+      return Promise.reject(e);
+    }
   }
 );
 
 export const programService = {
-  getAll: (params) => api.get('/programs', { params }),
-  getById: (id) => api.get(`/programs/${id}`),
-  create: (data) => api.post('/programs', data),
-  update: (id, data) => api.put(`/programs/${id}`, data)
+  getAll: (params) => api.get(API_ENDPOINTS.PROGRAMS, { params }),
+  getById: (id) => api.get(`${API_ENDPOINTS.PROGRAMS}/${id}`),
+  create: (data) => api.post(API_ENDPOINTS.PROGRAMS, data),
+  update: (id, data) => api.put(`${API_ENDPOINTS.PROGRAMS}/${id}`, data)
 };
 
 export const healthcareService = {
-  getAll: (params) => api.get('/healthcare', { params }),
-  getById: (id) => api.get(`/healthcare/${id}`),
+  getAll: (params) => api.get(API_ENDPOINTS.HEALTHCARE, { params }),
+  getById: (id) => api.get(`${API_ENDPOINTS.HEALTHCARE}/${id}`),
   getNearby: (latitude, longitude, radiusKm = 10) =>
-    api.get('/healthcare/nearby', { params: { latitude, longitude, radiusKm } }),
-  create: (data) => api.post('/healthcare', data),
-  update: (id, data) => api.put(`/healthcare/${id}`, data)
+    api.get(`${API_ENDPOINTS.HEALTHCARE}/nearby`, { params: { latitude, longitude, radiusKm } }),
+  create: (data) => api.post(API_ENDPOINTS.HEALTHCARE, data),
+  update: (id, data) => api.put(`${API_ENDPOINTS.HEALTHCARE}/${id}`, data)
 };
 
 export const voiceService = {
-  processQuery: (data) => api.post('/voice-query', data),
-  getHistory: (userId) => api.get(`/voice-query/history/${userId}`)
+  processQuery: (data) => api.post(API_ENDPOINTS.VOICE_QUERY, data),
+  getHistory: (userId) => api.get(`${API_ENDPOINTS.VOICE_QUERY}/history/${userId}`)
 };
 
 export const authService = {
-  register: (data) => api.post('/auth/register', data),
-  login: (data) => api.post('/auth/login', data)
+  register: (data) => api.post(`${API_ENDPOINTS.AUTH}/register`, data),
+  login: (data) => api.post(`${API_ENDPOINTS.AUTH}/login`, data)
 };
 
 export const adminService = {
-  getStats: () => api.get('/stats')
+  getStats: () => api.get(API_ENDPOINTS.STATS)
 };
 
 export { applicationService };

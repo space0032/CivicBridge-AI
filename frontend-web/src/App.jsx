@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ROUTES } from './constants/routes';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { AuthProvider } from './contexts/AuthContext';
 import Header from './components/Header';
@@ -45,50 +46,50 @@ function App() {
               <Header />
               <main style={{ flex: 1, padding: '20px 0' }}>
                 <Routes>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/programs" element={<Programs />} />
-                  <Route path="/healthcare" element={<Healthcare />} />
-                  <Route path="/voice-search" element={<VoiceSearch />} />
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/register" element={<Register />} />
-                  <Route path="/programs/:id" element={<ProgramDetails />} />
-                  <Route path="/healthcare/:id" element={<HealthcareDetails />} />
-                  <Route path="/apply/:id" element={
+                  <Route path={ROUTES.HOME} element={<Home />} />
+                  <Route path={ROUTES.PROGRAMS} element={<Programs />} />
+                  <Route path={ROUTES.HEALTHCARE} element={<Healthcare />} />
+                  <Route path={ROUTES.VOICE_SEARCH} element={<VoiceSearch />} />
+                  <Route path={ROUTES.LOGIN} element={<Login />} />
+                  <Route path={ROUTES.REGISTER} element={<Register />} />
+                  <Route path={ROUTES.PROGRAM_DETAILS} element={<ProgramDetails />} />
+                  <Route path={ROUTES.HEALTHCARE_DETAILS} element={<HealthcareDetails />} />
+                  <Route path={ROUTES.APPLY} element={
                     <ProtectedRoute>
                       <ApplicationPage />
                     </ProtectedRoute>
                   } />
-                  <Route path="/applications" element={
+                  <Route path={ROUTES.APPLICATIONS} element={
                     <ProtectedRoute>
                       <MyApplications />
                     </ProtectedRoute>
                   } />
-                  <Route path="/profile" element={
+                  <Route path={ROUTES.PROFILE} element={
                     <ProtectedRoute>
                       <Profile />
                     </ProtectedRoute>
                   } />
-                  <Route path="/admin" element={
+                  <Route path={ROUTES.ADMIN_DASHBOARD} element={
                     <ProtectedRoute adminOnly={true}>
                       <AdminDashboard />
                     </ProtectedRoute>
                   } />
-                  <Route path="/admin/add-program" element={
+                  <Route path={ROUTES.ADMIN_ADD_PROGRAM} element={
                     <ProtectedRoute adminOnly={true}>
                       <AddProgram />
                     </ProtectedRoute>
                   } />
-                  <Route path="/admin/add-healthcare" element={
+                  <Route path={ROUTES.ADMIN_ADD_HEALTHCARE} element={
                     <ProtectedRoute adminOnly={true}>
                       <AddHealthcare />
                     </ProtectedRoute>
                   } />
-                  <Route path="/admin/edit-program/:id" element={
+                  <Route path={ROUTES.ADMIN_EDIT_PROGRAM} element={
                     <ProtectedRoute adminOnly={true}>
                       <EditProgram />
                     </ProtectedRoute>
                   } />
-                  <Route path="/admin/edit-healthcare/:id" element={
+                  <Route path={ROUTES.ADMIN_EDIT_HEALTHCARE} element={
                     <ProtectedRoute adminOnly={true}>
                       <EditHealthcare />
                     </ProtectedRoute>
