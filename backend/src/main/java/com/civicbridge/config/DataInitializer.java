@@ -28,8 +28,8 @@ public class DataInitializer implements CommandLineRunner {
     public void run(String... args) throws Exception {
         userRepository.findByUsername(adminUsername).ifPresentOrElse(
                 user -> {
-                    if (!user.getRoles().contains("ROLE_ADMIN")) {
-                        user.getRoles().add("ROLE_ADMIN");
+                    if (!user.getRoles().contains(com.civicbridge.model.Role.ROLE_ADMIN)) {
+                        user.getRoles().add(com.civicbridge.model.Role.ROLE_ADMIN);
                         userRepository.save(user);
                     }
                 },
@@ -38,7 +38,7 @@ public class DataInitializer implements CommandLineRunner {
                     admin.setUsername(adminUsername);
                     admin.setPassword(passwordEncoder.encode(adminPassword));
                     admin.setEmail("admin@civicbridge.com");
-                    admin.setRoles(new HashSet<>(Collections.singletonList("ROLE_ADMIN")));
+                    admin.setRoles(new HashSet<>(Collections.singletonList(com.civicbridge.model.Role.ROLE_ADMIN)));
                     userRepository.save(admin);
                 });
     }

@@ -37,8 +37,8 @@ public class AuthService {
         user.setLongitude(request.getLongitude());
         user.setRegion(request.getRegion());
 
-        Set<String> roles = new HashSet<>();
-        roles.add("ROLE_USER");
+        Set<com.civicbridge.model.Role> roles = new HashSet<>();
+        roles.add(com.civicbridge.model.Role.ROLE_USER);
         user.setRoles(roles);
 
         User savedUser = userRepository.save(user);

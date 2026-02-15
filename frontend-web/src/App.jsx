@@ -55,12 +55,12 @@ function App() {
                   <Route path={ROUTES.PROGRAM_DETAILS} element={<ProgramDetails />} />
                   <Route path={ROUTES.HEALTHCARE_DETAILS} element={<HealthcareDetails />} />
                   <Route path={ROUTES.APPLY} element={
-                    <ProtectedRoute>
+                    <ProtectedRoute allowedRoles={['ROLE_USER']}>
                       <ApplicationPage />
                     </ProtectedRoute>
                   } />
                   <Route path={ROUTES.APPLICATIONS} element={
-                    <ProtectedRoute>
+                    <ProtectedRoute allowedRoles={['ROLE_USER', 'ROLE_ADMIN']}>
                       <MyApplications />
                     </ProtectedRoute>
                   } />
@@ -70,27 +70,27 @@ function App() {
                     </ProtectedRoute>
                   } />
                   <Route path={ROUTES.ADMIN_DASHBOARD} element={
-                    <ProtectedRoute adminOnly={true}>
+                    <ProtectedRoute allowedRoles={['ROLE_ADMIN']}>
                       <AdminDashboard />
                     </ProtectedRoute>
                   } />
                   <Route path={ROUTES.ADMIN_ADD_PROGRAM} element={
-                    <ProtectedRoute adminOnly={true}>
+                    <ProtectedRoute allowedRoles={['ROLE_ADMIN']}>
                       <AddProgram />
                     </ProtectedRoute>
                   } />
                   <Route path={ROUTES.ADMIN_ADD_HEALTHCARE} element={
-                    <ProtectedRoute adminOnly={true}>
+                    <ProtectedRoute allowedRoles={['ROLE_ADMIN']}>
                       <AddHealthcare />
                     </ProtectedRoute>
                   } />
                   <Route path={ROUTES.ADMIN_EDIT_PROGRAM} element={
-                    <ProtectedRoute adminOnly={true}>
+                    <ProtectedRoute allowedRoles={['ROLE_ADMIN']}>
                       <EditProgram />
                     </ProtectedRoute>
                   } />
                   <Route path={ROUTES.ADMIN_EDIT_HEALTHCARE} element={
-                    <ProtectedRoute adminOnly={true}>
+                    <ProtectedRoute allowedRoles={['ROLE_ADMIN']}>
                       <EditHealthcare />
                     </ProtectedRoute>
                   } />

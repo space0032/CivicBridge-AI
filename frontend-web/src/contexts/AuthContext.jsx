@@ -48,9 +48,14 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('token');
   };
 
+  const hasRole = (role) => {
+    return user?.roles?.includes(role) || false;
+  };
+
   const value = {
     user,
-    isAdmin: user?.roles?.includes('ROLE_ADMIN'),
+    isAdmin: hasRole('ROLE_ADMIN'),
+    hasRole,
     login,
     logout,
     loading

@@ -8,7 +8,7 @@ import { User, Menu, X } from 'lucide-react';
 const Header = () => {
   const { t } = useTranslation();
   const { currentLanguage, changeLanguage } = useLanguage();
-  const { user, logout } = useAuth();
+  const { user, hasRole, logout } = useAuth();
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -36,7 +36,7 @@ const Header = () => {
           {user ? (
             <>
               <Link to="/applications" style={styles.navLink} aria-label={t('my_applications')}>{t('my_applications')}</Link>
-              {user.roles?.includes('ROLE_ADMIN') && (
+              {hasRole('ROLE_ADMIN') && (
                 <Link to="/admin" style={styles.navLink} aria-label={t('admin_dashboard')}>
                   {t('admin')}
                 </Link>
@@ -83,7 +83,7 @@ const Header = () => {
             {user ? (
               <>
                 <Link to="/applications" style={styles.mobileNavLink} onClick={toggleMenu} aria-label={t('my_applications')}>{t('my_applications')}</Link>
-                {user.roles?.includes('ROLE_ADMIN') && (
+                {hasRole('ROLE_ADMIN') && (
                   <Link to="/admin" style={styles.mobileNavLink} onClick={toggleMenu} aria-label={t('admin')}>{t('admin')}</Link>
                 )}
                 <Link to="/profile" style={styles.mobileNavLink} onClick={toggleMenu} aria-label={t('profile')}>{t('profile')}</Link>

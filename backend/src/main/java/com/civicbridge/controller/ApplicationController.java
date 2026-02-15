@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
+
 @RestController
 @RequestMapping("/applications")
 @RequiredArgsConstructor
@@ -20,6 +22,7 @@ public class ApplicationController {
     private final ApplicationService applicationService;
 
     @PostMapping
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<ApiResponse<Application>> submitApplication(
             @RequestBody ApplicationRequest applicationRequest) {
         try {
@@ -33,6 +36,7 @@ public class ApplicationController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<ApiResponse<List<Application>>> getMyApplications() {
         try {
             List<Application> applications = applicationService.getMyApplications();

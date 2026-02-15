@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
+
 @RestController
 @RequestMapping("/programs")
 @RequiredArgsConstructor
@@ -50,6 +52,7 @@ public class ProgramController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<Program>> createProgram(@Valid @RequestBody Program program) {
         try {
             Program created = programService.createProgram(program);
@@ -61,6 +64,7 @@ public class ProgramController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<Program>> updateProgram(@PathVariable Long id,
             @Valid @RequestBody Program program) {
         try {

@@ -50,8 +50,10 @@ public class SecurityConfig {
                         .requestMatchers("/stats/**").authenticated()
                         .requestMatchers(org.springframework.http.HttpMethod.GET, "/programs/**").permitAll()
                         .requestMatchers(org.springframework.http.HttpMethod.GET, "/healthcare/**").permitAll()
-                        .requestMatchers("/programs/**").hasRole("ADMIN")
-                        .requestMatchers("/healthcare/**").hasRole("ADMIN")
+                        // .requestMatchers("/programs/**").hasRole("ADMIN") // Removed in favor of
+                        // @PreAuthorize
+                        // .requestMatchers("/healthcare/**").hasRole("ADMIN") // Removed in favor of
+                        // @PreAuthorize
                         .requestMatchers("/voice-query/**").permitAll()
                         .requestMatchers("/applications/**").authenticated()
                         .anyRequest().authenticated());
