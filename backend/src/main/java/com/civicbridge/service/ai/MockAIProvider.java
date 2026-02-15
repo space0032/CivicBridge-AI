@@ -54,6 +54,7 @@ public class MockAIProvider implements AIProvider {
             return String.format("I found %d agricultural programs available. The top program is: %s",
                     programs.size(), programs.get(0).getName());
         } catch (Exception e) {
+            e.printStackTrace(); // Log the error for debugging
             return "I'm having trouble accessing the program database right now.";
         }
     }
