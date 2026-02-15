@@ -21,6 +21,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import io.github.bucket4j.Bandwidth;
+import io.github.bucket4j.Bucket;
+import io.github.bucket4j.Refill;
+import java.time.Duration;
 import org.springframework.retry.support.RetryTemplate;
 
 @Service("geminiProvider")
@@ -40,17 +44,28 @@ public class GeminiAIProvider implements AIProvider {
     private final RetryTemplate retryTemplate = RetryTemplate.builder()
             .maxAttempts(3)
             .fixedBackoff(2000)
-            .retryOn(Exception.class)
+            .retryOn(org.springframework.web.client.ResourceAccessException.class)
+            .retryOn(org.springframework.web.client.HttpServerErrorException.class)
+            .retryOn(java.net.SocketTimeoutException.class)
+            .build();
+
+    // Rate limiter: 10 requests per minute
+    private final Bucket bucket = Bucket.builder()
+            .addLimit(Bandwidth.classic(10, Refill.greedy(10, Duration.ofMinutes(1))))
             .build();
 
     @Override
     public String processQuery(VoiceQueryRequest request) {
+        if (!bucket.tryConsume(1)) {
+            log.warn("Rate limit exceeded for Gemini API");
+            return "I'm experiencing high traffic right now. Please try again in a moment.";
+        }
         try {
             // 1. Fetch context data
             List<Program> programs = programRepository.findByIsActiveTrue();
             List<HealthcareFacility> facilities = healthcareFacilityRepository.findByIsActiveTrue();
 
-            String context = buildContext(programs, facilities);
+            String context = buildContext(request.getQueryText(), programs, facilities);
             String prompt = createPrompt(request, context);
 
             // 2. Call Gemini API with Retry
@@ -111,15 +126,26 @@ public class GeminiAIProvider implements AIProvider {
         return "I couldn't generate a response.";
     }
 
-    private String buildContext(List<Program> programs, List<HealthcareFacility> facilities) {
+    private String buildContext(String query, List<Program> programs, List<HealthcareFacility> facilities) {
+        String lowerQuery = query.toLowerCase();
+
+        // Filter programs based on query keywords
+        List<Program> relevantPrograms = programs.stream()
+                .sorted((p1, p2) -> {
+                    boolean p1Relevant = isRelevant(p1, lowerQuery);
+                    boolean p2Relevant = isRelevant(p2, lowerQuery);
+                    return Boolean.compare(p2Relevant, p1Relevant); // True (relevant) comes first
+                })
+                .collect(Collectors.toList());
+
         // Optimize context by limiting items and fields
-        String programContext = programs.stream()
+        String programContext = relevantPrograms.stream()
                 .limit(5) // Limit to 5 programs
                 .map(p -> String.format("%s: %s", p.getName(), p.getDescription()))
                 .collect(Collectors.joining("\n"));
 
         String facilityContext = facilities.stream()
-                .limit(5) // Limit to 5 facilities
+                .limit(3) // Limit to 3 facilities to save tokens if not explicitly asked
                 .map(f -> String.format("%s (%s) - %s", f.getName(), f.getType(), f.getAddress()))
                 .collect(Collectors.joining("\n"));
 
@@ -132,6 +158,17 @@ public class GeminiAIProvider implements AIProvider {
         return "Available Programs:\n" + programContext + "\n\nNearby Facilities:\n" + facilityContext;
     }
 
+    private boolean isRelevant(Program program, String query) {
+        if (program.getCategory() != null && query.contains(program.getCategory().toLowerCase())) {
+            return true;
+        }
+        // Add more specific logic here, e.g., mapping "farm" to "Agriculture"
+        if (query.contains("farm") || query.contains("crop") || query.contains("agri")) {
+            return "Agriculture".equalsIgnoreCase(program.getCategory());
+        }
+        return false;
+    }
+
     private String createPrompt(VoiceQueryRequest request, String context) {
         return "You are a helpful assistant for CivicBridge AI. " +
                 "User Query: \"" + request.getQueryText() + "\"\n" +
@@ -142,5 +179,10 @@ public class GeminiAIProvider implements AIProvider {
     @Override
     public String getProviderName() {
         return "Gemini";
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return apiKey != null && !apiKey.isEmpty();
     }
 }

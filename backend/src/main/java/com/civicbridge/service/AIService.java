@@ -23,20 +23,44 @@ public class AIService {
     private String activeProviderName;
 
     public String processQuery(VoiceQueryRequest request) {
-        AIProvider provider = aiProviders.values().stream()
+        // 1. Try Primary Provider (configured via properties)
+        AIProvider primaryProvider = aiProviders.values().stream()
                 .filter(p -> p.getProviderName().equalsIgnoreCase(activeProviderName))
                 .findFirst()
-                .orElse(aiProviders.values().stream()
-                        .filter(p -> p.getProviderName().equals("MockProvider"))
-                        .findFirst()
-                        .orElseThrow(() -> new RuntimeException("No AI Provider available")));
+                .orElse(null);
 
-        String response = provider.processQuery(request);
+        if (primaryProvider != null && primaryProvider.isEnabled()) {
+            try {
+                String response = primaryProvider.processQuery(request);
+                saveQueryHistory(request, response, primaryProvider.getProviderName());
+                return response;
+            } catch (Exception e) {
+                // Log and fall through to try other providers
+                System.err.println("Primary provider " + activeProviderName + " failed: " + e.getMessage());
+            }
+        }
 
-        // Save query history
-        saveQueryHistory(request, response, provider.getProviderName());
+        // 2. Failover: Try other enabled providers
+        for (AIProvider provider : aiProviders.values()) {
+            // Skip the primary one we just tried (or if it was null)
+            if (primaryProvider != null && provider.getProviderName().equals(primaryProvider.getProviderName())) {
+                continue;
+            }
 
-        return response;
+            if (provider.isEnabled()) {
+                try {
+                    String response = provider.processQuery(request);
+                    saveQueryHistory(request, response, provider.getProviderName());
+                    return response;
+                } catch (Exception e) {
+                    System.err.println(
+                            "Provider " + provider.getProviderName() + " failed during failover: " + e.getMessage());
+                    // Continue to next provider
+                }
+            }
+        }
+
+        throw new RuntimeException("All AI Providers failed. Please try again later.");
     }
 
     public String processVoiceQuery(VoiceQueryRequest request) {

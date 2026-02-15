@@ -82,4 +82,9 @@ public class OpenAIProvider implements AIProvider {
     public String getProviderName() {
         return "OpenAI";
     }
+
+    @Override
+    public boolean isEnabled() {
+        return apiKey != null && !apiKey.isEmpty();
+    }
 }

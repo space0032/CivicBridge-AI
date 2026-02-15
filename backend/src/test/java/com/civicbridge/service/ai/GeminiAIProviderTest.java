@@ -139,4 +139,52 @@ class GeminiAIProviderTest {
 
         assertEquals("I couldn't generate a response.", result);
     }
+
+    @Test
+    void testProcessQuery_InvalidResponse_ReturnsFallback() {
+        VoiceQueryRequest request = new VoiceQueryRequest();
+        request.setQueryText("Invalid data test");
+
+        when(programRepository.findByIsActiveTrue()).thenReturn(Collections.emptyList());
+        when(healthcareFacilityRepository.findByIsActiveTrue()).thenReturn(Collections.emptyList());
+
+        // Simulate an invalid response from the API (missing "candidates")
+        Map<String, Object> invalidResponseBody = new HashMap<>();
+        ResponseEntity<Map<String, Object>> responseEntity = ResponseEntity.ok(invalidResponseBody);
+
+        when(restTemplate.exchange(
+                any(String.class),
+                eq(HttpMethod.POST),
+                any(HttpEntity.class),
+                (ParameterizedTypeReference<Map<String, Object>>) any(ParameterizedTypeReference.class)))
+                .thenReturn(responseEntity);
+
+        String result = geminiAIProvider.processQuery(request);
+
+        assertEquals("I couldn't generate a response.", result);
+    }
+
+    @Test
+    void testProcessQuery_ApiRejection_ReturnsFallback() {
+        VoiceQueryRequest request = new VoiceQueryRequest();
+        request.setQueryText("API Rejection Test");
+
+        when(programRepository.findByIsActiveTrue()).thenReturn(Collections.emptyList());
+        when(healthcareFacilityRepository.findByIsActiveTrue()).thenReturn(Collections.emptyList());
+
+        // Simulate a 429 Too Many Requests or similar error
+        when(restTemplate.exchange(
+                any(String.class),
+                eq(HttpMethod.POST),
+                any(HttpEntity.class),
+                (ParameterizedTypeReference<Map<String, Object>>) any(ParameterizedTypeReference.class)))
+                .thenThrow(new org.springframework.web.client.HttpClientErrorException(
+                        org.springframework.http.HttpStatus.TOO_MANY_REQUESTS));
+
+        String result = geminiAIProvider.processQuery(request);
+
+        // The fallback block in processQuery catches Exception, so it should return the
+        // apology message
+        assertTrue(result.contains("I'm sorry, I'm having trouble"));
+    }
 }

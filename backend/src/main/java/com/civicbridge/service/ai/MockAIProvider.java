@@ -39,6 +39,11 @@ public class MockAIProvider implements AIProvider {
         return "MockProvider";
     }
 
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
     private String generateProgramResponse(VoiceQueryRequest request) {
         // Safe navigation for programs
         try {

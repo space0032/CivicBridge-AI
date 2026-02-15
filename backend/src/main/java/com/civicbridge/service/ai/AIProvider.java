@@ -6,4 +6,6 @@ public interface AIProvider {
     String processQuery(VoiceQueryRequest request);
 
     String getProviderName();
+
+    boolean isEnabled();
 }
