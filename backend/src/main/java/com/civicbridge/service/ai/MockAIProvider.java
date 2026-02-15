@@ -47,7 +47,9 @@ public class MockAIProvider implements AIProvider {
     private String generateProgramResponse(VoiceQueryRequest request) {
         // Safe navigation for programs
         try {
-            List<Program> programs = programService.getProgramsByFilters("AGRICULTURE", null);
+            // Pass empty string instead of null for region to avoid Hibernate validation
+            // errors
+            List<Program> programs = programService.getProgramsByFilters("AGRICULTURE", "");
             if (programs == null || programs.isEmpty()) {
                 return "I couldn't find any agricultural programs at the moment. Please check back later.";
             }
