@@ -31,7 +31,8 @@ vi.mock('./contexts/AuthContext', async () => {
             login: mockLogin,
             logout: mockLogout,
             loading: false,
-            isAdmin: global.mockUser?.roles?.includes('ROLE_ADMIN')
+            isAdmin: global.mockUser?.roles?.includes('ROLE_ADMIN'),
+            hasRole: (role) => global.mockUser?.roles?.includes(role) || false
         }),
         // We don't need AuthProvider here as we are testing Header in isolation, 
         // but if Header uses other context hooks, we might need wrappers.
