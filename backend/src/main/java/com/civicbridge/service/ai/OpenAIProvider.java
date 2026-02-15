@@ -8,6 +8,8 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -53,8 +55,9 @@ public class OpenAIProvider implements AIProvider {
 
             HttpEntity<Map<String, Object>> entity = new HttpEntity<>(body, headers);
 
-            ResponseEntity<Map<String, Object>> response = restTemplate.postForEntity(OPENAI_URL, entity,
-                    (Class<Map<String, Object>>) (Class<?>) Map.class);
+            ResponseEntity<Map<String, Object>> response = restTemplate.exchange(OPENAI_URL, HttpMethod.POST, entity,
+                    new ParameterizedTypeReference<Map<String, Object>>() {
+                    });
 
             // Simplified parsing - in real app use proper DTOs
             if (response.getBody() != null && response.getBody().containsKey("choices")) {

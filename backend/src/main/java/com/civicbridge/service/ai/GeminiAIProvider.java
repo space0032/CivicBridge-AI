@@ -8,8 +8,10 @@ import com.civicbridge.repository.jpa.HealthcareFacilityRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -69,8 +71,9 @@ public class GeminiAIProvider implements AIProvider {
 
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(requestBody, headers);
 
-        ResponseEntity<Map<String, Object>> response = restTemplate.postForEntity(url, entity,
-                (Class<Map<String, Object>>) (Class<?>) Map.class);
+        ResponseEntity<Map<String, Object>> response = restTemplate.exchange(url, HttpMethod.POST, entity,
+                new ParameterizedTypeReference<Map<String, Object>>() {
+                });
 
         if (response.getBody() != null && response.getBody().containsKey("candidates")) {
             @SuppressWarnings("unchecked")

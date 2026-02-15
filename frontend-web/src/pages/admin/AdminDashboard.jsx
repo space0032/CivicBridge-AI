@@ -43,7 +43,16 @@ const AdminDashboard = () => {
             const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080/api';
             const wsUrl = `${baseUrl}/ws`;
             const socket = new SockJS(wsUrl);
-            const stompClient = Stomp.over(socket);
+
+            // Handle Stomp import quirks (ESM vs CommonJS vs window)
+            const StompClient = Stomp.over ? Stomp : (Stomp.default || window.Stomp);
+
+            if (!StompClient || !StompClient.over) {
+                console.error("Stomp client could not be initialized");
+                return;
+            }
+
+            const stompClient = StompClient.over(socket);
 
             stompClient.connect({}, () => {
                 stompClient.subscribe('/topic/stats', (message) => {

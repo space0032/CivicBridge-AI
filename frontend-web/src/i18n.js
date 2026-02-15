@@ -102,7 +102,11 @@ const resources = {
       "no_applications_found": "You have not submitted any applications yet.",
       "status": "Status",
       "submitted_on": "Submitted On",
-      "error_loading_applications": "Failed to load applications."
+      "error_loading_applications": "Failed to load applications.",
+      "select_language": "Select Language",
+      "open_menu": "Open Menu",
+      "close_menu": "Close Menu",
+      "mobile_navigation": "Mobile Navigation"
     }
   },
   es: {
@@ -191,7 +195,11 @@ const resources = {
       "no_applications_found": "Aún no has enviado ninguna solicitud.",
       "status": "Estado",
       "submitted_on": "Enviado el",
-      "error_loading_applications": "Error al cargar las solicitudes."
+      "error_loading_applications": "Error al cargar las solicitudes.",
+      "select_language": "Seleccionar idioma",
+      "open_menu": "Abrir menú",
+      "close_menu": "Cerrar menú",
+      "mobile_navigation": "Navegación móvil"
     }
   },
   hi: {
@@ -275,7 +283,11 @@ const resources = {
       "no_applications_found": "आपने अभी तक कोई आवेदन जमा नहीं किया है।",
       "status": "स्थिति",
       "submitted_on": "को प्रस्तुत किया गया",
-      "error_loading_applications": "आवेनों को लोड करने में विफल।"
+      "error_loading_applications": "आवेनों को लोड करने में विफल।",
+      "select_language": "भाषा चुने",
+      "open_menu": "मेनू खोलें",
+      "close_menu": "मेनू बंद करें",
+      "mobile_navigation": "मोबाइल नेविगेशन"
     }
   }
 };

@@ -83,7 +83,7 @@ const Healthcare = () => {
         </p>
       </div>
 
-      <div style={styles.filters}>
+      <div className="healthcare-filters">
         <div className="form-group">
           <label htmlFor="region-filter">{t('region')}</label>
           <input
@@ -113,7 +113,7 @@ const Healthcare = () => {
           </select>
         </div>
 
-        <div className="form-group" style={styles.checkboxGroup}>
+        <div className="form-group checkbox-group">
           <input
             type="checkbox"
             id="free-services-filter"
@@ -177,15 +177,7 @@ const styles = {
     margin: '0 auto'
   },
   filters: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-    gap: '20px',
-    marginBottom: '40px',
-    padding: '20px',
-    backgroundColor: '#f9fafb',
-    borderRadius: '8px',
-    border: '1px solid #e5e7eb',
-    alignItems: 'end'
+    // Moved to CSS .healthcare-filters
   },
   select: {
     width: '100%',
@@ -194,8 +186,7 @@ const styles = {
     border: '1px solid #d1d5db'
   },
   checkboxGroup: {
-    display: 'flex',
-    alignItems: 'center'
+    // Moved to CSS .healthcare-filters .checkbox-group
   },
   checkbox: {
     marginRight: '8px'
