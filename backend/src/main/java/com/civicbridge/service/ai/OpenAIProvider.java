@@ -31,51 +31,46 @@ public class OpenAIProvider implements AIProvider {
             return "OpenAI API key is missing. Please configure it in the application settings.";
         }
 
-        try {
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            headers.setBearerAuth(apiKey);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(apiKey);
 
-            Map<String, Object> body = new HashMap<>();
-            body.put("model", "gpt-3.5-turbo");
+        Map<String, Object> body = new HashMap<>();
+        body.put("model", "gpt-3.5-turbo");
 
-            List<Map<String, String>> messages = new ArrayList<>();
-            Map<String, String> systemMsg = new HashMap<>();
-            systemMsg.put("role", "system");
-            systemMsg.put("content",
-                    "You are a helpful assistant for CivicBridge, an app helping marginalized communities access resources.");
-            messages.add(systemMsg);
+        List<Map<String, String>> messages = new ArrayList<>();
+        Map<String, String> systemMsg = new HashMap<>();
+        systemMsg.put("role", "system");
+        systemMsg.put("content",
+                "You are a helpful assistant for CivicBridge, an app helping marginalized communities access resources.");
+        messages.add(systemMsg);
 
-            Map<String, String> userMsg = new HashMap<>();
-            userMsg.put("role", "user");
-            userMsg.put("content", request.getQueryText());
-            messages.add(userMsg);
+        Map<String, String> userMsg = new HashMap<>();
+        userMsg.put("role", "user");
+        userMsg.put("content", request.getQueryText());
+        messages.add(userMsg);
 
-            body.put("messages", messages);
+        body.put("messages", messages);
 
-            HttpEntity<Map<String, Object>> entity = new HttpEntity<>(body, headers);
+        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(body, headers);
 
-            ResponseEntity<Map<String, Object>> response = restTemplate.exchange(OPENAI_URL, HttpMethod.POST, entity,
-                    new ParameterizedTypeReference<Map<String, Object>>() {
-                    });
+        ResponseEntity<Map<String, Object>> response = restTemplate.exchange(OPENAI_URL, HttpMethod.POST, entity,
+                new ParameterizedTypeReference<Map<String, Object>>() {
+                });
 
-            // Simplified parsing - in real app use proper DTOs
-            if (response.getBody() != null && response.getBody().containsKey("choices")) {
+        // Simplified parsing - in real app use proper DTOs
+        if (response.getBody() != null && response.getBody().containsKey("choices")) {
+            @SuppressWarnings("unchecked")
+            List<Map<String, Object>> choices = (List<Map<String, Object>>) response.getBody().get("choices");
+            if (choices != null && !choices.isEmpty()) {
+                Map<String, Object> firstChoice = choices.get(0);
                 @SuppressWarnings("unchecked")
-                List<Map<String, Object>> choices = (List<Map<String, Object>>) response.getBody().get("choices");
-                if (choices != null && !choices.isEmpty()) {
-                    Map<String, Object> firstChoice = choices.get(0);
-                    @SuppressWarnings("unchecked")
-                    Map<String, Object> message = (Map<String, Object>) firstChoice.get("message");
-                    return (String) message.get("content");
-                }
+                Map<String, Object> message = (Map<String, Object>) firstChoice.get("message");
+                return (String) message.get("content");
             }
-
-            return "I couldn't understand that. Could you try again?";
-
-        } catch (Exception e) {
-            return "Error connecting to AI service: " + e.getMessage();
         }
+
+        throw new RuntimeException("OpenAI returned no choices");
     }
 
     @Override

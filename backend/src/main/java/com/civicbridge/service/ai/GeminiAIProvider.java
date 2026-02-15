@@ -58,26 +58,21 @@ public class GeminiAIProvider implements AIProvider {
     public String processQuery(VoiceQueryRequest request) {
         if (!bucket.tryConsume(1)) {
             log.warn("Rate limit exceeded for Gemini API");
-            return "I'm experiencing high traffic right now. Please try again in a moment.";
+            throw new RuntimeException("Rate limit exceeded");
         }
-        try {
-            // 1. Fetch context data
-            List<Program> programs = programRepository.findByIsActiveTrue();
-            List<HealthcareFacility> facilities = healthcareFacilityRepository.findByIsActiveTrue();
 
-            String context = buildContext(request.getQueryText(), programs, facilities);
-            String prompt = createPrompt(request, context);
+        // 1. Fetch context data
+        List<Program> programs = programRepository.findByIsActiveTrue();
+        List<HealthcareFacility> facilities = healthcareFacilityRepository.findByIsActiveTrue();
 
-            // 2. Call Gemini API with Retry
-            long start = System.currentTimeMillis();
-            String response = callGeminiApi(prompt);
-            log.info("Gemini API call completed in {} ms", System.currentTimeMillis() - start);
-            return response;
+        String context = buildContext(request.getQueryText(), programs, facilities);
+        String prompt = createPrompt(request, context);
 
-        } catch (Exception e) {
-            log.error("Error calling Gemini API", e);
-            return "I'm sorry, I'm having trouble connecting to the AI service right now. Please try again later.";
-        }
+        // 2. Call Gemini API with Retry
+        long start = System.currentTimeMillis();
+        String response = callGeminiApi(prompt);
+        log.info("Gemini API call completed in {} ms", System.currentTimeMillis() - start);
+        return response;
     }
 
     private String callGeminiApi(String prompt) {
@@ -123,7 +118,7 @@ public class GeminiAIProvider implements AIProvider {
                 }
             }
         }
-        return "I couldn't generate a response.";
+        throw new RuntimeException("Gemini returned invalid response or no candidates");
     }
 
     private String buildContext(String query, List<Program> programs, List<HealthcareFacility> facilities) {

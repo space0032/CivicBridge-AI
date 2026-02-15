@@ -60,7 +60,9 @@ public class AIService {
             }
         }
 
-        throw new RuntimeException("All AI Providers failed. Please try again later.");
+        // All providers failed
+        System.err.println("All AI Providers failed to process query: " + request.getQueryText());
+        return "I'm sorry, I'm having trouble connecting to the AI service right now. Please try again later.";
     }
 
     public String processVoiceQuery(VoiceQueryRequest request) {

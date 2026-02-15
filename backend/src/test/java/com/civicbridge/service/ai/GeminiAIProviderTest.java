@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
@@ -98,7 +98,7 @@ class GeminiAIProviderTest {
     }
 
     @Test
-    void testProcessQuery_ApiError_ReturnsFallback() {
+    void testProcessQuery_ApiError_ThrowsException() {
         VoiceQueryRequest request = new VoiceQueryRequest();
         request.setQueryText("Test");
 
@@ -112,13 +112,13 @@ class GeminiAIProviderTest {
                 (ParameterizedTypeReference<Map<String, Object>>) any(ParameterizedTypeReference.class)))
                 .thenThrow(new RuntimeException("API Failure"));
 
-        String result = geminiAIProvider.processQuery(request);
-
-        assertTrue(result.contains("I'm sorry, I'm having trouble"));
+        org.junit.jupiter.api.Assertions.assertThrows(RuntimeException.class, () -> {
+            geminiAIProvider.processQuery(request);
+        });
     }
 
     @Test
-    void testProcessQuery_EmptyResponse_ReturnsFallback() {
+    void testProcessQuery_InvalidResponse_ThrowsException() {
         VoiceQueryRequest request = new VoiceQueryRequest();
         request.setQueryText("Test");
 
@@ -135,9 +135,9 @@ class GeminiAIProviderTest {
                 (ParameterizedTypeReference<Map<String, Object>>) any(ParameterizedTypeReference.class)))
                 .thenReturn(responseEntity);
 
-        String result = geminiAIProvider.processQuery(request);
-
-        assertEquals("I couldn't generate a response.", result);
+        org.junit.jupiter.api.Assertions.assertThrows(RuntimeException.class, () -> {
+            geminiAIProvider.processQuery(request);
+        });
     }
 
     @Test
@@ -165,7 +165,7 @@ class GeminiAIProviderTest {
     }
 
     @Test
-    void testProcessQuery_ApiRejection_ReturnsFallback() {
+    void testProcessQuery_ApiRejection_ThrowsException() {
         VoiceQueryRequest request = new VoiceQueryRequest();
         request.setQueryText("API Rejection Test");
 
@@ -181,10 +181,8 @@ class GeminiAIProviderTest {
                 .thenThrow(new org.springframework.web.client.HttpClientErrorException(
                         org.springframework.http.HttpStatus.TOO_MANY_REQUESTS));
 
-        String result = geminiAIProvider.processQuery(request);
-
-        // The fallback block in processQuery catches Exception, so it should return the
-        // apology message
-        assertTrue(result.contains("I'm sorry, I'm having trouble"));
+        org.junit.jupiter.api.Assertions.assertThrows(RuntimeException.class, () -> {
+            geminiAIProvider.processQuery(request);
+        });
     }
 }
