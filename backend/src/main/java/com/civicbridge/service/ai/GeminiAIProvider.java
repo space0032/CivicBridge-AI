@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import org.springframework.retry.support.RetryTemplate;
 
 @Service("geminiProvider")
 @RequiredArgsConstructor
@@ -36,6 +37,12 @@ public class GeminiAIProvider implements AIProvider {
 
     private static final String GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=";
 
+    private final RetryTemplate retryTemplate = RetryTemplate.builder()
+            .maxAttempts(3)
+            .fixedBackoff(2000)
+            .retryOn(Exception.class)
+            .build();
+
     @Override
     public String processQuery(VoiceQueryRequest request) {
         try {
@@ -46,8 +53,11 @@ public class GeminiAIProvider implements AIProvider {
             String context = buildContext(programs, facilities);
             String prompt = createPrompt(request, context);
 
-            // 2. Call Gemini API
-            return callGeminiApi(prompt);
+            // 2. Call Gemini API with Retry
+            long start = System.currentTimeMillis();
+            String response = callGeminiApi(prompt);
+            log.info("Gemini API call completed in {} ms", System.currentTimeMillis() - start);
+            return response;
 
         } catch (Exception e) {
             log.error("Error calling Gemini API", e);
@@ -56,25 +66,31 @@ public class GeminiAIProvider implements AIProvider {
     }
 
     private String callGeminiApi(String prompt) {
-        String url = GEMINI_URL + apiKey;
+        return retryTemplate.execute(context -> {
+            String url = GEMINI_URL + apiKey;
 
-        Map<String, Object> content = new HashMap<>();
-        Map<String, Object> part = new HashMap<>();
-        part.put("text", prompt);
-        content.put("parts", new Object[] { part });
+            Map<String, Object> content = new HashMap<>();
+            Map<String, Object> part = new HashMap<>();
+            part.put("text", prompt);
+            content.put("parts", new Object[] { part });
 
-        Map<String, Object> requestBody = new HashMap<>();
-        requestBody.put("contents", new Object[] { content });
+            Map<String, Object> requestBody = new HashMap<>();
+            requestBody.put("contents", new Object[] { content });
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
 
-        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(requestBody, headers);
+            HttpEntity<Map<String, Object>> entity = new HttpEntity<>(requestBody, headers);
 
-        ResponseEntity<Map<String, Object>> response = restTemplate.exchange(url, HttpMethod.POST, entity,
-                new ParameterizedTypeReference<Map<String, Object>>() {
-                });
+            ResponseEntity<Map<String, Object>> response = restTemplate.exchange(url, HttpMethod.POST, entity,
+                    new ParameterizedTypeReference<Map<String, Object>>() {
+                    });
 
+            return parseResponse(response);
+        });
+    }
+
+    private String parseResponse(ResponseEntity<Map<String, Object>> response) {
         if (response.getBody() != null && response.getBody().containsKey("candidates")) {
             @SuppressWarnings("unchecked")
             List<Map<String, Object>> candidates = (List<Map<String, Object>>) response.getBody().get("candidates");
@@ -83,7 +99,6 @@ public class GeminiAIProvider implements AIProvider {
                 @SuppressWarnings("unchecked")
                 Map<String, Object> contentMap = (Map<String, Object>) candidate.get("content");
 
-                // Gemini API structure is: candidates[].content.parts[].text
                 if (contentMap != null && contentMap.containsKey("parts")) {
                     @SuppressWarnings("unchecked")
                     List<Map<String, Object>> partsList = (List<Map<String, Object>>) contentMap.get("parts");
@@ -97,15 +112,22 @@ public class GeminiAIProvider implements AIProvider {
     }
 
     private String buildContext(List<Program> programs, List<HealthcareFacility> facilities) {
+        // Optimize context by limiting items and fields
         String programContext = programs.stream()
-                .map(p -> p.getName() + " (" + p.getCategory() + "): " + p.getDescription())
-                .limit(10)
+                .limit(5) // Limit to 5 programs
+                .map(p -> String.format("%s: %s", p.getName(), p.getDescription()))
                 .collect(Collectors.joining("\n"));
 
         String facilityContext = facilities.stream()
-                .map(f -> f.getName() + " (" + f.getType() + ") - " + f.getAddress())
-                .limit(10)
+                .limit(5) // Limit to 5 facilities
+                .map(f -> String.format("%s (%s) - %s", f.getName(), f.getType(), f.getAddress()))
                 .collect(Collectors.joining("\n"));
+
+        // Handle empty lists gracefully
+        if (programContext.isEmpty())
+            programContext = "No programs available.";
+        if (facilityContext.isEmpty())
+            facilityContext = "No facilities available.";
 
         return "Available Programs:\n" + programContext + "\n\nNearby Facilities:\n" + facilityContext;
     }
