@@ -77,20 +77,20 @@ const Header = () => {
         {/* Mobile Nav */}
         {isMenuOpen && (
           <nav style={styles.mobileNav} aria-label={t('mobile_navigation')}>
-            <Link to="/programs" style={styles.mobileNavLink} onClick={toggleMenu}>{t('programs')}</Link>
-            <Link to="/healthcare" style={styles.mobileNavLink} onClick={toggleMenu}>{t('healthcare')}</Link>
-            <Link to="/voice-search" style={styles.mobileNavLink} onClick={toggleMenu}>{t('voice_search')}</Link>
+            <Link to="/programs" style={styles.mobileNavLink} onClick={toggleMenu} aria-label={t('programs')}>{t('programs')}</Link>
+            <Link to="/healthcare" style={styles.mobileNavLink} onClick={toggleMenu} aria-label={t('healthcare')}>{t('healthcare')}</Link>
+            <Link to="/voice-search" style={styles.mobileNavLink} onClick={toggleMenu} aria-label={t('voice_search')}>{t('voice_search')}</Link>
             {user ? (
               <>
-                <Link to="/applications" style={styles.mobileNavLink} onClick={toggleMenu}>{t('my_applications')}</Link>
+                <Link to="/applications" style={styles.mobileNavLink} onClick={toggleMenu} aria-label={t('my_applications')}>{t('my_applications')}</Link>
                 {user.roles?.includes('ROLE_ADMIN') && (
-                  <Link to="/admin" style={styles.mobileNavLink} onClick={toggleMenu}>{t('admin')}</Link>
+                  <Link to="/admin" style={styles.mobileNavLink} onClick={toggleMenu} aria-label={t('admin')}>{t('admin')}</Link>
                 )}
-                <Link to="/profile" style={styles.mobileNavLink} onClick={toggleMenu}>{t('profile')}</Link>
+                <Link to="/profile" style={styles.mobileNavLink} onClick={toggleMenu} aria-label={t('profile')}>{t('profile')}</Link>
                 <button onClick={handleLogout} style={styles.mobileNavLink} aria-label={t('logout')}>{t('logout')}</button>
               </>
             ) : (
-              <Link to="/login" style={styles.mobileNavLink} onClick={toggleMenu}>{t('login')}</Link>
+              <Link to="/login" style={styles.mobileNavLink} onClick={toggleMenu} aria-label={t('login')}>{t('login')}</Link>
             )}
             <div style={styles.mobileLangSection}>
               <select

@@ -3,10 +3,7 @@ import applicationService from './application';
 import logger from '../utils/logger';
 import { mapErrorCodeToMessage } from '../utils/errorMapper';
 import i18n from '../i18n';
-import { API_ENDPOINTS } from '../config/apiEndpoints';
-
-// Use a relative path for the API base URL to ensure it goes through the Vite proxy in development.
-const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
+import { API_BASE_URL, API_ENDPOINTS } from '../config/apiConfig';
 
 const api = axios.create({
   baseURL: API_BASE_URL,

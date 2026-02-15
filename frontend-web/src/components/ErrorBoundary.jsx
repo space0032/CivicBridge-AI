@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import logger from '../utils/logger';
 import { AlertTriangle } from 'lucide-react';
 
 const ErrorBoundary = ({ children }) => {
     const [hasError, setHasError] = useState(false);
     const { t } = useTranslation();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const errorHandler = (error, errorInfo) => {
@@ -32,7 +34,10 @@ const ErrorBoundary = ({ children }) => {
                             {t('refresh_page')}
                         </button>
                         <button
-                            onClick={() => window.location.href = '/'}
+                            onClick={() => {
+                                setHasError(false);
+                                navigate('/');
+                            }}
                             style={styles.secondaryButton}
                         >
                             {t('go_to_homepage')}

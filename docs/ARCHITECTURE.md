@@ -282,14 +282,18 @@ Process Request
 
 1. **Authentication**: JWT-based stateless authentication
 2. **Authorization**: Role-based access control (RBAC)
+   - Roles: `ROLE_USER`, `ROLE_ADMIN`
+   - Implementation: Spring Security `@PreAuthorize` annotations
+   - Hierarchy: Admins inherit User permissions
 3. **Data Encryption**: HTTPS/TLS for all communications
 4. **Input Validation**: Server-side validation for all inputs
 5. **SQL Injection Prevention**: Parameterized queries
 6. **CORS**: Configured allowed origins
 7. **Rate Limiting**: API rate limits per user/IP
 8. **CSRF Protection**:
-   - The application uses stateless JWT authentication, which naturally mitigates CSRF attacks as tokens are not automatically sent by the browser like cookies.
-   - For any cookie-based sessions, `SameSite=Strict` and `Secure` flags are enforced to prevent cross-site request forgery.
+   - The application primarily relies on stateless JWT authentication (Bearer Token), which is immune to CSRF as browsers do not automatically attach these tokens.
+   - For endpoints requiring cookies (if any), strict `SameSite` policies are enforced.
+   - Double-submit cookie pattern is planned for any future stateful features.
 
 ## Scalability Considerations
 

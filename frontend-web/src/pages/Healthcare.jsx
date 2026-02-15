@@ -14,7 +14,8 @@ const Healthcare = () => {
   const [location, setLocation] = useState(null);
   const [filters, setFilters] = useState({
     type: '',
-    freeServices: false
+    freeServices: false,
+    region: ''
   });
 
   useEffect(() => {
@@ -83,6 +84,19 @@ const Healthcare = () => {
       </div>
 
       <div style={styles.filters}>
+        <div className="form-group">
+          <label htmlFor="region-filter">{t('region')}</label>
+          <input
+            type="text"
+            id="region-filter"
+            name="region"
+            value={filters.region}
+            onChange={handleFilterChange}
+            placeholder={t('enter_region')}
+            style={styles.input}
+          />
+        </div>
+
         <div className="form-group">
           <label htmlFor="type-filter">Facility Type</label>
           <select
@@ -209,6 +223,12 @@ const styles = {
     backgroundColor: '#d1fae5',
     borderRadius: '5px',
     marginBottom: '20px'
+  },
+  input: {
+    width: '100%',
+    padding: '10px',
+    borderRadius: '4px',
+    border: '1px solid #d1d5db'
   }
 };
 
