@@ -58,8 +58,7 @@ services:
       - postgres
     networks:
       - civicbridge-network
-
-  # Backend Service
+    # Backend Service
   backend:
     build:
       context: ./backend
@@ -68,18 +67,17 @@ services:
     env_file:
       - .env
     environment:
+      # Override DB URLs to use docker service names
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/civicbridge
       - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER}
       - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
       - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/civicbridge
-      - AI_PROVIDER=${AI_PROVIDER}
-      - GEMINI_API_KEY=${GEMINI_API_KEY}
-      - OPENAI_API_KEY=${OPENAI_API_KEY}
-      - JWT_SECRET=${JWT_SECRET}
-      - MAIL_USERNAME=${MAIL_USERNAME}
-      - MAIL_PASSWORD=${MAIL_PASSWORD}
+      # Other variables are loaded from .env
     ports:
       - "8080:8080"
+      # volumes:
+      # - ./backend:/app # CAUTION: specific to dev, might hide app.jar if not careful
+
     depends_on:
       - postgres
       - mongodb
