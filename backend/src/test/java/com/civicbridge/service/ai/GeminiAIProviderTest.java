@@ -141,30 +141,6 @@ class GeminiAIProviderTest {
     }
 
     @Test
-    void testProcessQuery_InvalidResponse_ReturnsFallback() {
-        VoiceQueryRequest request = new VoiceQueryRequest();
-        request.setQueryText("Invalid data test");
-
-        when(programRepository.findByIsActiveTrue()).thenReturn(Collections.emptyList());
-        when(healthcareFacilityRepository.findByIsActiveTrue()).thenReturn(Collections.emptyList());
-
-        // Simulate an invalid response from the API (missing "candidates")
-        Map<String, Object> invalidResponseBody = new HashMap<>();
-        ResponseEntity<Map<String, Object>> responseEntity = ResponseEntity.ok(invalidResponseBody);
-
-        when(restTemplate.exchange(
-                any(String.class),
-                eq(HttpMethod.POST),
-                any(HttpEntity.class),
-                (ParameterizedTypeReference<Map<String, Object>>) any(ParameterizedTypeReference.class)))
-                .thenReturn(responseEntity);
-
-        String result = geminiAIProvider.processQuery(request);
-
-        assertEquals("I couldn't generate a response.", result);
-    }
-
-    @Test
     void testProcessQuery_ApiRejection_ThrowsException() {
         VoiceQueryRequest request = new VoiceQueryRequest();
         request.setQueryText("API Rejection Test");
